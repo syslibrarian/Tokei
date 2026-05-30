@@ -1,0 +1,919 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+*:not(dialog) {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+#root, #__next {
+  isolation: isolate;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url("../assets/font/Roboto.woff2");
+}
+@font-face {
+  font-family: RobotoMono;
+  src: url("../assets/font/Roboto_Mono.woff2");
+}
+@font-face {
+  font-family: PhIcons;
+  src: url("../assets/font/Phosphor.woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: PhIconsFill;
+  src: url("../assets/font/PhosphorFill.woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+#header {
+  background-color: transparent;
+  min-height: 74px;
+  width: 100%;
+  top: 0;
+  z-index: 5;
+}
+#header header {
+  display: flex;
+  justify-content: space-between;
+}
+@media screen and (min-width: 769px) {
+  #header header {
+    margin: 0 auto;
+    max-width: 1280px;
+    width: 95%;
+  }
+}
+#header header .logo {
+  align-self: flex-start;
+  display: flex;
+  padding: 5px;
+}
+#header header .logo img {
+  height: 64px;
+  width: 43px;
+  aspect-ratio: 1/1.49;
+  transition: height 0.5s, width 0.5s;
+}
+@media screen and (min-width: 769px) {
+  #header header .logo img {
+    height: 128px;
+    width: 86px;
+    aspect-ratio: 1/1.49;
+    transition: height 0.5s, width 0.5s;
+  }
+}
+@media screen and (max-width: 768px) {
+  #header header .logo h1 {
+    display: none;
+  }
+}
+#header header .logo h1 {
+  align-self: center;
+  font-size: 26pt;
+}
+#header header .logo h1 span {
+  font-family: RobotoMono, monospace;
+  font-size: 20pt;
+  color: rgb(0, 0, 213);
+}
+#header header .logo h1 span::before, #header header .logo h1 span::after {
+  font-family: RobotoMono, monospace;
+  font-size: 20pt;
+  color: rgb(106.5, 106.5, 106.5);
+}
+#header header .logo h1 span::before {
+  content: "{";
+}
+#header header .logo h1 span::after {
+  content: "}";
+}
+#header header nav {
+  color: rgb(95, 95, 95);
+  align-self: flex-end;
+}
+#header header nav ol {
+  display: table-row;
+}
+#header header nav ol li {
+  display: table-cell;
+  border-bottom: 3px solid transparent;
+  transition: 0.5s;
+  padding: 5px 10px;
+  font-size: 16pt;
+}
+#header header nav ol li a {
+  position: relative;
+  color: rgb(95, 95, 95);
+  text-decoration: none;
+}
+#header header nav ol li a.active {
+  color: rgb(31, 31, 31);
+}
+#header header nav ol li a::after {
+  content: "";
+  display: block;
+  background-color: rgb(115, 115, 251);
+  height: 2px;
+  width: 0;
+  transition: width 0.2s ease-in;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+#header header nav ol li a:hover {
+  color: rgb(31, 31, 31);
+}
+#header header nav ol li a:hover::after {
+  width: 100%;
+}
+#header.inFlow {
+  position: sticky;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgb(223, 223, 223);
+  box-shadow: 3px 0 5px rgba(191, 191, 191, 0.5);
+  backdrop-filter: blur(2px);
+  transition: background-color 0.5s;
+  /*.logo img {
+    height: 64px !important;
+    width: 43px !important;
+    aspect-ratio: 1/1.48;
+    transition: height 0.5s, width 0.5s;
+  }*/
+}
+
+body {
+  background-color: rgb(239, 239, 255);
+  background-image: repeating-linear-gradient(120deg, rgb(255, 255, 255), rgb(255, 255, 255) 40%, rgb(239, 239, 255));
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+  z-index: -10;
+  font-family: Roboto, Verdana, sans-serif;
+}
+
+.note {
+  display: flex;
+  align-items: baseline;
+  padding: 8px;
+  margin: 10px 0;
+  backdrop-filter: blur(2px);
+}
+@media screen and (max-width: 768px) {
+  .note {
+    border-top: 1px solid rgb(223, 223, 223);
+    border-bottom: 1px solid rgb(223, 223, 223);
+    border-radius: 0;
+  }
+}
+@media screen and (min-width: 769px) {
+  .note {
+    border: 1px solid rgb(223, 223, 223);
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(191, 191, 191, 0.5);
+  }
+}
+.note span::before {
+  font-family: PhIcons;
+  font-size: 36pt;
+}
+.note p {
+  margin-left: 8px;
+  align-self: center;
+  flex-grow: 5;
+  font-size: 12pt;
+}
+.note button {
+  align-self: flex-start;
+  background-color: transparent !important;
+  box-shadow: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+}
+.note button::before {
+  font-family: PhIcons;
+  font-size: 18pt;
+  content: "\e4f6";
+}
+
+.note.warning {
+  background-color: rgba(250, 120, 0, 0.2);
+  border-color: rgb(250, 120, 0);
+  color: rgb(250, 120, 0);
+}
+.note.warning span::before {
+  content: "\e4e2";
+}
+
+.note.error {
+  background-color: rgba(200, 0, 10, 0.2);
+  border-color: rgb(200, 0, 10);
+  color: rgb(200, 0, 10);
+}
+.note.error span::before {
+  content: "\e4e0";
+}
+
+.note.info {
+  background-color: rgba(0, 120, 200, 0.2);
+  border-color: rgb(0, 120, 200);
+  color: rgb(0, 120, 200);
+}
+.note.info span::before {
+  content: "\e2ce";
+}
+
+.note.success {
+  background-color: rgba(20, 150, 70, 0.2);
+  border-color: rgb(20, 150, 70);
+  color: rgb(20, 150, 70);
+}
+.note.success span::before {
+  content: "\e184";
+}
+
+.tooltip {
+  display: block;
+  position: absolute;
+  background-color: rgba(31, 31, 31, 0.8);
+  backdrop-filter: blur(2px);
+  color: rgb(233, 233, 233);
+  border: 1px solid rgb(31, 31, 31);
+  box-shadow: 2px 2px 5px rgba(191, 191, 191, 0.5);
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 9pt;
+  z-index: 1000;
+  transition: opacity 0.5s, transform 0.5s;
+}
+.tooltip.bottom::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent rgb(31, 31, 31) transparent;
+}
+.tooltip.top::after {
+  content: " ";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgb(31, 31, 31) transparent transparent transparent;
+}
+.tooltip.visible {
+  opacity: 1;
+  transform: scaleX(1);
+}
+.tooltip.hidden {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+button {
+  background-color: rgb(51.6, 51.6, 255);
+  border: 0;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(191, 191, 191, 0.5);
+  padding: 5px;
+  color: white;
+}
+button:hover {
+  background-color: rgb(0, 0, 175.2);
+}
+button:disabled {
+  background-color: #b7b7ff;
+}
+
+#page {
+  font-size: 12pt;
+  z-index: 0;
+}
+@media screen and (min-width: 769px) {
+  #page {
+    width: 95%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 10px;
+  }
+}
+
+.content {
+  margin: 10px 0;
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(2px);
+}
+@media screen and (max-width: 768px) {
+  .content {
+    border-top: 1px solid rgb(223, 223, 223);
+    border-bottom: 1px solid rgb(223, 223, 223);
+    border-radius: 0;
+  }
+}
+@media screen and (min-width: 769px) {
+  .content {
+    border: 1px solid rgb(223, 223, 223);
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(191, 191, 191, 0.5);
+  }
+}
+.content > h1 {
+  color: rgb(0, 0, 213);
+}
+
+.content.article {
+  padding: 25px;
+  font-size: 12pt;
+  color: rgb(31, 31, 31);
+}
+.content.article a {
+  text-decoration: none;
+  color: rgb(2.55, 2.55, 255);
+}
+.content.article a:hover {
+  color: rgb(0, 0, 213);
+}
+.content.article a:hover.external::after {
+  color: rgb(0, 0, 213);
+}
+.content.article a.external::after {
+  font-family: PhIcons;
+  content: "\e5de";
+  color: rgb(95, 95, 95);
+}
+.content.article h1, .content.article h2, .content.article h3, .content.article h4 {
+  color: rgb(0, 0, 213);
+}
+.content.article header {
+  margin-bottom: 5px;
+}
+.content.article header .context {
+  display: block;
+  font-size: 10pt;
+  color: rgb(95, 95, 95);
+}
+.content.article header h1 {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  line-height: 1;
+  font-size: 26pt;
+}
+.content.article header span {
+  font-size: 9pt;
+  color: rgb(95, 95, 95);
+}
+.content.article header span:hover {
+  color: rgb(31, 31, 31);
+}
+.content.article footer {
+  border-top: 1px solid rgb(223, 223, 223);
+  padding-top: 12px;
+  display: flex;
+  align-items: center;
+}
+.content.article footer .authorPicture {
+  min-width: 128px;
+  aspect-ratio: 1/1;
+}
+.content.article footer .authorPicture img {
+  border-radius: 128px;
+  box-shadow: 0 0 5px rgba(191, 191, 191, 0.5);
+  aspect-ratio: 1/1;
+}
+.content.article footer:hover .authorPicture img {
+  box-shadow: 0 0 5px rgb(115, 115, 251);
+}
+.content.article footer .authorInformation {
+  margin-left: 12px;
+  flex-grow: 1;
+  line-height: 1;
+}
+.content.article footer .authorInformation p:first-child {
+  font-size: 20pt;
+  color: rgb(0, 0, 213);
+}
+.content.article footer .authorInformation p:last-child {
+  font-size: 9pt;
+  color: rgb(95, 95, 95);
+}
+
+.formular {
+  padding: 25px;
+}
+.formular ::selection {
+  background-color: rgba(0, 0, 213, 0.1);
+  color: rgb(0, 0, 213);
+}
+.formular form > div, .formular fieldset > div {
+  margin-bottom: 10px;
+}
+.formular fieldset {
+  border-top: 1px solid rgb(90.8, 90.8, 255);
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  margin: 0;
+  padding: 0;
+}
+.formular fieldset legend {
+  margin-left: 25px;
+  font-size: 16pt;
+  color: rgb(90.8, 90.8, 255);
+}
+.formular fieldset:focus-within {
+  border-color: rgb(0, 0, 197.6);
+}
+.formular fieldset:focus-within legend {
+  color: rgb(0, 0, 197.6);
+}
+.formular .buttons {
+  text-align: center;
+}
+.formular .label {
+  font-size: 12pt;
+  color: rgb(0, 0, 213);
+}
+.formular .description {
+  font-size: 10pt;
+  color: rgb(95, 95, 95);
+}
+.formular .text .field {
+  display: flex;
+  background-color: rgba(242, 242, 255, 0.5);
+  border: 1px solid rgb(90.8, 90.8, 255);
+  border-radius: 3px;
+  font-size: 12pt;
+  padding: 5px;
+}
+.formular .text .field span {
+  padding-right: 2px;
+  color: rgb(90.8, 90.8, 255);
+}
+.formular .text .field:focus-within {
+  background-color: rgb(242, 242, 255);
+  border-color: rgb(0, 0, 197.6);
+}
+.formular .text .field textarea {
+  resize: vertical;
+}
+.formular .text .field input[type=text], .formular .text .field input[type=password], .formular .text .field textarea {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  background-color: transparent;
+  font-size: inherit;
+  border: none;
+  color: rgb(90.8, 90.8, 255);
+}
+.formular .text .field input[type=text]:focus, .formular .text .field input[type=password]:focus, .formular .text .field textarea:focus {
+  color: rgb(0, 0, 197.6);
+  outline: none;
+}
+.formular .text.warning ::selection {
+  background-color: rgba(200, 0, 10, 0.2);
+  color: rgb(200, 0, 10);
+}
+.formular .text.warning .label {
+  color: rgb(200, 0, 10) !important;
+}
+.formular .text.warning .description {
+  color: rgb(200, 0, 10) !important;
+}
+.formular .text.warning .field {
+  background-color: rgb(255, 239.5, 240.275) !important;
+  border-color: rgb(255, 69, 78.3) rgb(200, 0, 10) !important;
+  position: relative;
+}
+.formular .text.warning .field input[type=text], .formular .text.warning .field input[type=password], .formular .text.warning .field textarea, .formular .text.warning .field span {
+  color: rgb(255, 7, 19.4) !important;
+}
+.formular .text.warning .field:focus-within {
+  background-color: rgb(255, 224, 225.55) !important;
+  border-color: rgb(255, 7, 19.4) rgb(200, 0, 10) !important;
+}
+.formular .text.warning .field:focus-within input[type=text], .formular .text.warning .field:focus-within input[type=password], .formular .text.warning .field:focus-within textarea, .formular .text.warning .field:focus-within span {
+  color: rgb(200, 0, 10) !important;
+}
+.formular .text.warning .warningOverlay {
+  color: white !important;
+  background-color: rgba(200, 0, 10, 0.7) !important;
+  box-shadow: 2px 2px 2px rgba(191, 191, 191, 0.5);
+  backdrop-filter: blur(2px);
+  border: 0;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 100;
+  top: 100%;
+  right: 0;
+  margin-top: 5px;
+  padding: 5px;
+}
+.formular .text.warning .warningOverlay::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent rgba(200, 0, 10, 0.7) transparent;
+}
+.formular .check label {
+  display: flex;
+  font-size: 12pt;
+  color: rgb(31, 31, 31);
+}
+.formular .check label span {
+  display: block;
+  align-self: center;
+  margin-left: 5px;
+}
+.formular .check input[type=checkbox] {
+  appearance: none;
+}
+.formular .check input[type=checkbox]::after {
+  padding: 1px;
+  font-family: PhIcons;
+  content: "\e182";
+  background-color: rgba(242, 242, 255, 0.5);
+  color: transparent;
+  border: 1px solid rgb(90.8, 90.8, 255);
+  border-radius: 3px;
+}
+.formular .check input[type=checkbox]:checked::after {
+  font-family: PhIcons;
+  content: "\e182";
+  background-color: rgb(242, 242, 255);
+  color: rgb(0, 0, 197.6);
+  border: 1px solid rgb(0, 0, 197.6);
+  border-radius: 3px;
+}
+.formular .radio .field {
+  display: flex;
+  flex-wrap: wrap;
+}
+.formular .radio label {
+  display: flex;
+  font-size: 12pt;
+  color: rgb(31, 31, 31);
+  margin-right: 10px;
+}
+.formular .radio label span {
+  display: block;
+  align-self: center;
+  margin-left: 5px;
+}
+.formular .radio input[type=radio] {
+  appearance: none;
+}
+.formular .radio input[type=radio]::after {
+  padding: 1px;
+  font-family: PhIcons;
+  font-size: 16pt;
+  content: "\e602";
+  color: rgb(90.8, 90.8, 255);
+}
+.formular .radio input[type=radio]:checked::after {
+  font-family: PhIconsFill;
+  content: "\e18a";
+  color: rgb(0, 0, 197.6);
+}
+.formular .select select {
+  width: 100%;
+  background-color: rgba(242, 242, 255, 0.5);
+  color: rgb(90.8, 90.8, 255);
+  border: 1px solid rgb(90.8, 90.8, 255);
+  border-radius: 3px;
+  padding: 5px;
+}
+.formular .select select:focus {
+  background-color: rgb(242, 242, 255);
+  color: rgb(0, 0, 197.6);
+  border-color: rgb(0, 0, 197.6);
+}
+.formular .select select option:checked {
+  background-color: rgb(0, 0, 213) !important;
+  color: white !important;
+}
+.formular .date input[type=date], .formular .date input[type=datetime-local], .formular .date input[type=time] {
+  background-color: rgba(242, 242, 255, 0.5);
+  color: rgb(90.8, 90.8, 255);
+  border: 1px solid rgb(90.8, 90.8, 255);
+  border-radius: 3px;
+  outline: none;
+  padding: 5px;
+  font-size: 12pt;
+}
+.formular .date input[type=date]:focus, .formular .date input[type=datetime-local]:focus, .formular .date input[type=time]:focus {
+  background-color: rgb(242, 242, 255);
+  color: rgb(0, 0, 197.6);
+  border-color: rgb(0, 0, 197.6);
+}
+.formular .number input[type=number] {
+  background-color: rgba(242, 242, 255, 0.5);
+  color: rgb(90.8, 90.8, 255);
+  border: 1px solid rgb(90.8, 90.8, 255);
+  border-radius: 3px;
+  outline: none;
+  padding: 5px;
+  font-size: 12pt;
+}
+.formular .number input[type=number]:focus {
+  background-color: rgb(242, 242, 255);
+  border-color: rgb(0, 0, 197.6);
+}
+.formular input[type=submit], .formular input[type=reset], .formular input[type=button] {
+  background-color: rgb(51.6, 51.6, 255);
+  border: 0;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(191, 191, 191, 0.5);
+  padding: 5px;
+  color: white;
+}
+.formular input[type=submit]:hover, .formular input[type=reset]:hover, .formular input[type=button]:hover {
+  background-color: rgb(0, 0, 175.2);
+}
+.formular input[type=submit]:disabled, .formular input[type=reset]:disabled, .formular input[type=button]:disabled {
+  background-color: #b7b7ff;
+}
+
+.content.table, .inlineTable {
+  padding: 5px;
+}
+.content.table table, .inlineTable table {
+  width: 100%;
+}
+.content.table th, .inlineTable th {
+  border-bottom: 2px solid rgb(115, 115, 251);
+  font-size: 16pt;
+  font-weight: normal;
+}
+.content.table th:hover, .inlineTable th:hover {
+  border-color: rgb(0, 0, 213);
+}
+.content.table th.left, .inlineTable th.left {
+  text-align: left;
+}
+.content.table th.right, .inlineTable th.right {
+  text-align: right;
+}
+.content.table tr:has(td):nth-child(2n), .inlineTable tr:has(td):nth-child(2n) {
+  background-color: rgb(251.4, 251.4, 255);
+}
+.content.table tr:has(td):nth-child(2n-1), .inlineTable tr:has(td):nth-child(2n-1) {
+  background-color: rgb(244.2, 244.2, 255);
+}
+.content.table tr:has(td):hover, .inlineTable tr:has(td):hover {
+  background-color: rgb(229.8, 229.8, 255);
+}
+.content.table tr:has(td).warning, .inlineTable tr:has(td).warning {
+  background-color: rgb(255, 248.24, 242);
+  color: rgb(250, 120, 0);
+}
+.content.table tr:has(td).warning:hover, .inlineTable tr:has(td).warning:hover {
+  background-color: rgb(255, 234.72, 216);
+}
+.content.table tr:has(td).error, .inlineTable tr:has(td).error {
+  background-color: rgb(255, 239.5, 240.275);
+  color: rgb(200, 0, 10);
+}
+.content.table tr:has(td).error:hover, .inlineTable tr:has(td).error:hover {
+  background-color: rgb(255, 208.5, 210.825);
+}
+.content.table tr:has(td).info, .inlineTable tr:has(td).info {
+  background-color: rgb(239.5, 248.8, 255);
+  color: rgb(0, 120, 200);
+}
+.content.table tr:has(td).info:hover, .inlineTable tr:has(td).info:hover {
+  background-color: rgb(208.5, 236.4, 255);
+}
+.content.table tr:has(td).success, .inlineTable tr:has(td).success {
+  background-color: #f0fdf5;
+  color: rgb(20, 150, 70);
+}
+.content.table tr:has(td).success:hover, .inlineTable tr:has(td).success:hover {
+  background-color: #d2f9e1;
+}
+.content.table td[colspan], .inlineTable td[colspan] {
+  text-align: center;
+}
+.content.table td, .inlineTable td {
+  padding: 5px;
+  vertical-align: center;
+}
+.content.table td.left, .inlineTable td.left {
+  text-align: left;
+}
+.content.table td.right, .inlineTable td.right {
+  text-align: right;
+}
+
+.content.dataList {
+  padding: 5px;
+}
+.content.dataList ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.content.dataList li {
+  margin: 0;
+  border: 1px solid transparent;
+  border-bottom: 2px solid #fff;
+  display: flex;
+}
+.content.dataList li:first-child {
+  border-radius: 10px 10px 0 0;
+}
+.content.dataList li:last-child {
+  border-radius: 0 0 10px 10px;
+}
+.content.dataList li:nth-child(2n) {
+  background-color: rgb(251.4, 251.4, 255);
+}
+.content.dataList li:nth-child(2n-1) {
+  background-color: rgb(244.2, 244.2, 255);
+}
+.content.dataList li:hover {
+  background-color: #ededff;
+}
+.content.dataList li section {
+  padding: 5px;
+}
+.content.dataList li .fieldSystem {
+  font-family: RobotoMono, monospace;
+  font-size: 10pt;
+  display: flex;
+  justify-content: space-between;
+}
+.content.dataList li .fieldSystem span {
+  display: block;
+}
+.content.dataList li .fieldSystem .id::before {
+  display: inline-block;
+  content: "ID: ";
+}
+.content.dataList li .fieldTitle {
+  flex-grow: 5;
+}
+.content.dataList li .fieldTitle h2 {
+  font-size: 16pt;
+  color: rgb(31, 31, 31);
+  font-weight: normal;
+}
+.content.dataList li .fieldTitle h2 a {
+  color: rgb(0, 0, 213);
+  text-decoration: none;
+}
+.content.dataList li .fieldTitle h2 a:hover {
+  color: rgb(17.4, 17.4, 255);
+}
+.content.dataList li .fieldTools {
+  font-size: 16pt;
+}
+.content.dataList li .fieldTools a {
+  color: rgb(0, 0, 213);
+  text-decoration: none;
+}
+.content.dataList li .fieldTools a:hover {
+  color: rgb(17.4, 17.4, 255);
+}
+.content.dataList li .fieldTools .edit::after {
+  font-family: PhIcons;
+  content: "\e3aa";
+}
+.content.dataList li .fieldTools .delete::after {
+  font-family: PhIcons;
+  content: "\e4a6";
+}
+
+.adm-container {
+  display: flex;
+  column-gap: 5px;
+}
+.adm-container > nav {
+  width: 20%;
+  margin: 10px 0;
+  padding: 5px;
+}
+@media screen and (max-width: 768px) {
+  .adm-container > nav {
+    border-top: 1px solid rgb(223, 223, 223);
+    border-bottom: 1px solid rgb(223, 223, 223);
+    border-radius: 0;
+  }
+}
+@media screen and (min-width: 769px) {
+  .adm-container > nav {
+    border: 1px solid rgb(223, 223, 223);
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(191, 191, 191, 0.5);
+  }
+}
+.adm-container > nav {
+  align-self: flex-start;
+}
+.adm-container > nav ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 16pt;
+}
+.adm-container > nav ol a {
+  display: block;
+  padding: 5px;
+  color: rgb(0, 0, 213);
+  text-decoration: none;
+}
+.adm-container > nav ol a:hover {
+  color: rgb(17.4, 17.4, 255);
+}
+.adm-container > nav ol a.active {
+  background-color: rgb(239, 239, 255);
+}
+.adm-container > div {
+  width: 80%;
+  align-self: flex-start;
+}
+
+#footer footer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 10px 10px 10px;
+  display: flex;
+  justify-content: space-between;
+}
+#footer section {
+  font-size: 10pt;
+}
+#footer nav ol {
+  display: flex;
+  justify-content: center;
+}
+#footer nav ol li {
+  display: block;
+  font-size: 10pt;
+}
+#footer nav ol li::after {
+  content: "|";
+}
+#footer nav ol li:last-child::after {
+  content: "";
+}
+#footer nav ol li a {
+  color: rgb(95, 95, 95);
+  padding: 5px;
+}
+#footer nav ol li a:hover {
+  color: rgb(115, 115, 251);
+}
+
+/*# sourceMappingURL=style.css.map */

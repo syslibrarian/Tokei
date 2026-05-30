@@ -1,0 +1,32 @@
+@mixin responsive-borders($color, $shadow-color) {
+  @media screen and (max-width: 768px) {
+    border-top: 1px solid $color;
+    border-bottom: 1px solid $color;
+    border-radius: 0;
+  }
+  @media screen and (min-width: 769px) {
+    border: 1px solid $color;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px $shadow-color;
+  }
+}
+
+@mixin responsive-background($path, $path2x) {
+  background-image: url($path);
+
+  @media screen and (min-resolution: 2dppx), screen and (min-resolution: 192dpi) {
+    background-image: url($path2x);
+  }
+}
+
+@mixin responsive-small($breakpoint: 768px) {
+  @media screen and (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin responsive-big($breakpoint: 769px) {
+  @media screen and (min-width: $breakpoint) {
+    @content;
+  }
+}

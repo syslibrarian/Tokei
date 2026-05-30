@@ -1,0 +1,50 @@
+@use '../tools/includes' as s;
+
+$text-size-info: s.$text-s;
+$text-size-nav: s.$text-s;
+$text-color: s.$text-color-light;
+$link-color: s.$text-color;
+$link-color-hover: s.$color2;
+
+#footer {
+  footer {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 10px 10px 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  section {
+    font-size: $text-size-info;
+  }
+
+  nav {
+    ol {
+      display: flex;
+      justify-content: center;
+
+      li {
+        display: block;
+        font-size: $text-size-nav;
+
+        &::after {
+          content: "|";
+        }
+
+        &:last-child::after {
+          content: "";
+        }
+
+        a {
+          color: $text-color;
+          padding: 5px;
+
+          &:hover {
+            color: $link-color-hover;
+          }
+        }
+      }
+    }
+  }
+}

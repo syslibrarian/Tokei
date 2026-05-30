@@ -1,0 +1,61 @@
+{
+    "name": "tokei",
+    "type": "project",
+    "description": "Statistic database for libraries.",
+    "version": "0.1.0",
+    "license": "MIT",
+    "keywords": ["blog", "cms"],
+    "homepage": "https://www.berlin.de/",
+    "authors": [{
+        "name": "Karsten Achterrath",
+        "email": "karsten.achterrath@ba-ts.berlin.de",
+        "role": "Developer"
+    }],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.5",
+        "tempest/framework": "^3.11",
+        "twig/twig": "^3.26"
+    },
+    "require-dev": {
+        "pestphp/pest": "^4.6",
+        "carthage-software/mago": "^1.29"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tokei\\": "src/"
+        },
+        "files": [
+            "src/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "@php ./vendor/bin/tempest install framework -f",
+            "@php ./tempest discovery:generate --no-interaction",
+            "@php ./tempest key:generate"
+        ],
+        "post-autoload-dump": [
+            "@php ./vendor/bin/tempest discovery:generate --no-interaction"
+        ],
+        "fmt": "vendor/bin/mago fmt",
+        "lint": "vendor/bin/mago lint --fix --format-after-fix",
+        "qa": [
+            "composer fmt",
+            "composer lint"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "carthage-software/mago": true,
+            "pestphp/pest-plugin": true
+        }
+    }
+}

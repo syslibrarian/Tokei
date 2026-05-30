@@ -1,0 +1,98 @@
+@use '../tools/includes' as s;
+@use 'sass:color';
+
+$border-color: s.$border-color;
+$shadow-color: s.$shadow-color;
+$warning-color: s.$warning-color;
+$warning-color-bg: color.scale($warning-color, $alpha: -80%);
+$info-color: s.$info-color;
+$info-color-bg: color.scale($info-color, $alpha: -80%);
+$success-color: s.$success-color;
+$success-color-bg: color.scale($success-color, $alpha: -80%);
+$error-color: s.$error-color;
+$error-color-bg: color.scale($error-color, $alpha: -80%);
+
+$note-text-size: s.$text-m;
+$note-icon-size: 36pt;
+$button-icon-size: 18pt;
+
+
+// notes
+.note {
+  display: flex;
+  align-items: baseline;
+  padding: 8px;
+  margin: 10px 0;
+  backdrop-filter: blur(2px);
+
+  @include s.responsive-borders($border-color, $shadow-color);
+
+  span::before {
+    font-family: PhIcons;
+    font-size: $note-icon-size;
+  }
+
+  p {
+    margin-left: 8px;
+    align-self: center;
+    flex-grow: 5;
+    font-size: $note-text-size;
+  }
+
+  button {
+    align-self: flex-start;
+    background-color: transparent !important;
+    box-shadow: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    color: inherit;
+
+    &::before {
+      font-family: PhIcons;
+      font-size: $button-icon-size;
+      content: "\E4F6";
+    }
+  }
+}
+
+
+.note.warning {
+  background-color: $warning-color-bg;
+  border-color: $warning-color;
+  color: $warning-color;
+
+  span::before {
+    content: "\E4E2";
+  }
+}
+
+.note.error {
+  background-color: $error-color-bg;
+  border-color: $error-color;
+  color: $error-color;
+
+  span::before {
+    content: "\E4E0";
+  }
+}
+
+.note.info {
+  background-color: $info-color-bg;
+  border-color: $info-color;
+  color: $info-color;
+
+  span::before {
+    content: "\E2CE";
+  }
+}
+
+.note.success {
+  background-color: $success-color-bg;
+  border-color: $success-color;
+  color: $success-color;
+
+  span::before {
+    content: "\E184";
+  }
+}

@@ -1,0 +1,211 @@
+@use 'sass:color';
+@use "tools/includes" as i;
+
+@mixin tr-color($class, $color) {
+  &.#{$class} {
+    background-color: color.scale($color, $lightness: +95%);
+    color: $color;
+    &:hover {
+      background-color: color.scale($color, $lightness: +85%);
+    }
+  }
+}
+
+// table
+.content.table, .inlineTable {
+  padding: 5px;
+  table {
+    width: 100%;
+  }
+
+  th {
+    border-bottom: 2px solid i.$color2;
+    font-size: i.$text-l;
+    font-weight: normal;
+
+    &:hover {
+      border-color: i.$color3;
+    }
+
+    &.left {
+      text-align: left;
+    }
+
+    &.right {
+      text-align: right;
+    }
+  }
+
+  tr:has(td) {
+    &:nth-child(2n) {
+      background-color: color.scale(i.$color1, $lightness: +95%);
+    }
+    &:nth-child(2n-1) {
+      background-color: color.scale(i.$color1, $lightness: +85%);
+    }
+
+    &:hover {
+      background-color: color.scale(i.$color1, $lightness: +65%);
+    }
+
+    @include tr-color('warning', i.$warning-color);
+    @include tr-color('error', i.$error-color);
+    @include tr-color('info', i.$info-color);
+    @include tr-color('success', i.$success-color);
+  }
+
+  td {
+    &[colspan] {
+      text-align: center;
+    }
+    padding: 5px;
+    vertical-align: center;
+
+    &.left {
+      text-align: left;
+    }
+
+    &.right {
+      text-align: right;
+    }
+  }
+}
+
+// data list
+.content.dataList {
+  padding: 5px;
+
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    margin: 0;
+    border: 1px solid transparent;
+    border-bottom: 2px solid #fff;
+    display: flex;
+
+    &:first-child {
+      border-radius: 10px 10px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 10px 10px;
+    }
+
+    &:nth-child(2n) {
+      background-color: color.scale(i.$color1, $lightness: +95%);
+    }
+
+    &:nth-child(2n-1) {
+      background-color: color.scale(i.$color1, $lightness: +85%);
+    }
+
+    &:hover {
+      background-color: color.scale(i.$color1, $lightness: +75%);
+    }
+
+    section {
+      padding: 5px;
+    }
+
+    .fieldSystem {
+      font-family: RobotoMono, monospace;
+      font-size: i.$text-s;
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        display: block;
+      }
+
+      .id {
+        &::before {
+          display: inline-block;
+          content: "ID: ";
+        }
+      }
+    }
+
+    .fieldTitle {
+      flex-grow: 5;
+      h2 {
+        font-size: i.$text-l;
+        color: i.$text-color;
+        font-weight: normal;
+
+        a {
+          color: i.$color3;
+          text-decoration: none;
+
+          &:hover {
+            color: color.scale(i.$color3, $lightness: +20%);
+          }
+        }
+      }
+    }
+
+    .fieldTools {
+      font-size: i.$text-l;
+
+      a {
+        color: i.$color3;
+        text-decoration: none;
+
+        &:hover {
+          color: color.scale(i.$color3, $lightness: +20%);
+        }
+      }
+
+      .edit::after {
+        font-family: PhIcons;
+        content: "\E3AA";
+      }
+
+      .delete::after {
+        font-family: PhIcons;
+        content: "\E4A6";
+      }
+    }
+  }
+}
+
+.adm-container {
+  display: flex;
+  column-gap: 5px;
+
+  > nav {
+    width: 20%;
+    margin: 10px 0;
+    padding: 5px;
+    @include i.responsive-borders(i.$border-color, i.$shadow-color);
+    align-self: flex-start;
+
+    ol {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: i.$text-l;
+
+      a {
+        display: block;
+        padding: 5px;
+        color: i.$color3;
+        text-decoration: none;
+        &:hover {
+          color: color.scale(i.$color3, $lightness: +20%);
+        }
+        &.active {
+          background-color: i.$base-color;
+        }
+      }
+    }
+  }
+
+  > div {
+    width: 80%;
+    align-self: flex-start;
+  }
+}

@@ -1,0 +1,95 @@
+@use "sass:color";
+@use '../tools/includes' as s;
+
+.content.article {
+  padding: 25px;
+  font-size: s.$text-m;
+  color: s.$text-color;
+
+  a {
+    text-decoration: none;
+    color: color.scale(s.$color3, $lightness: +15%);
+
+    &:hover {
+      color: s.$color3;
+      &.external::after {
+        color: s.$color3;
+      }
+    }
+
+    &.external::after {
+      font-family: PhIcons;
+      content: "\E5DE";
+      color: s.$text-color-light;
+    }
+  }
+
+  h1, h2, h3, h4 {
+    color: s.$color3;
+  }
+
+  header {
+    margin-bottom: 5px;
+
+    .context {
+      display: block;
+      font-size: s.$text-s;
+      color: rgba(95, 95, 95, 1);
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 0;
+      padding: 0;
+      line-height: 1;
+      font-size: s.$text-xxl;
+    }
+
+    span {
+      font-size: s.$text-xs;
+      color: s.$text-color-light;
+
+      &:hover {
+        color: s.$text-color;
+      }
+    }
+  }
+
+  footer {
+    border-top: 1px solid s.$border-color;
+    padding-top: 12px;
+    display: flex;
+    align-items: center;
+
+    .authorPicture {
+      min-width: 128px;
+      aspect-ratio: 1/1;
+
+      img {
+        border-radius: 128px;
+        box-shadow: 0 0 5px s.$shadow-color;
+        aspect-ratio: 1/1;
+      }
+    }
+
+    &:hover .authorPicture img {
+      box-shadow: 0 0 5px s.$color2;
+    }
+
+    .authorInformation {
+      margin-left: 12px;
+      flex-grow: 1;
+      line-height: 1;
+
+      p:first-child {
+        font-size: s.$text-xl;
+        color: s.$color3;
+      }
+
+      p:last-child {
+        font-size: s.$text-xs;
+        color: s.$text-color-light;
+      }
+    }
+  }
+}

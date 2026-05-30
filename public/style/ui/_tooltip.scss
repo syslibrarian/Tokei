@@ -1,0 +1,48 @@
+@use '../tools/includes' as s;
+
+.tooltip {
+  display: block;
+  position: absolute;
+  background-color: rgba(31, 31, 31, 0.8);
+  backdrop-filter: blur(2px);
+  color: rgba(233, 233, 233, 1);
+  border: 1px solid rgba(31, 31, 31, 1);
+  box-shadow: 2px 2px 5px s.$shadow-color;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: s.$text-xs;
+  z-index: 1000;
+  transition: opacity 0.5s, transform 0.5s;
+
+  &.bottom::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent rgba(31, 31, 31, 1) transparent;
+  }
+
+  &.top::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(31, 31, 31, 1) transparent transparent transparent;
+  }
+
+  &.visible {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  &.hidden {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+}

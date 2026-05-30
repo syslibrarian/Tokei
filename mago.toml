@@ -1,0 +1,31 @@
+php-version = "8.5.0"
+
+[source]
+paths = ["src", "tests"]
+includes = ["vendor"]
+excludes = [
+    "./vendor/symfony/cache/Traits/ValueWrapper.php",
+    "./vendor/google/common-protos/metadata",
+    "./vendor/composer",
+    "**/.cache",
+    "**/*.stub.php",
+    "**/*.input.php",
+    "**/*.expected.php",
+    "**/.tempest",
+]
+
+[formatter]
+print-width = 180
+tab-width = 4
+use-tabs = false
+space-after-logical-not-unary-prefix-operator = true
+null-type-hint = "question"
+space-before-arrow-function-parameter-list-parenthesis = true
+always-break-named-arguments-list = false
+preserve-breaking-member-access-chain = true
+preserve-breaking-argument-list = true
+preserve-breaking-array-like = true
+preserve-breaking-parameter-list = true
+preserve-breaking-attribute-list = true
+preserve-breaking-conditional-expression = true
+empty-line-after-opening-tag = false

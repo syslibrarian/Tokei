@@ -1,0 +1,30 @@
+@use '../tools/includes' as s;
+@use 'sass:color';
+
+$button-base-color: s.$color1;
+$button-color: color.scale($button-base-color, $lightness: -30%);
+$button-color-hover: color.scale($button-base-color, $lightness: -60%);
+$button-color-disabled: color.scale($button-base-color, $lightness: +0%);
+$text-color: color.scale($button-base-color, $lightness: +100%);
+$shadow-color: s.$shadow-color;
+
+@mixin button {
+  background-color: $button-color;
+  border: 0;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px $shadow-color;
+  padding: 5px;
+  color: $text-color;
+
+  &:hover {
+    background-color: $button-color-hover;
+  }
+
+  &:disabled {
+    background-color: $button-color-disabled;
+  }
+}
+
+button {
+  @include button;
+}

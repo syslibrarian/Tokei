@@ -1,0 +1,148 @@
+@use '../tools/includes' as s;
+@use 'sass:color';
+
+// variables
+$page-title-size: s.$text-xxl;
+$page-title-size-prefix: s.$text-xl;
+$page-title-color: s.$text-color;
+$page-title-prefix-color: s.$color3;
+$nav-text-color: s.$text-color-light;
+$nav-text-color-active: s.$text-color;
+$nav-color: s.$color2;
+$nav-text-size: s.$text-l;
+$header-background-color: s.$background-color;
+$header-border-color: s.$border-color;
+$header-shadow-color: s.$shadow-color;
+
+#header {
+  background-color: transparent;
+  min-height: 74px;
+  width: 100%;
+  top: 0;
+  z-index: 5;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+
+    @include s.responsive-big() {
+      margin: 0 auto;
+      max-width: 1280px;
+      width: 95%;
+    }
+
+    .logo {
+      align-self: flex-start;
+      display: flex;
+      padding: 5px;
+
+      img {
+        height: 64px;
+        width: 43px;
+        aspect-ratio: 1/1.49;
+        transition: height 0.5s, width 0.5s;
+      }
+
+      @include s.responsive-big() {
+        img {
+          height: 128px;
+          width: 86px;
+          aspect-ratio: 1/1.49;
+          transition: height 0.5s, width 0.5s;
+        }
+      }
+
+      h1 {
+        @include s.responsive-small() {
+          display: none;
+        }
+
+        align-self: center;
+        font-size: $page-title-size;
+
+        span {
+          font-family: RobotoMono, monospace;
+          font-size: $page-title-size-prefix;
+          color: $page-title-prefix-color;
+
+          &::before, &::after {
+            font-family: RobotoMono, monospace;
+            font-size: $page-title-size-prefix;
+            color: color.grayscale($page-title-prefix-color);
+          }
+
+          &::before {
+            content: "{";
+          }
+
+          &::after {
+            content: "}";
+          }
+        }
+      }
+    }
+
+    nav {
+      color: s.$text-color-light;
+      align-self: flex-end;
+
+      ol {
+        display: table-row;
+
+        li {
+          display: table-cell;
+          border-bottom: 3px solid transparent;
+          transition: 0.5s;
+          padding: 5px 10px;
+          font-size: $nav-text-size;
+
+          a {
+            position: relative;
+            color: $nav-text-color;
+            text-decoration: none;
+
+            &.active {
+              color: $nav-text-color-active;
+            }
+
+            &::after {
+              content: "";
+              display: block;
+              background-color: $nav-color;
+              height: 2px;
+              width: 0;
+              transition: width 0.2s ease-in;
+              position: absolute;
+              bottom: 0;
+              left: 0;
+            }
+
+            &:hover {
+              color: $nav-text-color-active;
+
+              &::after {
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &.inFlow {
+    position: sticky;
+    background-color: color.scale($header-background-color, $alpha: -30%);
+    border: 1px solid $header-border-color;
+    box-shadow: 3px 0 5px $header-shadow-color;
+    backdrop-filter: blur(2px);
+    transition: background-color 0.5s;
+
+    /*.logo img {
+      height: 64px !important;
+      width: 43px !important;
+      aspect-ratio: 1/1.48;
+      transition: height 0.5s, width 0.5s;
+    }*/
+  }
+}
