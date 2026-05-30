@@ -1,0 +1,7 @@
+# editor and ide
+.idea
+
+# framework and composer
+.tempest
+.vendor
+composer.lock
