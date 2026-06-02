@@ -6,6 +6,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Tokei\Model\Navigation\Navigation;
 use Tokei\Model\Navigation\Item;
+use Tokei\Tool\Installer\Database\LocationCreateTable;
 use Tokei\Tool\Installer\Database\NavigationCreateTable;
 use Tokei\Tool\Installer\Database\NavigationItemCreateTable;
 use Tokei\Tool\Installer\Database\PageCreateTable;
@@ -35,6 +36,8 @@ Item::create(name: 'adm.navigation.general', target: '/adm/', position: 1, navig
 
 $navigation = Navigation::select()->where('name = ?', 'adm_general')->first();
 
+Item::create(name: 'adm.location_list', target: '/adm/list-locations/', position: 1, navigation_id: (int) $navigation->id->value);
+Item::create(name: 'adm.location_create', target: '/adm/create-location/', position: 2, navigation_id: (int) $navigation->id->value);
 Item::create(name: 'adm.user_role_list', target: '/adm/list-roles/', position: 3, navigation_id: (int) $navigation->id->value);
 Item::create(name: 'adm.user_role_add', target: '/adm/create-role/', position: 4, navigation_id: (int) $navigation->id->value);
 Item::create(name: 'adm.user_list', target: '/adm/list-users/', position: 5, navigation_id: (int) $navigation->id->value);
@@ -49,3 +52,7 @@ $permissions->execute();
 
 $user = new UserCreateTable();
 $user->execute();
+
+// locations
+$location = new LocationCreateTable();
+$location->execute();

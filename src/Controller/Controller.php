@@ -23,7 +23,7 @@ abstract class Controller
     protected array $viewPaths = [];
 
     public function __construct(
-        protected(set) Tokei         $kami,
+        protected(set) Tokei         $tokei,
         protected(set) AccessControl $accessControl,
         protected(set) Session       $session,
     ) {
@@ -35,14 +35,14 @@ abstract class Controller
         each(
             $this->viewPaths,
             function (string $path, string $namespace) {
-                $this->kami->twig->getLoader()->addPath($path, $namespace);
+                $this->tokei->twig->getLoader()->addPath($path, $namespace);
             },
         );
 
         each(
             $this->loadNavigation,
             function ($name) {
-                $this->kami->add('navigation_' . $name, Navigation::get($name, true));
+                $this->tokei->add('navigation_' . $name, Navigation::get($name, true));
             },
         );
     }

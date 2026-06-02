@@ -38,25 +38,30 @@ trait IsAdmin
         Navigation::get($this->getSectionNavigation())->setActiveTarget($this->getBaseSlug() . $slug);
     }
 
-    protected function sendCommand(Command $command, Request $request, ?callable $closure = null): ?Response
+    protected function executeCommand(Command $command, ?Request $request = null, ?callable $closure = null, bool $onPost = true): ?Response
     {
-        if ($request->method === Method::POST) {
-            command($command);
-
-            $response = get(Response::class);
-            if ($response->value instanceof ValidationFailed) {
-                $this->validationParser->parse($response->value);
-                return null;
-            }
-
-            if ($closure !== null) {
-                $closure($command, $response);
-            }
-
-            return $response;
+        if ($onPost === false || $request->method === Method::POST) {
+            return $this->sendCommand($command);
         }
 
         return null;
+    }
+
+    protected function sendCommand(Command $command, ?callable $closure = null): ?Response
+    {
+        command($command);
+
+        $response = get(Response::class);
+        if ($response->value instanceof ValidationFailed) {
+            $this->validationParser->parse($response->value);
+            return null;
+        }
+
+        if ($closure !== null) {
+            $closure($command, $response);
+        }
+
+        return $response;
     }
 
     abstract protected function getSectionNavigation(): string;

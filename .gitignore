@@ -3,5 +3,7 @@
 
 # framework and composer
 .tempest/
-.vendor/
+vendor/
 composer.lock
+.env
+.env.example

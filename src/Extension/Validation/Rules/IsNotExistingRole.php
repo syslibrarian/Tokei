@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Tokei\Extension\Validation\Rules;
 
-use Attribute;
 use Tokei\Model\User\Role;
 use Tempest\Validation\Rule;
 
-#[Attribute]
+#[\Attribute]
 final class IsNotExistingRole implements Rule
 {
     public function isValid(mixed $value): bool

@@ -92,7 +92,8 @@
     </div>
 {% endmacro %}
 
-{% macro number(name, value, label, description, min = 0, max = 0) %}
+{% macro number(name, value, label, description = '', placeholder='', min = 0, max = 0, step = 0) %}
+    {# Add prefix and suffix for clear communication #}
     <div class="number">
         <div class="label"><label for="{{ name }}-id">{{ label }}</label></div>
         <div class="field">
@@ -101,9 +102,15 @@
                 value="{{ value }}"
                 name="{{ name }}"
                 id="{{ name }}-id"
+                {% if placeholder != '' %}
+                    placeholder="{{ placeholder }}"
+                {% endif %}
                 {% if max > 0 %}
                     min="{{ min }}"
                     max="{{ max }}"
+                {% endif %}
+                {% if step > 0 %}
+                    step="{{ step }}"
                 {% endif %}
             >
         </div>

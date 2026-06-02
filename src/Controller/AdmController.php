@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Tokei\Controller;
 
+use Tokei\Command\Location\CreateLocation;
+use Tokei\Command\Location\DeleteLocation;
+use Tokei\Command\Location\UpdateLocation;
 use Tokei\Command\Page\CreatePage;
 use Tokei\Command\Page\DeletePage;
 use Tokei\Command\Page\UpdatePage;
@@ -13,16 +16,12 @@ use Tokei\Command\User\DeleteRole;
 use Tokei\Command\User\DeleteUser;
 use Tokei\Command\User\UpdateRole;
 use Tokei\Command\User\UpdateUser;
-use Tokei\Model\Navigation\NavigationHelper;
-use Tokei\Model\Page\Page;
-use Tokei\Model\Page\PageHelper;
-use Tokei\Model\PublicationStatus;
+use Tokei\Model\Location\Location;
 use Tokei\Model\User\Role;
 use Tokei\Model\User\RoleHelper;
 use Tokei\Model\User\User;
 use Tokei\Tool\Pagination\Pagination;
 use Tokei\Tool\User\Permissions;
-use Tempest\Http\Method;
 use Tempest\Http\Request;
 use Tempest\Http\Responses\Redirect;
 use Tempest\Router\Get;
@@ -79,7 +78,7 @@ final class AdmController extends Controller
             permissions: $permissions->buildForCommand($request),
         );
 
-        $response = $this->sendCommand($createRole, $request);
+        $response = $this->executeCommand($createRole, $request);
         if ($response?->value instanceof Role) {
             $this->session->flash('success', true);
             $this->session->flash('id', $response->value->id->value);
@@ -108,7 +107,7 @@ final class AdmController extends Controller
             model: $role,
         );
 
-        $response = $this->sendCommand($updateRole, $request);
+        $response = $this->executeCommand($updateRole, $request);
 
         if ($response !== null) {
             $role->refresh();
@@ -172,7 +171,7 @@ final class AdmController extends Controller
             role_id: (int) $request->get('role', 0),
         );
 
-        $response = $this->sendCommand($createUser, $request);
+        $response = $this->executeCommand($createUser, $request);
         if ($response?->value instanceof User) {
             $this->session->flash('success', true);
             $this->session->flash('id', $response->value->id->value);
@@ -221,5 +220,98 @@ final class AdmController extends Controller
         command($deleteUser);
 
         return $this->redirect('/adm/list-user');
+    }
+
+    #[Get(uri: '/list-locations/{?no:[0-9]+}')]
+    public function listLocations(int $currentPage = 1): View
+    {
+        $this->setActiveSlug('list-locations/');
+
+        $pagination = new Pagination(
+            pageNo: $currentPage,
+            maxItems: Location::count()->execute(),
+            uri: '/adm/list-locations/{no}'
+        );
+
+        $locations = Location::select()
+            ->limit($pagination->limit)
+            ->offset($pagination->offset)
+            ->all();
+
+        return $this->view(
+            '@adm/listLocations.tpl',
+            locations: $locations,
+            pagination: $pagination,
+        );
+    }
+
+    #[Get(uri: '/create-location'), Post(uri: '/create-location')]
+    public function createLocation(Request $request): View|Redirect
+    {
+        $this->setActiveSlug('create-location/');
+        $createLocation = new CreateLocation(
+            name: trim($request->get('name', '')),
+            seal: trim($request->get('seal', '')),
+            street: trim($request->get('street', '')),
+            city: trim($request->get('city', '')),
+            zip_code: trim($request->get('zip_code', '')),
+            fte: (float) $request->get('fte', 0),
+            fte_consumed: (float) $request->get('fte_consumed', 0),
+            area: (float) $request->get('area', 0),
+        );
+
+        $response = $this->executeCommand($createLocation, $request);
+
+        if ($response?->value instanceof Location) {
+            $this->session->flash('success', true);
+            $this->session->flash('id', $response->value->id->value);
+            return $this->redirect('/adm/list-locations/');
+        }
+
+        return $this->view(
+            '@adm/createLocation.tpl',
+            location: $createLocation,
+            errors: $this->validationParser->parsedErrors
+        );
+    }
+
+    #[Get(uri: '/update-location/{id:[0-9]+}'), Post(uri: '/update-location/{id:[0-9]+}')]
+    public function updateLocation(Request $request, int $id): View
+    {
+        $this->setActiveSlug('list-locations/');
+        $location = Location::select()->where('id = ?', $id)->first();
+
+        $updateLocation = new UpdateLocation(
+            model: $location,
+            name: trim($request->get('name', $location->name)),
+            seal: trim($request->get('seal', $location->seal)),
+            street: trim($request->get('street', $location->street)),
+            city: trim($request->get('city', $location->city)),
+            zip_code: trim($request->get('zip_code', $location->zip_code)),
+            fte: (float) $request->get('fte', $location->fte),
+            fte_consumed: (float) $request->get('fte_consumed', $location->fte_consumed),
+            area: (float) $request->get('area', $location->area),
+        );
+
+        $response = $this->executeCommand($updateLocation, $request);
+
+        if ($response !== null) {
+            $location->refresh();
+        }
+
+        return $this->view(
+            '@adm/updateLocation.tpl',
+            location: $updateLocation,
+            errors: $this->validationParser->parsedErrors
+        );
+    }
+
+    #[Get(uri: '/delete-location/{id:[0-9]+}')]
+    public function deleteLocation(int $id): Redirect
+    {
+        $location = Location::select()->where('id = ?', $id)->first();
+        $response = $this->executeCommand(new DeleteLocation($location), onPost: false);
+
+        return $this->redirect('/adm/list-locations/');
     }
 }

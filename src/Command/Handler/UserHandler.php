@@ -91,11 +91,11 @@ final class UserHandler
     }
 
     #[CommandHandler]
-    public function createUser(CreateUser $createUser): void {}
+    public function create(CreateUser $createUser): void {}
 
     #[CommandHandler]
-    public function updateUser(UpdateUser $updateUser): void {}
+    public function update(UpdateUser $updateUser): void {}
 
     #[CommandHandler]
-    public function deleteUser(DeleteUser $deleteUser): void {}
+    public function delete(DeleteUser $deleteUser): void {}
 }

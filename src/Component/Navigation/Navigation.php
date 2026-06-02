@@ -34,7 +34,7 @@ class Navigation
         $this->navigation = NavigationModel::select()
             ->where('navigation.name = ?', $this->name)
             ->with('items')
-            ->orderBy('items.position')
+            ->orderBy('position')
             ->first();
     }
 
