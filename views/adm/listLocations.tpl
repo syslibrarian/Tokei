@@ -22,6 +22,8 @@
                 <a href="/adm/delete-location/{{ location.id }}"><span class="delete"></span></a>
             </section>
         </li>
+        {% else %}
+            <li><section class="fieldTitle">{{ "adm.no_entries"|translate }}</section></li>
         {% endfor %}
     </ol>
 </div>

@@ -21,10 +21,12 @@ final class LocationCreateTable implements DatabaseCommand
             ->varchar('seal', 4)
             ->varchar('street')
             ->varchar('city')
-            ->varchar('zip_code', 5)
+            ->varchar('postal_code', 5)
             ->float('fte')
             ->float('fte_consumed')
             ->float('area')
+            ->integer('created')
+            ->integer('modified', default: 0)
             ->index('seal');
     }
 }

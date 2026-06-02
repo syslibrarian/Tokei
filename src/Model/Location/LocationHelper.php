@@ -15,4 +15,12 @@ class LocationHelper
             ->where('seal = ?', $seal)
             ->execute() > 0;
     }
+
+    public static function getLocationsForForm(): \Generator
+    {
+        $locations = Location::all();
+        foreach ($locations as $location) {
+            yield ['name' => $location->name, 'value' => $location->seal];
+        }
+    }
 }

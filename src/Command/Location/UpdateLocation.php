@@ -15,7 +15,7 @@ final class UpdateLocation implements Command
         public string $seal,
         public string $street,
         public string $city,
-        public string $zip_code,
+        public string $postal_code,
         public float $fte,
         public float $fte_consumed,
         public float $area

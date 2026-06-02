@@ -626,6 +626,43 @@ button:disabled {
   content: "\e18a";
   color: rgb(0, 0, 197.6);
 }
+.formular .radio.warning ::selection {
+  background-color: rgba(200, 0, 10, 0.2);
+  color: rgb(200, 0, 10);
+}
+.formular .radio.warning .label {
+  color: rgb(200, 0, 10) !important;
+}
+.formular .radio.warning .description {
+  color: rgb(200, 0, 10) !important;
+}
+.formular .radio.warning .field {
+  position: relative;
+}
+.formular .radio.warning .warningOverlay {
+  color: white !important;
+  background-color: rgba(200, 0, 10, 0.7) !important;
+  box-shadow: 2px 2px 2px rgba(191, 191, 191, 0.5);
+  backdrop-filter: blur(2px);
+  border: 0;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 100;
+  top: 100%;
+  right: 0;
+  margin-top: 5px;
+  padding: 5px;
+}
+.formular .radio.warning .warningOverlay::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent rgba(200, 0, 10, 0.7) transparent;
+}
 .formular .select select {
   width: 100%;
   background-color: rgba(242, 242, 255, 0.5);
@@ -669,6 +706,11 @@ button:disabled {
 .formular .number input[type=number]:focus {
   background-color: rgb(242, 242, 255);
   border-color: rgb(0, 0, 197.6);
+}
+.formular .number .field span {
+  margin-left: 5px;
+  font-size: 12pt;
+  color: rgb(95, 95, 95);
 }
 .formular input[type=submit], .formular input[type=reset], .formular input[type=button] {
   background-color: rgb(51.6, 51.6, 255);

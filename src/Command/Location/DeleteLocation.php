@@ -7,7 +7,7 @@ namespace Tokei\Command\Location;
 use Tokei\Command\Command;
 use Tokei\Model\Location\Location;
 
-class DeleteLocation implements Command
+final class DeleteLocation implements Command
 {
     public function __construct(
         public Location $model

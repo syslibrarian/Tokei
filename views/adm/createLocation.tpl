@@ -44,10 +44,10 @@
     ) }}
 
     {{ f.text(
-        name: 'zip_code',
-        value: location.zip_code,
-        label: "adm.location_zip_code",
-        errorMsg: errors.zip_code ?? ''
+        name: 'postal_code',
+        value: location.postal_code,
+        label: "adm.location_postal_code",
+        errorMsg: errors.postal_code ?? ''
     ) }}
 
     {{ f.number(
@@ -55,7 +55,8 @@
         value: location.fte,
         label: "adm.location_fte",
         placeholder: "0.0",
-        step: "0.25"
+        step: "0.25",
+        suffix: 'adm.location_fte'
     ) }}
 
     {{ f.number(
@@ -63,7 +64,8 @@
         value: location.fte_consumed,
         label: "adm.location_fte_consumed",
         placeholder: "0.0",
-        step: "0.25"
+        step: "0.25",
+        suffix: 'adm.location_fte'
     ) }}
 
     {{ f.number(
@@ -72,7 +74,18 @@
         label: "adm.location_area",
         placeholder: "0.0",
         step: "0.25",
+        suffix: "m²"
     ) }}
+
+    <span> {# todo: relocated maybe in base template #}
+        {% if location.model.modified or location.model.created %}
+            {% if location.model.modified %}
+                zu letzte bearbeitet {{ location.model.modified|date('m.d.y - H:m') }}
+            {% else %}
+                Erstellt am {{ location.model.created|date('m.d.y - H:m') }} {# Sprachvariable #}
+            {% endif %}
+        {% endif %}
+    </span>
 
     {{ f.form_end('adm.form_submit'|translate, 'adm.form_reset'|translate) }}
 {% endblock %}

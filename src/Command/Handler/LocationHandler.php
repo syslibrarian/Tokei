@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tokei\Command\Handler;
 
 use Tempest\CommandBus\CommandHandler;
+use Tempest\DateTime\Timestamp;
 use Tempest\Validation\Exceptions\ValidationFailed;
 use Tokei\Command\IsHandler;
 use Tokei\Command\Location\CreateLocation;
@@ -12,7 +13,7 @@ use Tokei\Command\Location\DeleteLocation;
 use Tokei\Command\Location\UpdateLocation;
 use Tokei\Model\Location\Location;
 
-class LocationHandler
+final class LocationHandler
 {
     use IsHandler;
 
@@ -26,10 +27,11 @@ class LocationHandler
                 seal: $location->seal,
                 street: $location->street,
                 city: $location->city,
-                zip_code: $location->zip_code,
+                postal_code: $location->postal_code,
                 fte: $location->fte,
                 fte_consumed: $location->fte_consumed,
                 area: $location->area,
+                created: Timestamp::now()->getSeconds()
             );
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();
@@ -51,10 +53,11 @@ class LocationHandler
                 name: $location->name,
                 street: $location->street,
                 city: $location->city,
-                zip_code: $location->zip_code,
+                postal_code: $location->postal_code,
                 fte: $location->fte,
                 fte_consumed: $location->fte_consumed,
-                area: $location->area
+                area: $location->area,
+                modified: Timestamp::now()->getSeconds()
             );
 
             if ($location->seal !== $location->model->seal) {

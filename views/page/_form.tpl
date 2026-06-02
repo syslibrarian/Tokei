@@ -45,7 +45,7 @@
 {% endmacro %}
 
 {% macro radio(name, options, value, label, description = '', errorMsg = '') %}
-    <div class="radio">
+    <div class="radio{% if errorMsg != '' %} warning{% endif %}">
         <div class="label">{{ label }}</div>
         <div class="field">
             {% for option in options %}
@@ -55,6 +55,9 @@
                     <label><input type="radio" name="{{ name }}" value="{{ option }}" {% if option == value %}checked{% endif %}> <span>{{ option }}</span></label>
                 {% endif %}
             {% endfor %}
+            {% if errorMsg != '' %}
+                <div class="warningOverlay">{{ errorMsg }}</div>
+            {% endif %}
         </div>
         {% if description != '' %}
             <div class="description"><span>{{ description }}</span></div>
@@ -92,7 +95,7 @@
     </div>
 {% endmacro %}
 
-{% macro number(name, value, label, description = '', placeholder='', min = 0, max = 0, step = 0) %}
+{% macro number(name, value, label, description = '', placeholder='', min = 0, max = 0, step = 0, suffix = '') %}
     {# Add prefix and suffix for clear communication #}
     <div class="number">
         <div class="label"><label for="{{ name }}-id">{{ label }}</label></div>
@@ -113,6 +116,9 @@
                     step="{{ step }}"
                 {% endif %}
             >
+            {% if suffix != '' %}
+                <span>{{ suffix }}</span>
+            {% endif %}
         </div>
         {% if description != '' %}
             <div class="description"><span>{{ description }}</span></div>

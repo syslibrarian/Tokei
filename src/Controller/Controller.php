@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Tokei\Controller;
 
+use Tempest\Http\Responses\NotFound;
 use Tokei\Component\Access\AccessControl;
 use Tokei\Component\Navigation\Navigation;
+use Tokei\Controller\Exception\NotFoundException;
 use Tokei\Tokei;
 use Tempest\Http\Responses\Redirect;
 use Tempest\Http\Session\Session;

@@ -12,6 +12,7 @@ use Tempest\Http\Method;
 use Tempest\Http\Request;
 use Tempest\Validation\Exceptions\ValidationFailed;
 
+use Tokei\Controller\Exception\NotFoundException;
 use function Tempest\CommandBus\command;
 use function Tempest\Container\get;
 
@@ -71,4 +72,24 @@ trait IsAdmin
     abstract protected function registerViewPath(string $namespace, string $path): void;
 
     abstract protected function getBaseSlug(): string;
+
+    /**
+     * @template TModel
+     * @param int $id
+     * @param class-string<TModel> $modelClass
+     * @return <TModel>
+     * @throws NotFoundException
+     */
+    protected function getModel(int $id, string $modelClass): object
+    {
+        $model = $modelClass::select()
+            ->where('id = ?', $id)
+            ->first();
+
+        if ($model === null) {
+            throw new NotFoundException($modelClass, $this->getBaseSlug());
+        }
+
+        return $model;
+    }
 }

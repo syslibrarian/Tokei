@@ -244,6 +244,51 @@ $selected-color: s.$color3;
         }
       }
     }
+
+    &.warning {
+      ::selection {
+        background-color: color.scale($error-color, $alpha: -80%);
+        color: $error-color;
+      }
+
+      .label {
+        color: $error-color !important;
+      }
+
+      .description {
+        color: $error-color !important;
+      }
+
+      .field {
+        position: relative;
+      }
+
+      .warningOverlay {
+        color: color.scale($error-color, $lightness: +100%) !important;
+        background-color: color.scale($error-color, $alpha: -30%) !important;
+        box-shadow: 2px 2px 2px $shadow-color;
+        backdrop-filter: blur(2px);
+        border: 0;
+        border-radius: 10px;
+        position: absolute;
+        z-index: 100;
+        top: 100%;
+        right: 0;
+        margin-top: 5px;
+        padding: 5px;
+
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 100%;
+          left: 50%;
+          margin-left: -5px;
+          border-width: 5px;
+          border-style: solid;
+          border-color: transparent transparent color.scale($error-color, $alpha: -30%) transparent;
+        }
+      }
+    }
   }
 
   .select {
@@ -301,6 +346,12 @@ $selected-color: s.$color3;
         $color: $input-color-focus;
         border-color: $border-color-focus;
       }
+    }
+
+    .field span {
+      margin-left: 5px;
+      font-size: $text-size;
+      color: $description-color
     }
   }
 

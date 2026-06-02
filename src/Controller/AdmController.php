@@ -7,9 +7,6 @@ namespace Tokei\Controller;
 use Tokei\Command\Location\CreateLocation;
 use Tokei\Command\Location\DeleteLocation;
 use Tokei\Command\Location\UpdateLocation;
-use Tokei\Command\Page\CreatePage;
-use Tokei\Command\Page\DeletePage;
-use Tokei\Command\Page\UpdatePage;
 use Tokei\Command\User\CreateRole;
 use Tokei\Command\User\CreateUser;
 use Tokei\Command\User\DeleteRole;
@@ -254,7 +251,7 @@ final class AdmController extends Controller
             seal: trim($request->get('seal', '')),
             street: trim($request->get('street', '')),
             city: trim($request->get('city', '')),
-            zip_code: trim($request->get('zip_code', '')),
+            postal_code: trim($request->get('postal_code', '')),
             fte: (float) $request->get('fte', 0),
             fte_consumed: (float) $request->get('fte_consumed', 0),
             area: (float) $request->get('area', 0),
@@ -287,7 +284,7 @@ final class AdmController extends Controller
             seal: trim($request->get('seal', $location->seal)),
             street: trim($request->get('street', $location->street)),
             city: trim($request->get('city', $location->city)),
-            zip_code: trim($request->get('zip_code', $location->zip_code)),
+            postal_code: trim($request->get('postal_code', $location->postal_code)),
             fte: (float) $request->get('fte', $location->fte),
             fte_consumed: (float) $request->get('fte_consumed', $location->fte_consumed),
             area: (float) $request->get('area', $location->area),
@@ -302,7 +299,8 @@ final class AdmController extends Controller
         return $this->view(
             '@adm/updateLocation.tpl',
             location: $updateLocation,
-            errors: $this->validationParser->parsedErrors
+            errors: $this->validationParser->parsedErrors,
+            success: $response !== null
         );
     }
 
@@ -310,6 +308,7 @@ final class AdmController extends Controller
     public function deleteLocation(int $id): Redirect
     {
         $location = Location::select()->where('id = ?', $id)->first();
+        $this->checkModel($location, Location::class);
         $response = $this->executeCommand(new DeleteLocation($location), onPost: false);
 
         return $this->redirect('/adm/list-locations/');
