@@ -22,6 +22,7 @@ final class CreateEvent implements Command
         public int $online = 1,
         public int $state = 1,
         public string $title = '',
-        public string $description = ''
+        public string $description = '',
+        public string $audience = ''
     ) {}
 }

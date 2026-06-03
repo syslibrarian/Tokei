@@ -29,6 +29,7 @@ final class EventCreateTable implements DatabaseCommand
             ->integer('attendees')
             ->integer('online')
             ->integer('state')
+            ->string('audience')
             ->integer('created')
             ->integer('modified', default: 0)
             ->index('seal', 'time_code', 'time_start')

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tokei\Model\Event;
 
 use Tempest\DateTime\DateTime;
-use Tempest\DateTime\Timestamp;
 use Tempest\DateTime\Timezone;
 
 final class EventHelper
@@ -21,6 +20,8 @@ final class EventHelper
         2 => 'hybrid',
         3 => 'only'
     ];
+
+    public const array AUDIENCE = ['young', 'adult'];
 
     public static function buildTimeCode(int $timestamp): string
     {
@@ -81,6 +82,13 @@ final class EventHelper
     {
         foreach (self::ONLINE as $value => $name) {
             yield ['value' => $value, 'name' => $name];
+        }
+    }
+
+    public static function getAudienceForForm(): \Generator
+    {
+        foreach (self::AUDIENCE as $value) {
+            yield ['value' => $value, 'name' => $value];
         }
     }
 }

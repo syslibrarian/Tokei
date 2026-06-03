@@ -66,6 +66,14 @@
             label: 'adm.events.event_online'|translate,
             description: 'adm.events.event_online_description'
         ) }}
+
+        {{ f.select(
+            name: 'audience',
+            options: audiences,
+            value: event.audience,
+            label: 'adm.events.event_audience'|translate,
+            description: 'adm.events.event_audience_description'
+        ) }}
     {% endset %}
 
     {% set numberSection %}

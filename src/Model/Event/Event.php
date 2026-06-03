@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tokei\Model\Event;
 
 use Tempest\Database\IsDatabaseModel;
+use Tempest\Database\Virtual;
 use Tempest\Validation\Rules\IsNotEmptyString;
 use Tempest\Validation\Rules\MatchesRegEx;
 use Tokei\Extension\Validation\Rules\IsDBSType;
@@ -49,4 +50,16 @@ final class Event
     public int $created;
 
     public ?int $modified = 0;
+
+    public string $audience;
+
+    // virtual fields
+    #[Virtual]
+    public float $staffHours {
+        get { return $this->staff * $this->hours; }
+    }
+
+    public float $externalStaffHours {
+        get { return $this->staff_external * $this->hours; }
+    }
 }

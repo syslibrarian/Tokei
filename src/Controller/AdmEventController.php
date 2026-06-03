@@ -15,7 +15,7 @@ use Tokei\Command\Event\UpdateEvent;
 use Tokei\Command\Institution\CreateInstitution;
 use Tokei\Command\Institution\DeleteInstitution;
 use Tokei\Command\Institution\UpdateInstitution;
-use Tokei\Model\Event\DBSType;
+use Tokei\Model\Event\DBSSection;
 use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
 use Tokei\Model\Institution\Institution;
@@ -152,7 +152,8 @@ final class AdmEventController extends Controller
             online: (int) $request->get('online', 0),
             state: (int) $request->get('state', 0),
             title: trim($request->get('title', '')),
-            description: trim($request->get('description', ''))
+            description: trim($request->get('description', '')),
+            audience: trim($request->get('audience', '')),
         );
 
         $response = $this->executeCommand($command, $request);
@@ -165,9 +166,10 @@ final class AdmEventController extends Controller
             '@adm/createEvent.tpl',
             event: $command,
             locations: LocationHelper::getLocationsForForm(),
-            types: DBSType::getForForm(), // later here for sub categories
+            types: DBSSection::getForForm(), // later here for sub categories
             states: EventHelper::getStateForForm(),
             onlineStates: EventHelper::getOnlineForForm(),
+            audiences: EventHelper::getAudienceForForm(),
             errors: $this->validationParser->parsedErrors,
             success: $response?->value instanceof Event
         );
@@ -192,6 +194,7 @@ final class AdmEventController extends Controller
             state: (int) $request->get('state', $model->state),
             title: trim($request->get('title', $model->title)),
             description: trim($request->get('description', $model->description)),
+            audience: trim($request->get('audience', $model->audience)),
         );
 
         $response = $this->executeCommand($command, $request);
@@ -204,9 +207,10 @@ final class AdmEventController extends Controller
             '@adm/updateEvent.tpl',
             event: $command,
             locations: LocationHelper::getLocationsForForm(),
-            types: DBSType::getForForm(),
+            types: DBSSection::getForForm(),
             states: EventHelper::getStateForForm(),
             onlineStates: EventHelper::getOnlineForForm(),
+            audiences: EventHelper::getAudienceForForm(),
             errors: $this->validationParser->parsedErrors,
             success: $response !== null
         );

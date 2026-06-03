@@ -12,6 +12,7 @@ use Tempest\Validation\Validator;
 use Tokei\Command\Event\CreateEvent;
 use Tokei\Command\Event\UpdateEvent;
 use Tokei\Command\IsHandler;
+use Tokei\Model\Event\DBSSection;
 use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
 use function Tempest\Container\get;
@@ -30,6 +31,8 @@ class EventHandler
             $startTime = EventHelper::convertToDateTime($command->startDateTime);
             $endTime = EventHelper::calculateEnd($startTime, $command->endTime);
             $this->timeFlip($startTime, $endTime);
+
+            $command->audience = DBSSection::getAudience($command->audience, $command->type);
 
             $event = Event::create(
                 seal: $command->seal,
@@ -66,6 +69,8 @@ class EventHandler
             $startTime = EventHelper::convertToDateTime($command->startDateTime);
             $endTime = EventHelper::calculateEnd($startTime, $command->endTime);
             $this->timeFlip($startTime, $endTime);
+
+            $command->audience = DBSSection::getAudience($command->audience, $command->type);
 
             $command->model->update(
                 seal: $command->seal,
