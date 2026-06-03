@@ -680,7 +680,7 @@ button:disabled {
   background-color: rgb(0, 0, 213) !important;
   color: white !important;
 }
-.formular .date input[type=date], .formular .date input[type=datetime-local], .formular .date input[type=time] {
+.formular .date input[type=date], .formular .date input[type=datetime-local], .formular .date input[type=time], .formular .time input[type=date], .formular .time input[type=datetime-local], .formular .time input[type=time] {
   background-color: rgba(242, 242, 255, 0.5);
   color: rgb(90.8, 90.8, 255);
   border: 1px solid rgb(90.8, 90.8, 255);
@@ -689,7 +689,7 @@ button:disabled {
   padding: 5px;
   font-size: 12pt;
 }
-.formular .date input[type=date]:focus, .formular .date input[type=datetime-local]:focus, .formular .date input[type=time]:focus {
+.formular .date input[type=date]:focus, .formular .date input[type=datetime-local]:focus, .formular .date input[type=time]:focus, .formular .time input[type=date]:focus, .formular .time input[type=datetime-local]:focus, .formular .time input[type=time]:focus {
   background-color: rgb(242, 242, 255);
   color: rgb(0, 0, 197.6);
   border-color: rgb(0, 0, 197.6);

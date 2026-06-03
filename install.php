@@ -6,6 +6,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Tokei\Model\Navigation\Navigation;
 use Tokei\Model\Navigation\Item;
+use Tokei\Tool\Installer\Database\EventCreateTable;
 use Tokei\Tool\Installer\Database\InstitutionCreateTable;
 use Tokei\Tool\Installer\Database\LocationCreateTable;
 use Tokei\Tool\Installer\Database\NavigationCreateTable;
@@ -70,3 +71,7 @@ $location->execute();
 // institutions
 $institution = new InstitutionCreateTable();
 $institution->execute();
+
+// events
+$events = new EventCreateTable();
+$events->execute();

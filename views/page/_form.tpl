@@ -147,7 +147,7 @@
     <div class="time">
         <div class="label"><label for="{{ name }}-id">{{ label }}</label></div>
         <div class="field">
-            <input type="time" name="{{ name }}" id="{{ name }}-id">
+            <input type="time" name="{{ name }}" id="{{ name }}-id" value="{{ value }}">
         </div>
     </div>
     {% if description != '' %}

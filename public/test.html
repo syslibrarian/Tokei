@@ -135,7 +135,7 @@
 
                     <div class="number">
                         <div class="label"><label for="field10">Date</label></div>
-                        <div class="field"><input type="number" value="" name="field10" id="field10"><span>qm</span></div>
+                        <div class="field"><input type="number" value="" name="field12" id="field12" lang="de" step="0.1"><span>qm</span></div>
                         <div class="description"><span>Erklärung</span></div>
                     </div>
 
@@ -285,6 +285,11 @@
                     document.getElementById("header").classList.remove('inFlow');
                 }
             }
+
+            let element =  document.getElementById('field12');
+            element.addEventListener('change', (el) => {
+                console.log(el.currentTarget.value);
+            });
         </script>
     </body>
 </html>

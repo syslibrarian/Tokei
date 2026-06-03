@@ -7,6 +7,7 @@ namespace Tokei\Extension\Validation\Rules;
 use Tokei\Model\User\User;
 use Tempest\Validation\Rule;
 
+#[\Attribute]
 class IsNotExistingUsername implements Rule
 {
     public function isValid(mixed $value): bool

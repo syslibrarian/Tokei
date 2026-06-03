@@ -77,7 +77,7 @@ trait IsAdmin
      * @template TModel
      * @param int $id
      * @param class-string<TModel> $modelClass
-     * @return <TModel>
+     * @return TModel
      * @throws NotFoundException
      */
     protected function getModel(int $id, string $modelClass): object

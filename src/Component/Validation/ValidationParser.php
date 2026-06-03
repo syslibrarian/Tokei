@@ -18,7 +18,7 @@ class ValidationParser
         foreach ($errorFields as $field => $errors) {
             $this->parsedErrors[$field] = '';
             foreach ($errors as $error) {
-                $this->parsedErrors[$field] .= \get_class($error) . "\n";
+                $this->parsedErrors[$field] .= (is_object($error->rule) ? \get_class($error->rule) : '') . "\n";
             }
         }
     }

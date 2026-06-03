@@ -313,7 +313,7 @@ $selected-color: s.$color3;
     }
   }
 
-  .date {
+  .date, .time {
     input[type=date], input[type=datetime-local], input[type=time] {
       background-color: $background-color;
       color: $input-color;

@@ -10,9 +10,14 @@ use Tempest\Router\Get;
 use Tempest\Router\Post;
 use Tempest\Router\Prefix;
 use Tempest\View\View;
+use Tokei\Command\Event\CreateEvent;
+use Tokei\Command\Event\UpdateEvent;
 use Tokei\Command\Institution\CreateInstitution;
 use Tokei\Command\Institution\DeleteInstitution;
 use Tokei\Command\Institution\UpdateInstitution;
+use Tokei\Model\Event\DBSType;
+use Tokei\Model\Event\Event;
+use Tokei\Model\Event\EventHelper;
 use Tokei\Model\Institution\Institution;
 use Tokei\Model\Institution\Type;
 use Tokei\Model\Location\LocationHelper;
@@ -129,5 +134,81 @@ final class AdmEventController extends Controller
         $response = $this->executeCommand($institution, onPost: false);
 
         return $this->redirect($this->getBaseSlug() . 'list-institutions/');
+    }
+
+    #[Get(uri: '/create/'), Post(uri: '/create/')]
+    public function createEvent(Request $request): View
+    {
+        $this->setActiveSlug('create/');
+
+        $command = new CreateEvent(
+            seal: trim($request->get('seal', '')), // later here seal from user object
+            type: trim($request->get('type', '')),
+            startDateTime: trim($request->get('startDateTime', '')),
+            endTime: trim($request->get('endTime', '')),
+            staff: (int) $request->get('staff', 0),
+            staff_external: (int) $request->get('staffExternal', 0),
+            attendees: (int) $request->get('attendees', 0),
+            online: (int) $request->get('online', 0),
+            state: (int) $request->get('state', 0),
+            title: trim($request->get('title', '')),
+            description: trim($request->get('description', ''))
+        );
+
+        $response = $this->executeCommand($command, $request);
+
+        if ($response?->value instanceof Event) {
+            $command->reset();
+        }
+
+        return $this->view(
+            '@adm/createEvent.tpl',
+            event: $command,
+            locations: LocationHelper::getLocationsForForm(),
+            types: DBSType::getForForm(), // later here for sub categories
+            states: EventHelper::getStateForForm(),
+            onlineStates: EventHelper::getOnlineForForm(),
+            errors: $this->validationParser->parsedErrors,
+            success: $response?->value instanceof Event
+        );
+    }
+
+    #[Get(uri: '/update/{id:[0-9]+}/'), Post(uri: '/update/{id:[0-9]+}/')]
+    public function updateEvent(Request $request, int $id): View
+    {
+        $this->setActiveSlug('update/');
+        $model = $this->getModel($id, Event::class);
+
+        $command = new UpdateEvent(
+            model: $model,
+            seal: trim($request->get('seal', $model->seal)),
+            type: trim($request->get('type', $model->type)),
+            startDateTime: trim($request->get('startDateTime', \DateTime::createFromTimestamp($model->time_start)->format('Y-m-d\TH:i'))),
+            endTime: trim($request->get('endTime', \DateTime::createFromTimestamp($model->time_start)->format('H:i'))),
+            staff: (int) $request->get('staff', $model->staff),
+            staff_external: (int) $request->get('staffExternal', $model->staff_external),
+            attendees: (int) $request->get('attendees', $model->attendees),
+            online: (int) $request->get('online', $model->online),
+            state: (int) $request->get('state', $model->state),
+            title: trim($request->get('title', $model->title)),
+            description: trim($request->get('description', $model->description)),
+        );
+
+        $response = $this->executeCommand($command, $request);
+
+        if ($response !== null) {
+            $model->refresh();
+        }
+
+        return $this->view(
+            '@adm/updateEvent.tpl',
+            event: $command,
+            locations: LocationHelper::getLocationsForForm(),
+            types: DBSType::getForForm(),
+            states: EventHelper::getStateForForm(),
+            onlineStates: EventHelper::getOnlineForForm(),
+            errors: $this->validationParser->parsedErrors,
+            success: $response !== null
+        );
     }
 }
