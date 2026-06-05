@@ -8,7 +8,7 @@ use Tempest\Container\Singleton;
 use Tempest\Validation\Exceptions\ValidationFailed;
 
 #[Singleton]
-class ValidationParser
+final class ValidationParser
 {
     public array $parsedErrors = [];
 

@@ -23,13 +23,6 @@ final class EventHelper
 
     public const array AUDIENCE = ['young', 'adult'];
 
-    public static function buildTimeCode(int $timestamp): string
-    {
-        $time = DateTime::fromTimestamp($timestamp);
-
-        return $time->getYear() . '-' . $time->getMonth();
-    }
-
     public static function convertToDateTime(string $dateFromForm): int
     {
         $dateFromForm = str_replace('T', ' ', $dateFromForm);

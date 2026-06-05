@@ -6,7 +6,7 @@ namespace Tokei\Model\User;
 
 use function Tempest\Database\query;
 
-class RoleHelper
+final class RoleHelper
 {
     public static function count(): int
     {

@@ -8,7 +8,7 @@ use Tempest\Validation\Rule;
 use Tokei\Model\Location\LocationHelper;
 
 #[\Attribute]
-class IsExistingSeal implements Rule
+final class IsExistingSeal implements Rule
 {
 
     public function isValid(mixed $value): bool

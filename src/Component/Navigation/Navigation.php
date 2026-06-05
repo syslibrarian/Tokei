@@ -9,7 +9,7 @@ use Twig\Environment;
 
 use function Tempest\Container\get;
 
-class Navigation
+final class Navigation
 {
     /** @var Navigation[] $loadedNavigation */
     protected static array $loadedNavigation = [];

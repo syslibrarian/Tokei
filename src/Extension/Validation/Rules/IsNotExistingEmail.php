@@ -8,7 +8,7 @@ use Tokei\Model\User\User;
 use Tempest\Validation\Rule;
 
 #[\Attribute]
-class IsNotExistingEmail implements Rule
+final class IsNotExistingEmail implements Rule
 {
     public function isValid(mixed $value): bool
     {

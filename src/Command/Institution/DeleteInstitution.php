@@ -7,7 +7,7 @@ namespace Tokei\Command\Institution;
 use Tokei\Command\Command;
 use Tokei\Model\Institution\Institution;
 
-class DeleteInstitution implements Command
+final class DeleteInstitution implements Command
 {
     public function __construct(
         public Institution $model

@@ -15,9 +15,10 @@ use Tokei\Command\IsHandler;
 use Tokei\Model\Event\DBSSection;
 use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
+use Tokei\Model\TimeCode;
 use function Tempest\Container\get;
 
-class EventHandler
+final class EventHandler
 {
     use IsHandler;
 
@@ -39,7 +40,7 @@ class EventHandler
                 type: $command->type,
                 time_start: $startTime,
                 time_end: $endTime,
-                time_code: EventHelper::buildTimeCode($startTime),
+                time_code: TimeCode::fromTimestamp($startTime),
                 hours: EventHelper::calculateHours($startTime, $endTime),
                 staff: $command->staff,
                 staff_external: $command->staff_external,
@@ -77,7 +78,7 @@ class EventHandler
                 type: $command->type,
                 time_start: $startTime,
                 time_end: $endTime,
-                time_code: EventHelper::buildTimeCode($startTime),
+                time_code: TimeCode::fromTimestamp($startTime),
                 hours: EventHelper::calculateHours($startTime, $endTime),
                 staff: $command->staff,
                 staff_external: $command->staff_external,

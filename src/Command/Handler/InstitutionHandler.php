@@ -13,7 +13,7 @@ use Tokei\Command\Institution\UpdateInstitution;
 use Tokei\Command\IsHandler;
 use Tokei\Model\Institution\Institution;
 
-class InstitutionHandler
+final class InstitutionHandler
 {
     use IsHandler;
 

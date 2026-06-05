@@ -8,7 +8,7 @@ use Twig\Attribute\AsTwigFilter;
 use Twig\Attribute\AsTwigFunction;
 use Twig\Environment;
 
-class TokeiTwigBaseExtension
+final class TokeiTwigBaseExtension
 {
     #[AsTwigFilter('translate', isSafe: ['html']), AsTwigFunction('translate', isSafe: ['html'])]
     public static function translate(string $key, mixed ...$args): string

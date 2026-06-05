@@ -9,6 +9,7 @@ use Tempest\Database\Virtual;
 use Tempest\Validation\Rules\IsNotEmptyString;
 use Tempest\Validation\Rules\MatchesRegEx;
 use Tokei\Extension\Validation\Rules\IsDBSType;
+use Tokei\Extension\Validation\Rules\IsValidEventState;
 use Tokei\Extension\Validation\Rules\IsValidOnlineState;
 
 final class Event
@@ -55,11 +56,12 @@ final class Event
 
     // virtual fields
     #[Virtual]
-    public float $staffHours {
+    public float $hours_staff {
         get { return $this->staff * $this->hours; }
     }
 
-    public float $externalStaffHours {
+    #[Virtual]
+    public float $hours_staff_external {
         get { return $this->staff_external * $this->hours; }
     }
 }

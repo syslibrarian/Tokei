@@ -7,7 +7,7 @@ namespace Tokei\Command;
 use Tempest\Container\Singleton;
 
 #[Singleton]
-class Response
+final class Response
 {
     protected(set) ?Command $command = null;
     protected(set) mixed $value = null;

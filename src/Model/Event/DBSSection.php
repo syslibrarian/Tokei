@@ -8,38 +8,39 @@ use function Tempest\Support\Arr\find_key;
 
 final class DBSSection
 {
+    /** @var array<string, array<string, string>> */
     public const array SECTIONS = [
         'education' => [
-            '95.1' => 'Klasse 1 - 6', // it is berlin specific.
-            '95.2' => 'ab Klasse 7', // it is berlin specific.
-            '95.3' => 'Kita',
-            '95.4' => 'Sonstige Gruppen'
+            '95-1' => 'Klasse 1 - 6', // it is berlin specific.
+            '95-2' => 'ab Klasse 7', // it is berlin specific.
+            '95-3' => 'Kita',
+            '95-4' => 'Sonstige Gruppen'
         ],
 
         'event' => [
-            '96' => 'Für Kinder und Jugendliche (bis 17 Jahre)',
-            '97' => 'Für Erwachsene'
+            '96-x' => 'Für Kinder und Jugendliche (bis 17 Jahre)',
+            '97-x' => 'Für Erwachsene'
         ],
 
         'other' => [
-            '92' => 'Soziale Bibliotheksarbeit',
-            '98' => 'Ausstellungen',
-            '99' => 'Sonstige Angebote',
-            '99.1' => 'Bibliotheksbesichtigungen & Führungen'
+            '92-x' => 'Soziale Bibliotheksarbeit',
+            '98-x' => 'Ausstellungen',
+            '99-0' => 'Sonstige Angebote',
+            '99-1' => 'Bibliotheksbesichtigungen & Führungen'
         ]
     ];
 
     public const array INDEX_TO_AUDIENCE = [
-        '95.1' => 'young',
-        '95.2' => 'young',
-        '95.3' => 'young',
-        '95.4' => 'adult',
-        '96' => 'young',
-        '97' => 'adult',
-        '92' => '',
-        '98' => '',
-        '99' => '',
-        '99.1' => ''
+        '95-1' => 'young',
+        '95-2' => 'young',
+        '95-3' => 'young',
+        '95-4' => 'adult',
+        '96-x' => 'young',
+        '97-x' => 'adult',
+        '92-x' => '',
+        '98-x' => '',
+        '99-x' => '',
+        '99-1' => ''
     ];
 
     public static function getAudience(string $audience, string $sectionNumber): string

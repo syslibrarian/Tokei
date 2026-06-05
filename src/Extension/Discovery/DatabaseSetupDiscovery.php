@@ -10,7 +10,7 @@ use Tempest\Discovery\DiscoveryLocation;
 use Tempest\Discovery\IsDiscovery;
 use Tempest\Reflection\ClassReflector;
 
-class DatabaseSetupDiscovery implements Discovery
+final class DatabaseSetupDiscovery implements Discovery
 {
     use IsDiscovery;
 

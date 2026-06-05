@@ -6,7 +6,7 @@ namespace Tokei\Event\User;
 
 use Tokei\Tool\User\Permissions;
 
-class PermissionsPrepare
+final class PermissionsPrepare
 {
     public function __construct(
         public Permissions $permissions,

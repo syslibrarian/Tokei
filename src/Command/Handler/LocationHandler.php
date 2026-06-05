@@ -5,79 +5,149 @@ declare(strict_types=1);
 namespace Tokei\Command\Handler;
 
 use Tempest\CommandBus\CommandHandler;
+use Tempest\Database\Exceptions\DatabaseException;
 use Tempest\DateTime\Timestamp;
 use Tempest\Validation\Exceptions\ValidationFailed;
 use Tokei\Command\IsHandler;
 use Tokei\Command\Location\CreateLocation;
+use Tokei\Command\Location\CreateReports;
 use Tokei\Command\Location\DeleteLocation;
 use Tokei\Command\Location\UpdateLocation;
+use Tokei\Command\Location\UpdateReport;
 use Tokei\Model\Location\Location;
+use Tokei\Model\Location\LocationHelper;
+use Tokei\Model\Location\Report;
+use Tokei\Model\ReportStatus;
+use Tokei\Model\TimeCode;
+
+use function Tempest\Database\query;
 
 final class LocationHandler
 {
     use IsHandler;
 
     #[CommandHandler]
-    public function create(CreateLocation $location): void
+    public function create(CreateLocation $command): void
     {
         $this->transaction->begin();
         try {
             $entry = Location::create(
-                name: $location->name,
-                seal: $location->seal,
-                street: $location->street,
-                city: $location->city,
-                postal_code: $location->postal_code,
-                fte: $location->fte,
-                fte_consumed: $location->fte_consumed,
-                area: $location->area,
+                name: $command->name,
+                seal: $command->seal,
+                street: $command->street,
+                city: $command->city,
+                postal_code: $command->postal_code,
+                fte: $command->fte,
+                fte_consumed: $command->fte_consumed,
+                area: $command->area,
                 created: Timestamp::now()->getSeconds()
             );
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();
-            $this->response->set($location, $e);
+            $this->response->set($command, $e);
 
             return;
         }
 
         $this->transaction->commit();
-        $this->response->set($location, $entry);
+        $this->response->set($command, $entry);
     }
 
     #[CommandHandler]
-    public function update(UpdateLocation $location): void
+    public function update(UpdateLocation $command): void
     {
         $this->transaction->begin();
         try {
-            $location->model->update(
-                name: $location->name,
-                street: $location->street,
-                city: $location->city,
-                postal_code: $location->postal_code,
-                fte: $location->fte,
-                fte_consumed: $location->fte_consumed,
-                area: $location->area,
+            $command->model->update(
+                name: $command->name,
+                street: $command->street,
+                city: $command->city,
+                postal_code: $command->postal_code,
+                fte: $command->fte,
+                fte_consumed: $command->fte_consumed,
+                area: $command->area,
                 modified: Timestamp::now()->getSeconds()
             );
 
-            if ($location->seal !== $location->model->seal) {
-                $location->model->update(
-                    seal: $location->seal,
+            if ($command->seal !== $command->model->seal) {
+                $command->model->update(
+                    seal: $command->seal,
                 );
             }
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();
-            $this->response->set($location, $e);
+            $this->response->set($command, $e);
 
             return;
         }
 
         $this->transaction->commit();
-        $this->response->set($location, true);
+        $this->response->set($command, true);
     }
 
-    public function delete(DeleteLocation $location): void
+    #[CommandHandler]
+    public function delete(DeleteLocation $command): void
     {
         // TODO: implement when events are ready.
+    }
+
+    #[CommandHandler]
+    public function createReports(CreateReports $command): void
+    {
+        $this->transaction->begin();
+
+        try {
+            $locations = Location::select()->all();
+            $reports = LocationHelper::getAllReportsForCommand($command->year);
+
+            $rawQuery = query(Report::class)->insert(
+                'seal', 'month', 'year', 'time_code'
+            );
+
+            $month = 1;
+            while ($month <= 12) {
+                foreach ($locations as $location) {
+                    if (isset($reports[$month][$location->seal])) {
+                        continue;
+                    }
+
+                    $rawQuery->execute($location->seal, $month, $command->year, TimeCode::fromParts($command->year, $month));
+                }
+                $month++;
+            }
+        } catch (DatabaseException $e) {
+            $this->transaction->rollback();
+            $this->response->set($command, $e);
+            return;
+        }
+
+        $this->transaction->commit();
+        $this->response->set($command, true);
+    }
+
+    #[CommandHandler]
+    public function updateReport(UpdateReport $command): void
+    {
+        $this->transaction->begin();
+
+        try {
+            $command->model->update(
+                status: ReportStatus::isClose($command->model->status) ? ReportStatus::UPDATED->value : $command->model->status,
+                modified: Timestamp::now()->getSeconds(),
+                open_hours: $command->openHours,
+                open_library_hours: $command->openLibraryHours,
+                media_packages: $command->mediaPackages,
+                shifts: $command->shifts,
+                coversReceived: $command->coversReceived,
+                coversGiven: $command->coversGiven,
+            );
+        } catch (ValidationFailed $e) {
+            $this->transaction->rollback();
+            $this->response->set($command, $e);
+            return;
+        }
+
+        $this->transaction->commit();
+        $this->response->set($command, true);
     }
 }

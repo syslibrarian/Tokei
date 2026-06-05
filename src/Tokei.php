@@ -11,7 +11,7 @@ use Twig\Environment;
 use Twig\Extension\AttributeExtension;
 
 #[Singleton]
-class Tokei
+final class Tokei
 {
     public const string VERSION = '0.1.0';
     public const string NAME = 'Tokei';

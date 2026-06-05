@@ -13,7 +13,7 @@ use Throwable;
 
 use function Tempest\View\view;
 
-class AccessDeniedExceptionRenderer implements ExceptionRenderer
+final class AccessDeniedExceptionRenderer implements ExceptionRenderer
 {
     public function canRender(Throwable $throwable, Request $request): bool
     {

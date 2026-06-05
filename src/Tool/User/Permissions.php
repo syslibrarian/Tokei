@@ -71,11 +71,34 @@ final class Permissions
     private function setBasePermissions(): void
     {
         $this->permissions = [
-            'adm.permission.general' => [
-                'can_edit_settings',
-                'can_edit_roles',
-                'can_edit_users',
+            'general' => [
+                'can_create_location',
+                'can_update_location',
             ],
+            'event' => [
+                'can_create_event',
+                'can_update_event',
+                'can_create_institutions',
+                'can_update_institutions',
+            ],
+            'location' => [
+                'can_create_report',
+                'can_update_report',
+                'can_close_report',
+            ],
+            'klr' => [
+                'can_create_klr',
+                'can_update_klr',
+                'can_close_klr'
+            ],
+            'super' => [
+                'can_update_limitless',
+                'can_create_roles',
+                'can_update_roles',
+                'can_reopen_report',
+                'can_reopen_klr',
+                'can_delete'
+            ]
         ];
 
         $this->eventBus->dispatch(new PermissionsPrepare($this));

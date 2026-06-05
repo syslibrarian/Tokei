@@ -6,7 +6,7 @@ namespace Tokei\Model\Location;
 
 use function Tempest\Database\query;
 
-class LocationHelper
+final class LocationHelper
 {
     public static function isExistingSeal(string $seal): bool
     {
@@ -22,5 +22,17 @@ class LocationHelper
         foreach ($locations as $location) {
             yield ['name' => $location->name, 'value' => $location->seal];
         }
+    }
+
+    public static function getAllReportsForCommand(string|int $year): array
+    {
+        $sortedReports = [];
+        $reports = Report::select()->where('year = ?', $year)->all();
+
+        foreach ($reports as $report) {
+            $sortedReports[(int)$report->month][$report->seal] = $report;
+        }
+
+        return $sortedReports;
     }
 }
