@@ -35,4 +35,16 @@ final class LocationHelper
 
         return $sortedReports;
     }
+
+    public static function getLocationsForReports(): array
+    {
+        $locationsSorted = [];
+        $locations = Location::all();
+
+        foreach ($locations as $location) {
+            $locationsSorted[$location->seal] = $location;
+        }
+
+        return $locationsSorted;
+    }
 }

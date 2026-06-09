@@ -19,6 +19,7 @@ final class LocationCreateTable implements DatabaseCommand
             ->primary()
             ->varchar('name')
             ->varchar('seal', 4)
+            ->varchar('klr_code')
             ->varchar('street')
             ->varchar('city')
             ->varchar('postal_code', 5)

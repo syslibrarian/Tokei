@@ -37,11 +37,13 @@ Navigation::create(name: 'adm_header', is_system: true, is_admin: true, view_nam
 Navigation::create(name: 'adm_footer', is_system: true, is_admin: true, view_name: '_navigation.tpl');
 Navigation::create(name: 'adm_general', is_system: true, is_admin: true, view_name: '_navigation.tpl');
 Navigation::create(name: 'adm_events', is_system: true, is_admin: true, view_name: '_navigation.tpl');
+Navigation::create(name: 'adm_reports', is_system: true, is_admin: true, view_name: '_navigation.tpl');
 
 $navigation = Navigation::select()->where('name = ?', 'adm_header')->first();
 
 Item::create(name: 'adm.navigation.general', target: '/adm/', position: 1, navigation_id: $navigation->id->value);
 Item::create(name: 'adm.navigation.events', target: '/adm/events/', position: 2, navigation_id: $navigation->id->value);
+Item::create(name: 'adm.navigation.reports', target: '/adm/reports/', position: 3, navigation_id: $navigation->id->value);
 
 $navigation = Navigation::select()->where('name = ?', 'adm_general')->first();
 
@@ -58,6 +60,11 @@ Item::create(name: 'adm.events.list', target: '/adm/events/list/', position: 1, 
 Item::create(name: 'adm.events.create', target: '/adm/events/create/', position: 2, navigation_id: $navigation->id->value);
 Item::create(name: 'adm.events.institution_list', target: '/adm/events/list-institutions/', position: 3, navigation_id: $navigation->id->value);
 Item::create(name: 'adm.events.institution_create', target: '/adm/events/create-institution/', position: 4, navigation_id: $navigation->id->value);
+
+$navigation = Navigation::select()->where('name = ?', 'adm_reports')->first();
+
+Item::create(name: 'adm.reports.list', target: '/adm/reports/', position: 1, navigation_id: $navigation->id->value);
+Item::create(name: 'adm.reports.klr', target: '/adm/reports/klr/', position: 2, navigation_id: $navigation->id->value);
 
 // User
 $userRole = new UserRoleCreateTable();
@@ -76,6 +83,7 @@ $location->execute();
 Location::create(
     name: 'BZB',
     seal: '713',
+    klr_code: 'BZB',
     street: 'Götzstr. 8/10/12',
     city: 'Berlin',
     postal_code: '12099',

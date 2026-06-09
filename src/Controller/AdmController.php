@@ -133,7 +133,7 @@ final class AdmController extends Controller
         return $this->redirect('/adm/list-roles');
     }
 
-    #[Get(uri: '/list-users/{id:[0-9]+}')]
+    #[Get(uri: '/list-users/{?currentPage:[0-9]+}')]
     public function listUsers(int $currentPage = 1): View
     {
         $this->setActiveSlug('list-users/');
@@ -258,6 +258,7 @@ final class AdmController extends Controller
             fte: (float) $request->get('fte', 0),
             fte_consumed: (float) $request->get('fte_consumed', 0),
             area: (float) $request->get('area', 0),
+            klrCode: trim($request->get('klr_code', '')),
         );
 
         $response = $this->executeCommand($createLocation, $request);
@@ -291,6 +292,7 @@ final class AdmController extends Controller
             fte: (float) $request->get('fte', $location->fte),
             fte_consumed: (float) $request->get('fte_consumed', $location->fte_consumed),
             area: (float) $request->get('area', $location->area),
+            klrCode: trim($request->get('klrCode', $location->klr_code)),
         );
 
         $response = $this->executeCommand($updateLocation, $request);
@@ -311,7 +313,7 @@ final class AdmController extends Controller
     public function deleteLocation(int $id): Redirect
     {
         $location = Location::select()->where('id = ?', $id)->first();
-        $this->checkModel($location, Location::class);
+        //$this->checkModel($location, Location::class);
         $response = $this->executeCommand(new DeleteLocation($location), onPost: false);
 
         return $this->redirect('/adm/list-locations/');

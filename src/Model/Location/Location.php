@@ -39,4 +39,6 @@ final class Location
     public int $created;
 
     public ?int $modified;
+
+    public string $klr_code;
 }

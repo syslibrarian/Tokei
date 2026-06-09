@@ -18,6 +18,7 @@ final class UpdateLocation implements Command
         public string $postal_code,
         public float $fte,
         public float $fte_consumed,
-        public float $area
+        public float $area,
+        public string $klrCode,
     ) {}
 }

@@ -92,4 +92,31 @@ trait IsAdmin
 
         return $model;
     }
+
+    /**
+     * @template TModel
+     * @param string $seal
+     * @param class-string<TModel> $modelClass
+     * @param ?string $timeCode
+     * @return TModel
+     * @throws NotFoundException
+     */
+    protected function getBySeal(string $seal, string $modelClass, ?string $timeCode = null): object
+    {
+        $raw = $modelClass::select();
+
+        if ($timeCode === null) {
+            $raw->where('seal = ?', $seal);
+        } else {
+            $raw->where('seal = ? AND time_code = ?', $seal, $timeCode);
+        }
+
+        $model = $raw->first();
+
+        if ($model === null) {
+            throw new NotFoundException($modelClass, $this->getBaseSlug());
+        }
+
+        return $model;
+    }
 }

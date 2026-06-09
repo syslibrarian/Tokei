@@ -30,6 +30,13 @@
     ) }}
 
     {{ f.text(
+        name: "klrCode",
+        value: location.klrCode,
+        label: "adm.location_klr_code",
+        errorMsg: errors.seal ?? ''
+    ) }}
+
+    {{ f.text(
         name: "street",
         value: location.street,
         label: "adm.location_street",

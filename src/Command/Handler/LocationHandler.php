@@ -40,6 +40,7 @@ final class LocationHandler
                 fte: $command->fte,
                 fte_consumed: $command->fte_consumed,
                 area: $command->area,
+                klr_code: $command->klrCode,
                 created: Timestamp::now()->getSeconds()
             );
         } catch (ValidationFailed $e) {
@@ -66,6 +67,7 @@ final class LocationHandler
                 fte: $command->fte,
                 fte_consumed: $command->fte_consumed,
                 area: $command->area,
+                klr_code: $command->klrCode,
                 modified: Timestamp::now()->getSeconds()
             );
 
@@ -139,12 +141,15 @@ final class LocationHandler
             $command->model->update(
                 status: ReportStatus::isClose($command->model->status) ? ReportStatus::UPDATED->value : $command->model->status,
                 modified: Timestamp::now()->getSeconds(),
+                circulations: $command->circulations,
+                visits: $command->visits,
+                visits_manual: $command->visitsManual,
                 open_hours: $command->openHours,
                 open_library_hours: $command->openLibraryHours,
                 media_packages: $command->mediaPackages,
                 shifts: $command->shifts,
-                coversReceived: $command->coversReceived,
-                coversGiven: $command->coversGiven,
+                covers_received: $command->coversReceived,
+                covers_given: $command->coversGiven,
             );
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();
