@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Tokei\Controller;
 
+use Tempest\DateTime\DateTime;
+use Tokei\Command\Klr\CreateMonths;
 use Tokei\Command\Location\CreateLocation;
+use Tokei\Command\Location\CreateReports;
 use Tokei\Command\Location\DeleteLocation;
 use Tokei\Command\Location\UpdateLocation;
 use Tokei\Command\User\CreateRole;
@@ -312,5 +315,24 @@ final class AdmController extends Controller
         $response = $this->executeCommand(new DeleteLocation($location), onPost: false);
 
         return $this->redirect('/adm/list-locations/');
+    }
+
+    #[Get(uri: '/create-reports/{?year:[0-9]{4}}')]
+    public function createReports(Request $request, int $year = 0): Redirect
+    {
+        $validYear = fn(int $year) => ($year >= 2026); // for later - get installation year for checkup.
+        $year = $validYear($year) ? $year : DateTime::now()->getYear();
+
+        try {
+            $reportCommand = new CreateReports($year);
+            command($reportCommand); // fire and foreget.
+
+            $klrCommand = new CreateMonths($year);
+            command($klrCommand); // fire and forget.
+        } catch (\Throwable $e) {
+            $this->session->flash('error', 'create_reports');
+        }
+
+        return $this->redirect('/adm/');
     }
 }

@@ -100,9 +100,7 @@ final class LocationHandler
             $locations = Location::select()->all();
             $reports = LocationHelper::getAllReportsForCommand($command->year);
 
-            $rawQuery = query(Report::class)->insert(
-                'seal', 'month', 'year', 'time_code'
-            );
+            $rawQuery = query(Report::class);
 
             $month = 1;
             while ($month <= 12) {
@@ -111,7 +109,14 @@ final class LocationHandler
                         continue;
                     }
 
-                    $rawQuery->execute($location->seal, $month, $command->year, TimeCode::fromParts($command->year, $month));
+                    $rawQuery->insert(
+                        status: 0,
+                        seal: $location->seal,
+                        month: $month,
+                        year: $command->year,
+                        time_code: TimeCode::fromParts($command->year, $month),
+                        created: Timestamp::now()->getSeconds()
+                    )->execute();
                 }
                 $month++;
             }

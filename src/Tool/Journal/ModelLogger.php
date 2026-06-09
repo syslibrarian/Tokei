@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Tool\Journal\ModelLogger;
+namespace Tokei\Tool\Journal;
 
 use Tempest\Database\PrimaryKey;
 use Tempest\DateTime\Timestamp;

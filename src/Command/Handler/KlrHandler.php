@@ -33,9 +33,7 @@ final class KlrHandler
             $locations = Location::select()->all();
             $existingMonths = KlrHelper::getAllMonthsForCommand($command->year);
 
-            $rawQuery = query(Month::class)->insert(
-                'status', 'seal', 'month', 'year', 'time_code', 'created'
-            );
+            $rawQuery = query(Month::class);
 
             $month = 1;
             while ($month <= 12) {
@@ -44,14 +42,14 @@ final class KlrHandler
                         continue;
                     }
 
-                    $rawQuery->execute(
-                        ReportStatus::OPEN->value,
-                        $location->seal,
-                        $month,
-                        $command->year,
-                        TimeCode::fromParts($command->year, $month),
-                        Timestamp::now()->getSeconds()
-                    );
+                    $rawQuery->insert(
+                        status: ReportStatus::OPEN->value,
+                        seal: $location->seal,
+                        month: $month,
+                        year: $command->year,
+                        time_code: TimeCode::fromParts($command->year, $month),
+                        created: Timestamp::now()->getSeconds()
+                    )->execute();
                 }
                 $month++;
             }

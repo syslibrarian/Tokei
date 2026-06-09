@@ -4,14 +4,19 @@ declare(strict_types=1);
 // This file is only for fast dev.
 require_once __DIR__ . '/vendor/autoload.php';
 
+
+use Tempest\DateTime\Timestamp;
+use Tokei\Model\Location\Location;
 use Tokei\Model\Navigation\Navigation;
 use Tokei\Model\Navigation\Item;
+use Tokei\Tool\Installer\Database\CreateKlrMonthTable;
 use Tokei\Tool\Installer\Database\EventCreateTable;
 use Tokei\Tool\Installer\Database\InstitutionCreateTable;
 use Tokei\Tool\Installer\Database\LocationCreateTable;
 use Tokei\Tool\Installer\Database\NavigationCreateTable;
 use Tokei\Tool\Installer\Database\NavigationItemCreateTable;
 use Tokei\Tool\Installer\Database\PageCreateTable;
+use Tokei\Tool\Installer\Database\ReportCreateTable;
 use Tokei\Tool\Installer\Database\UserCreateTable;
 use Tokei\Tool\Installer\Database\UserPermissionCreateTable;
 use Tokei\Tool\Installer\Database\UserRoleCreateTable;
@@ -68,6 +73,18 @@ $user->execute();
 $location = new LocationCreateTable();
 $location->execute();
 
+Location::create(
+    name: 'BZB',
+    seal: '713',
+    street: 'Götzstr. 8/10/12',
+    city: 'Berlin',
+    postal_code: '12099',
+    fte: 0,
+    fte_consumed: 0,
+    area: 0,
+    created: TimeStamp::now()->getSeconds()
+);
+
 // institutions
 $institution = new InstitutionCreateTable();
 $institution->execute();
@@ -75,3 +92,11 @@ $institution->execute();
 // events
 $events = new EventCreateTable();
 $events->execute();
+
+// reports
+$report = new ReportCreateTable();
+$report->execute();
+
+// klr
+$klrMonth = new CreateKlrMonthTable();
+$klrMonth->execute();
