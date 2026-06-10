@@ -41,11 +41,44 @@ final class AdmEventController extends Controller
         return '/adm/events/';
     }
 
-    #[Get(uri: '/{?seal:[0-9]{3}[a-z]?}/{?no:[0-9]+}/')]
+    #[
+        Get(uri: '/{?seal:[0-9]{3}[a-z]?}/{?no:[0-9]+}/'),
+        Get(uri: '/{no:[0-9]+}/')
+    ]
     public function index(?string $seal = null, int $no = 1): View
     {
-        $this->setACtiveSlug('');
-        $location = ($seal !== null) ? $this->getBySeal($seal) : null;
+        $this->setACtiveSlug('list/');
+        $location = ($seal !== null) ? $this->getBySeal($seal, Event::class) : null;
+
+        $pagination = new Pagination(
+            pageNo: $no,
+            maxItems: ($location === null) ? Event::count()->execute() : Event::count()->where('seal', $location->seal)->execute(),
+            uri: $this->getBaseSlug() . (($location !== null) ? $location->seal . '/' : '') . '{no}'
+        );
+
+        $eventsRaw = Event::select();
+        if ($location !== null) {
+            $eventsRaw = $eventsRaw->where('seal', $location->seal);
+        }
+        $eventsRaw->orderBy('time_start', Direction::DESC)
+            ->offset($pagination->offset)
+            ->limit($pagination->limit);
+
+        return $this->view(
+            '@adm/events.tpl',
+            location: $location,
+            events: $eventsRaw->all()
+        );
+    }
+
+    #[
+        Get(uri: '/list/{?seal:[0-9]{3}[a-z]?}/{?no:[0-9]+}/'),
+        Get(uri: '/list/{no:[0-9]+}/')
+    ]
+    public function list(?string $seal = null, int $no = 1): View
+    {
+        $this->setACtiveSlug('list/');
+        $location = ($seal !== null) ? $this->getBySeal($seal, Event::class) : null;
 
         $pagination = new Pagination(
             pageNo: $no,

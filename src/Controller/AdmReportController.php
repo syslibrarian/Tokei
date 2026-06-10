@@ -18,7 +18,6 @@ use Tokei\Model\Klr\Month;
 use Tokei\Model\Location\Location;
 use Tokei\Model\Location\LocationHelper;
 use Tokei\Model\Location\Report;
-use Tokei\Model\TimeCode;
 
 #[Prefix('/adm/reports')]
 final class AdmReportController extends Controller
@@ -65,7 +64,10 @@ final class AdmReportController extends Controller
         );
     }
 
-    #[Get('/update/{timeCode:[0-9]{4}-[0-9]{2}}/{seal:[0-9]{3}[a-z]?}/'), Post('/update/{timeCode:[0-9]{4}-[0-9]{2}}/{seal:[0-9]{3}[a-z]}/')]
+    #[
+        Get('/update/{timeCode:[0-9]{4}-[0-9]{2}}/{seal:[0-9]{3}[a-z]?}/'),
+        Post('/update/{timeCode:[0-9]{4}-[0-9]{2}}/{seal:[0-9]{3}[a-z]}/')
+    ]
     public function update(string $timeCode, string $seal, Request $request): View
     {
         $this->setActiveSlug('');

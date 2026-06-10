@@ -16,6 +16,7 @@ use Tokei\Model\Event\DBSSection;
 use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
 use Tokei\Model\TimeCode;
+
 use function Tempest\Container\get;
 
 final class EventHandler
@@ -40,7 +41,7 @@ final class EventHandler
                 type: $command->type,
                 time_start: $startTime,
                 time_end: $endTime,
-                time_code: TimeCode::fromTimestamp($startTime),
+                time_code: TimeCode::fromTimestamp($startTime)->timeCode,
                 hours: EventHelper::calculateHours($startTime, $endTime),
                 staff: $command->staff,
                 staff_external: $command->staff_external,
@@ -49,7 +50,8 @@ final class EventHandler
                 description: $command->description,
                 online: $command->online,
                 state: $command->state,
-                created: Timestamp::now()->getSeconds()
+                created: Timestamp::now()->getSeconds(),
+                audience: $command->audience,
             );
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();
