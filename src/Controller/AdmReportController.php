@@ -35,7 +35,7 @@ final class AdmReportController extends Controller
         return '/adm/reports/';
     }
 
-    #[Get('/{?year:[0-9]{4}}/{?seal:[0-9]{3}[a-z]{0,1}}')]
+    #[Get('/{?year:[0-9]{4}}/{?seal:[0-9]{3}[a-z]?}')]
     public function index(?int $year = null, ?string $seal = null): View
     {
         $this->setActiveSlug('');
@@ -65,7 +65,7 @@ final class AdmReportController extends Controller
         );
     }
 
-    #[Get('/update/{timeCode:[0-9]{4}-[0-9]{2}}/{seal:[0-9]{3}[a-z]{0,1}}/'), Post('/update/{timeCode:[0-9]{4}-[0-9]{2}}/{seal:[0-9]{3}[a-z]{0,1}}/')]
+    #[Get('/update/{timeCode:[0-9]{4}-[0-9]{2}}/{seal:[0-9]{3}[a-z]?}/'), Post('/update/{timeCode:[0-9]{4}-[0-9]{2}}/{seal:[0-9]{3}[a-z]}/')]
     public function update(string $timeCode, string $seal, Request $request): View
     {
         $this->setActiveSlug('');
@@ -107,7 +107,7 @@ final class AdmReportController extends Controller
         $locations = LocationHelper::getLocationsForReports();
 
         return $this->view(
-            '@adm/showkKlr.tpl',
+            '@adm/showKlr.tpl',
             locations: $locations,
             months: $months,
         );

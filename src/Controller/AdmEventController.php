@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tokei\Controller;
 
+use Tempest\Database\Direction;
 use Tempest\Http\Request;
 use Tempest\Http\Responses\Redirect;
 use Tempest\Router\Get;
@@ -40,10 +41,31 @@ final class AdmEventController extends Controller
         return '/adm/events/';
     }
 
-    #[Get(uri: '/')]
-    public function index(): View
+    #[Get(uri: '/{?seal:[0-9]{3}[a-z]?}/{?no:[0-9]+}/')]
+    public function index(?string $seal = null, int $no = 1): View
     {
-        return $this->view('@adm/events.tpl');
+        $this->setACtiveSlug('');
+        $location = ($seal !== null) ? $this->getBySeal($seal) : null;
+
+        $pagination = new Pagination(
+            pageNo: $no,
+            maxItems: ($location === null) ? Event::count()->execute() : Event::count()->where('seal', $location->seal)->execute(),
+            uri: $this->getBaseSlug() . (($location !== null) ? $location->seal . '/' : '') . '{no}'
+        );
+
+        $eventsRaw = Event::select();
+        if ($location !== null) {
+            $eventsRaw = $eventsRaw->where('seal', $location->seal);
+        }
+        $eventsRaw->orderBy('time_start', Direction::DESC)
+            ->offset($pagination->offset)
+            ->limit($pagination->limit);
+
+        return $this->view(
+            '@adm/events.tpl',
+            location: $location,
+            events: $eventsRaw->all()
+        );
     }
 
     #[Get(uri: '/list-institutions/{?no:[0-9]+}/')]

@@ -31,6 +31,29 @@ final class Tokei
         $this->twig->addGlobal('_tokei', $this);
     }
 
+    /**
+     * @param bool $withBase
+     * @param bool $withCurrent
+     * @param string $addUri
+     * @param mixed ...$parts
+     * @return string
+     */
+    public function getUri(bool $withBase = true, bool $withCurrent = true, string $uri = '', ... $parts): string
+    {
+        $base = $this->data['route_base'] ?? '';
+        $current = $this->data['route_current'] ?? '';
+
+        $uri = (($withBase) ? $base : '/')
+            . (($withCurrent) ? $current : '')
+            . ((str_ends_with($uri, '/')) ? $uri : $uri . '/');
+
+        foreach ($parts as $part) {
+            $uri.= $part . '/';
+        }
+
+        return $uri;
+    }
+
     public function add(string $key, mixed $value): static
     {
         $this->data[$key] = $value;

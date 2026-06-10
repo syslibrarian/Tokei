@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tokei\Model\Event;
 
 use Tempest\Database\IsDatabaseModel;
+use Tempest\Database\Table;
 use Tempest\Database\Virtual;
 use Tempest\Validation\Rules\IsNotEmptyString;
 use Tempest\Validation\Rules\MatchesRegEx;
@@ -12,6 +13,7 @@ use Tokei\Extension\Validation\Rules\IsDBSType;
 use Tokei\Extension\Validation\Rules\IsValidEventState;
 use Tokei\Extension\Validation\Rules\IsValidOnlineState;
 
+#[Table(name: 'event')]
 final class Event
 {
     use IsDatabaseModel;

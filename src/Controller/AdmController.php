@@ -16,7 +16,9 @@ use Tokei\Command\User\DeleteRole;
 use Tokei\Command\User\DeleteUser;
 use Tokei\Command\User\UpdateRole;
 use Tokei\Command\User\UpdateUser;
+use Tokei\Model\Event\EventHelper;
 use Tokei\Model\Location\Location;
+use Tokei\Model\Location\ReportHelper;
 use Tokei\Model\User\Role;
 use Tokei\Model\User\RoleHelper;
 use Tokei\Model\User\User;
@@ -220,6 +222,23 @@ final class AdmController extends Controller
         command($deleteUser);
 
         return $this->redirect('/adm/list-user');
+    }
+
+    #[Get(uri: '/show-location/{seal:[0-9]{3}[a-z]?}/')]
+    public function showLocation(string $seal): View
+    {
+        $location = $this->getBySeal($seal, Location::class);
+        $events = EventHelper::getEventsByPeriod($location->seal);
+        $reports = ReportHelper::getReportsFor($location->seal);
+        $report = ReportHelper::getReportFor($location->seal);
+
+        return $this->view(
+            '@adm/showLocation.tpl',
+            location: $location,
+            events: $events,
+            reports: $reports,
+            lastReport: $report,
+        );
     }
 
     #[Get(uri: '/list-locations/{?no:[0-9]+}')]

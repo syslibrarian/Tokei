@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tokei\Model\Event;
 
+use Tempest\Database\Direction;
 use Tempest\DateTime\DateTime;
 use Tempest\DateTime\Timezone;
 
@@ -27,6 +28,30 @@ final class EventHelper
     {
         $dateFromForm = str_replace('T', ' ', $dateFromForm);
         return DateTime::fromPattern($dateFromForm, 'yyyy-MM-dd HH:mm')->getTimestamp()->getSeconds();
+    }
+
+    public static function getEventsByPeriod(?string $seal = '', ?int $startTime = null, ?int $endTime = null): array
+    {
+        // now startime - last 30 days.
+        if ($startTime === null) {
+            $startTime = DateTime::now()->minusDays(30)->getTimestamp()->getSeconds();
+            $endTime = null;
+        }
+
+        // ... but it is safe!
+        if ($endTime !== null && $endTime < $startTime) {
+            $tmp = $startTime;
+            $startTime = $endTime;
+            $endTime = $tmp;
+        }
+
+        if ($endTime !== null) {
+            $eventRaw = Event::select()->where('time_start BETWEEN ? and ?', $startTime, $endTime)->orderBy('time_start', Direction::DESC);
+        } else {
+            $eventRaw = Event::select()->where('time_start >= ?', $startTime)->orderBy('time_start', Direction::DESC);
+        }
+
+        return $eventRaw->andWhere('seal', $seal)->all();
     }
 
     public static function calculateEnd(int $startTime, string $endTime): int

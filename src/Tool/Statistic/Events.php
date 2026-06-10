@@ -60,7 +60,7 @@ final class Events
     private function loadEvents(): void
     {
         $this->events = Event::select()
-            ->where('seal = ? AND time_code = ?', $this->seal, $this->timeCode)
+            ->where('time_code = ? AND seal = ?', $this->timeCode, $this->seal)
             ->all();
 
         if (!empty($this->events)) {
