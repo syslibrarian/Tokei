@@ -241,7 +241,7 @@ final class AdmEventController extends Controller
             seal: trim($request->get('seal', $model->seal)),
             type: trim($request->get('type', $model->type)),
             startDateTime: trim($request->get('startDateTime', \DateTime::createFromTimestamp($model->time_start)->format('Y-m-d\TH:i'))),
-            endTime: trim($request->get('endTime', \DateTime::createFromTimestamp($model->time_start)->format('H:i'))),
+            endTime: trim($request->get('endTime', \DateTime::createFromTimestamp($model->time_end)->format('H:i'))),
             staff: (int) $request->get('staff', $model->staff),
             staff_external: (int) $request->get('staffExternal', $model->staff_external),
             attendees: (int) $request->get('attendees', $model->attendees),

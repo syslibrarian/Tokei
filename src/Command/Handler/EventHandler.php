@@ -80,7 +80,7 @@ final class EventHandler
                 type: $command->type,
                 time_start: $startTime,
                 time_end: $endTime,
-                time_code: TimeCode::fromTimestamp($startTime),
+                time_code: TimeCode::fromTimestamp($startTime)->timeCode,
                 hours: EventHelper::calculateHours($startTime, $endTime),
                 staff: $command->staff,
                 staff_external: $command->staff_external,

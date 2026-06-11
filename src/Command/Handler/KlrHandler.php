@@ -69,7 +69,7 @@ final class KlrHandler
         $this->transaction->begin();
         try {
             $timeCode = TimeCode::fromParts($command->year, $command->month);
-            $reports = Report::select()->where('timeCode', $timeCode)->all();
+            $reports = Report::select()->where('time_code', $timeCode)->all();
             $months = KlrHelper::getSortedMonths((string) $timeCode);
 
             foreach ($reports as $report) {
