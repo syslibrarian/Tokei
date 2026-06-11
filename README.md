@@ -4,7 +4,7 @@ Das Projekt Tokei (japanisch für Statistik) soll der Stadtbibliothek Tempelhof-
 
 ## Modul 1 - Veranstaltungen
 
-Das erste Modul soll alle Veranstaltungen erfassen - dabei werden sowohl medien- und bibliothekspädagogische Angebote als auch andere Veranstaltungen. Die Kerndaten sind dabei Veranstaltungsart, Teilnehmer, Personal, Fremdpersonal sowie Start- und Endzeitpunkt. Um die Arbeit der Kinder- und Jugendabteilung zu vereinfachen, können Kindergräten und Schulen definiert werden. Aus diesen Daten kann die Teilnehmerstatistik je nach Standort automatisch ermittelt werden.
+Das erste Modul soll alle Veranstaltungen erfassen - dabei werden sowohl medien- und bibliothekspädagogische Angebote als auch andere Veranstaltungen. Die Kerndaten sind dabei Titel oder Gruppen, Teilnehmer, Personal, Fremdpersonal sowie Start- und Endzeitpunkt. Um die Arbeit der Kinder- und Jugendabteilung zu vereinfachen, können Kindergärten und Schulen definiert werden. Aus diesen Daten kann die Teilnehmerstatistik je nach Standort automatisch ermittelt werden.
 Der aktuelle Fokus der Entwicklung liegt dabei zwei bisher verwendete Excel-Dateien im Fachbereich zu ersetzen und für die Kinder- und Jugendabteilung einen Mehrwert zu schaffen, in dem auch Absagen und Nichterscheinen statistisch erfasst werden.
 Die Zahlen werden nach den Grund- und Leistungsdaten (GLD) sowie der deutschen Bibliotheksstatistik (DBS) aufbereitet und ausgeben.
 
@@ -14,12 +14,12 @@ Das zweite Modul umfasst für den Fachbereich die Erfassung der Standorte. Diese
 
 ## Module 3 - Ausgabe KLR für das Bezirksamt
 
-Das dritte Modul bereitet alle Daten - Veranstaltungen sowie  aus der Monatsstatistik nach den Standorten des Fachbereiches auf und stellt die KLR als fortlaufende monatlich ausdruckbare Tabelle da, die über die Browser-Funktion ausgedrückt und abgerufen werden kann.
+Das dritte Modul bereitet alle Daten - Veranstaltungen sowie aus der Monatsstatistik nach den Standorten des Fachbereiches auf und stellt die KLR als fortlaufende monatlich ausdruckbare Tabelle da, die über die Browser-Funktion ausgedrückt und abgerufen werden kann.
 
 ## Export von statistischen Daten
 
 Alle statistischen Daten können in einem CSV sowie JSON-Format exportiert werden.
 
 ## Projektverantwortlich
- * Karsten Achterratn (Projektleitung)
- * Andreas Hundacker (Qualitätssicherung)
+* Karsten Achterratn (Projektleitung)
+* Andreas Hundacker (Qualitätssicherung)
