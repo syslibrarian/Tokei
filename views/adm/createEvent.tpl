@@ -101,6 +101,4 @@
     {{ t.modelInfo(event.model) }}
 
     {{ f.form_end() }}
-
-    <code attribut="{{ '<$%"\''|translateSecure(context: 'html') }}"></code>
 {% endblock %}
