@@ -50,7 +50,7 @@
         value: location.fte,
         placeholder: "0.0",
         step: "0.25",
-        suffix: 'adm.location_fte'
+        suffix: 'fte_suffix'|translate
     ) }}
 
     {{ f.number(
@@ -58,7 +58,7 @@
         value: location.fte_consumed,
         placeholder: "0.0",
         step: "0.25",
-        suffix: 'adm.location_fte'
+        suffix: 'fte_suffix'|translate
     ) }}
 
     {{ f.number(
@@ -66,7 +66,7 @@
         value: location.area,
         placeholder: "0.0",
         step: "0.25",
-        suffix: "m²"
+        suffix: "area_suffix"|translate
     ) }}
 
     {{ t.modelInfo(location.model) }}

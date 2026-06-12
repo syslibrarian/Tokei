@@ -7,8 +7,8 @@ namespace Tokei\Model\Institution;
 final class Type
 {
     protected static $types = [
-        1 => 'pre_school',
-        2 => 'school'
+        1 => 'tokei.adm.events.institution.type_pre_school',
+        2 => 'tokei.adm.events.institution.type_school'
     ];
 
     public static function checkType(int $type): bool

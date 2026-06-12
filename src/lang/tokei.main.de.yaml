@@ -1,0 +1,4 @@
+tokei:
+  form:
+    submit: 'Absenden'
+    reset: 'Zurücksetzen'

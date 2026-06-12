@@ -1,0 +1,22 @@
+tokei:
+  adm:
+    reports:
+      coversGiven_desc: 'In Schichten, {#strong}NICHT{/strong} Stunden.'
+      coversGiven: 'Vertretungen gegeben'
+      coversReceived_desc: 'In Schichten, {#strong}NICHT{/strong} Stunden.'
+      coversReceived: 'Vertretungen erhalten'
+      shifts_desc: ''
+      shifts: 'Schichten'
+      mediaPackages_desc: ''
+      mediaPackages: 'Medienpakete'
+      openLibraryHours_desc: 'Öffnungsstunden mit ehrenamtlichen Personal, Wachschutz oder Automatisierung'
+      openHours_desc: 'Öffnungsstunden mit regulärem Bibliothekspersonal'
+      openLibraryHours: 'Öffnungsstunden (Open Library)'
+      openHours: 'Öffnungsstunden'
+      visitsManual_desc: 'Besuche die durch Strichlisten oder Klicker erfasst wurden und nicht durch die Sensoren. (Primär für die Fahrbibliothek)'
+      visitsManual: 'Besuche (Manuell)'
+      visits_desc: ''
+      visits: 'Besuche (Sensoren)'
+      circulations_desc: ''
+      circulations: 'Ausleihen'
+      update: 'Monatstatistik für {$name} - {$month} / {$year}'

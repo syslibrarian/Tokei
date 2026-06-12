@@ -1,5 +1,7 @@
 {% extends "@adm/index.tpl" %}
-{% set intl_category %}tokei.adm.reports{% endset %}
+{% if intl_category == '' %}
+    {% set intl_category %}tokei.adm.reports{% endset %}
+{% endif %}
 
 {% block page_navigation %}
 <nav class="adm-navigation">

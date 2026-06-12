@@ -1,0 +1,18 @@
+tokei:
+  adm:
+    institution:
+      phone_desc: ''
+      phone: 'Telefon'
+      email_desc: ''
+      email: 'E-Mail'
+      educator_desc: ''
+      educator: 'Erzieher:in'
+      name_desc: ''
+      name: 'Name der Einrichtung'
+      type_desc: ''
+      type_school: 'Schule'
+      type_pre_school: 'Kindergarten / Kita'
+      type: 'Art der Einrichtung'
+      seal_desc: ''
+      seal: 'Zuständiger Standort'
+      update: 'Bildungseinrichtung bearbeiten - {$name}'

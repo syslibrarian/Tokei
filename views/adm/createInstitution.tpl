@@ -1,8 +1,9 @@
 {% extends '@adm/events.tpl' %}
 {% import '_form.tpl' as f %}
 {% import '_tools.tpl' as t %}
+{% set intl_category %}tokei.adm.institution{% endset %}
 
-{% block title %}{{ 'create_institution'|translate }}{% endblock %}
+{% block title %}{{ 'create'|translate }}{% endblock %}
 {% set target = target ?? '/adm/events/create-institution/' %}
 
 {% block content %}

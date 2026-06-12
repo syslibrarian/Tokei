@@ -2,7 +2,7 @@
 {% import '_form.tpl' as f %}
 {% import '_tools.tpl' as t %}
 
-{% block title %}{{ 'update'|translate(name: location.name) }}{% endblock %}
+{% block title %}{{ 'update'|translate(name: location.name, year: report.model.year, month: report.model.month) }}{% endblock %}
 {% set target = '/adm/reports/update/' ~ report.model.time_code ~ '/' ~ report.model.seal %}
 
 {% block notes %}
@@ -81,5 +81,5 @@
         ) }}
 
     {# TODO implement Event overview #}
-    {{ f.form_end('adm.form_submit'|translate, 'adm.form_reset'|translate) }}
+    {{ f.form_end() }}
 {% endblock %}

@@ -1,0 +1,26 @@
+tokei:
+  adm:
+    location:
+      upate: 'Standort aktualisieren - {$name}'
+      area_suffix: 'm²'
+      fte_suffix: 'Vollzeit Equivalent'
+      area_desc: ''
+      area: 'Fläche'
+      fte_consumed_desc: ''
+      fte_consumed: 'Vollzeitstellen (Besetzt)'
+      fte_desc: ''
+      fte: 'Vollzeitstellen (Nominal)'
+      postal_code_desc: ''
+      postal_code: 'Postleitzahl'
+      city_desc: ''
+      city: 'Stadt'
+      street_desc: ''
+      street: 'Straße und Hausnummer'
+      klrCode_desc: ''
+      klrCode: 'KLR-Code für Amt'
+      seal_desc: 'Bibliothekssiegel'
+      seal: 'Siegel'
+      name_desc: ''
+      name: 'Name des Standortes'
+      create: 'Standort anlegen'
+      update:

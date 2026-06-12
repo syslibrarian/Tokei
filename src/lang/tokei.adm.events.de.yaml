@@ -1,6 +1,7 @@
 tokei:
   adm:
     events:
+      update: 'Veranstaltung bearbeiten - {$title}'
       attendees: 'Anzahl der Teilnehmer:innen'
       attendees_desc: 'Wie viele Teilnehmer:innen haben an der Veranstaltung teilgenommen. Die Zuordnung zur Zielgruppe erfolgt automatisch.'
       audience: 'Zielgruppe'
