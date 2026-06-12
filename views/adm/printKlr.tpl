@@ -6,7 +6,7 @@
     <body>
         <div>
                 <header>
-                    <h1>{{ "adm.reports.klr"|translate }} - {{ year }}</h1>
+                    <h1>{{ "adm.reports.klr"|translateFull }} - {{ year }}</h1>
                 </header>
 
 

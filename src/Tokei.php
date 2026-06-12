@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tokei;
 
+use Tempest\Intl\Translator;
 use Tokei\Extension\Twig\TokeiTwigBaseExtension;
 use Tempest\Container\Singleton;
 use Tempest\Http\Session\Session;
@@ -21,6 +22,7 @@ final class Tokei
     public function __construct(
         protected(set) Environment $twig,
         protected(set) Session $session,
+        protected(set) Translator $translator,
     ) {
         $this->extendTwig();
     }

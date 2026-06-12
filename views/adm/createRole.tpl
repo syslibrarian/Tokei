@@ -2,14 +2,13 @@
 {% import '_form.tpl' as f %}
 {% import '_tools.tpl' as t %}
 
-{% block title %}{{ 'adm.create_role_title'|translate }}{% endblock %}
-{% set target = target ?? '/adm/create-role/' %}
-
-{% block notes %}
-    {% if errors %}
-        {{ note("adm.error"|translate, 'error') }}
-    {% endif %}
+{% block meta %}
+    {{ parent() }}
+    {{ translateBase('tokei.adm.role') }}
 {% endblock %}
+
+{% block title %}{{ 'create'|translate }}{% endblock %}
+{% set target = target ?? '/adm/create-role/' %}
 
 
 {% block content %}
@@ -18,7 +17,6 @@
     {{ f.text(
         'name',
         role.name,
-        'adm.role_name',
         errorMsg: errors.name ?? ''
     ) }}
 
@@ -28,7 +26,6 @@
                 {{ f.checkbox(
                     permission.name,
                     permission.value,
-                    'adm.role_permission_' ~ permission.name
                 ) }}
             {% endfor %}
         {% endset %}
@@ -36,5 +33,7 @@
         {{ f.fieldset(group.name, permissions_form) }}
     {% endfor %}
 
-    {{ f.form_end('adm.form_submit'|translate, 'adm.form_reset'|translate) }}
+    {{ t.modelInfo(role.model) }}
+
+    {{ f.form_end() }}
 {% endblock %}

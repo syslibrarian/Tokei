@@ -1,7 +1,6 @@
 {% import "_tools.tpl" as t %}
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en">{# todo replace with correct language #}
     <head>
         <meta charset="UTF-8"/>
         <title>{% block title %}{% endblock %}</title>

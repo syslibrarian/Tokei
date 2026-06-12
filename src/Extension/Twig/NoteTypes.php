@@ -23,7 +23,6 @@ enum NoteTypes: string
             $name === self::WARNING->value => self::WARNING->getClass(),
             $name === self::ERROR->value => self::ERROR->getClass(),
             $name === self::SUCCESS->value => self::SUCCESS->getClass(),
-            $name === self::DEV_PANDI->value => self::DEV_PANDI->getClass(),
             default => self::INFO->getClass(),
         };
     }

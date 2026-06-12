@@ -1,5 +1,5 @@
 {% extends '@adm/createLocation.tpl' %}
-{% block title %}{{ location.name }} - {{ 'adm.location_update'|translate }}{% endblock %}
+{% block title %}{{ 'upate'|translate(name: location.model.name) }}{% endblock %}
 {% set target = '/adm/update-location/' ~ location.model.id %}
 {% block notes %}
     {% if success %}

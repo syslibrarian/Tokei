@@ -11,15 +11,15 @@ use Tempest\DateTime\Timezone;
 final class EventHelper
 {
     public const array STATE = [
-        1 => 'occurred',
-        2 => 'canceled',
-        3 => 'absent'
+        1 => 'tokei.adm.events.status_occurred',
+        2 => 'tokei.adm.events.status_canceled',
+        3 => 'tokei.adm.events.status_absent'
     ];
 
     public const array ONLINE = [
-        1 => 'normal',
-        2 => 'hybrid',
-        3 => 'only'
+        1 => 'tokei.adm.events.online_normal',
+        2 => 'tokei.adm.events.online_hybrid',
+        3 => 'tokei.adm.events.online_only'
     ];
 
     public const array AUDIENCE = ['young', 'adult'];
@@ -106,7 +106,7 @@ final class EventHelper
     public static function getAudienceForForm(): \Generator
     {
         foreach (self::AUDIENCE as $value) {
-            yield ['value' => $value, 'name' => $value];
+            yield ['value' => $value, 'name' => 'tokei.adm.events.audience_' . $value];
         }
     }
 }

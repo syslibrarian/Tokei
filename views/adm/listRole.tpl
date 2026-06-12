@@ -1,7 +1,7 @@
 {% extends '@adm/index.tpl' %}
 {% import '_tools.tpl' as t %}
 
-{% block title %}{{ 'adm.list_role_title'|translate }}{% endblock %}
+{% block title %}{{ 'adm.list_roles'|translate }}{% endblock %}
 
 {% block content %}
     {% block pagination %}{{ pagination|raw }}{% endblock %}
@@ -22,7 +22,7 @@
                     </section>
                 </li>
             {% else %}
-                <li><section class="fieldTitle">{{ "adm.no_entries"|translate }}</section></li>
+                <li><section class="fieldTitle">{{ "adm.no_entries"|translateFull }}</section></li>
             {% endfor %}
         </ol>
     </div>

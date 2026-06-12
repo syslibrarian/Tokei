@@ -1,4 +1,5 @@
 {% extends "@adm/index.tpl" %}
+{% set intl_category %}tokei.adm.location{% endset %}
 
 {% block content %}
     <div class="content dataList">

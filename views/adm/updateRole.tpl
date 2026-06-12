@@ -1,5 +1,5 @@
 {% extends '@adm/createRole.tpl' %}
-{% block title %}{{ role.name }} - {{ 'adm.role_update'|translate }}{% endblock %}
+{% block title %}{{ 'role_update'|translate(name: role.name) }}{% endblock %}
 {% set target = '/adm/update-role/' ~ role.model.id %}
 {% block notes %}
     {% if success %}

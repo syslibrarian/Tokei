@@ -67,7 +67,58 @@ $selected-color: s.$color3;
     color: $description-color;
   }
 
+  .warning {
+    .label {
+      color: $error-color !important;
+    }
+
+    .description {
+      color: $error-color !important;
+    }
+
+    .field {
+      input[type="text"], input[type="number"], input[type="datetime-local"], input[type="time"], textarea, select {
+        background-color: color.scale($error-color, $lightness: +95%) !important;
+        border-color: color.scale($error-color, $lightness: +40%) $error-color !important;
+        color: color.scale($error-color, $lightness: +20%) !important;
+      }
+
+      option:checked {
+        background-color: color.scale($error-color, $lightness: +95%) !important;
+        border-color: color.scale($error-color, $lightness: +40%) $error-color !important;
+        color: $error-color !important;
+      }
+
+      &:focus-within {
+        input[type="text"], input[type="number"], input[type="datetime-local"], input[type="time"], textarea, select {
+          background-color: color.scale($error-color, $lightness: +90%) !important;
+          border-color: color.scale($error-color, $lightness: +20%) $error-color !important;
+          color: $error-color !important;
+        }
+      }
+    }
+  }
+
   .text {
+    &.warning {
+      .field, input span {
+        background-color: color.scale($error-color, $lightness: +95%) !important;
+         border-color: color.scale($error-color, $lightness: +40%) $error-color !important;
+        position: relative;
+      }
+
+      ::selection {
+        background-color: color.scale($error-color, $alpha: -80%);
+        color: $error-color;
+      }
+
+      &:focus-within .field {
+        background-color: color.scale($error-color, $lightness: +90%) !important;
+        border-color: color.scale($error-color, $lightness: +20%) $error-color !important;
+        color: $error-color !important;
+      }
+    }
+
     .field {
       display: flex;
       background-color: $background-color;
@@ -102,66 +153,6 @@ $selected-color: s.$color3;
         &:focus {
           color: $input-color-focus;
           outline: none;
-        }
-      }
-    }
-
-    &.warning {
-      ::selection {
-        background-color: color.scale($error-color, $alpha: -80%);
-        color: $error-color;
-      }
-
-      .label {
-        color: $error-color !important;
-      }
-
-      .description {
-        color: $error-color !important;
-      }
-
-      .field {
-        background-color: color.scale($error-color, $lightness: +95%) !important;
-        border-color: color.scale($error-color, $lightness: +40%) $error-color !important;
-        position: relative;
-
-        input[type="text"], input[type="password"], textarea, span {
-          color: color.scale($error-color, $lightness: +20%) !important;
-        }
-
-        &:focus-within {
-          background-color: color.scale($error-color, $lightness: +90%) !important;
-          border-color: color.scale($error-color, $lightness: +20%) $error-color !important;
-
-          input[type="text"], input[type="password"], textarea, span {
-            color: $error-color !important;
-          }
-        }
-      }
-
-      .warningOverlay {
-        color: color.scale($error-color, $lightness: +100%) !important;
-        background-color: color.scale($error-color, $alpha: -30%) !important;
-        box-shadow: 2px 2px 2px $shadow-color;
-        backdrop-filter: blur(2px);
-        border: 0;
-        border-radius: 10px;
-        position: absolute;
-        z-index: 100;
-        top: 100%;
-        right: 0;
-        margin-top: 5px;
-        padding: 5px;
-
-        &::after {
-          content: "";
-          position: absolute;
-          bottom: 100%;
-          left: 50%;
-          margin-left: -5px;
-          border-width: 5px;
-          border-style: solid;
-          border-color: transparent transparent color.scale($error-color, $alpha: -30%) transparent;
         }
       }
     }
@@ -204,6 +195,12 @@ $selected-color: s.$color3;
         }
       }
     }
+
+    &.warning {
+      .field span, input[type="checkbox"]::after {
+        color: $error-color !important;
+      }
+    }
   }
 
   .radio {
@@ -231,7 +228,7 @@ $selected-color: s.$color3;
         padding: 1px;
         font-family: PhIcons;
         font-size: s.$text-l;
-        content: "\E602";
+        content: "\E18A";
         color: $input-color;
       }
 
@@ -246,47 +243,8 @@ $selected-color: s.$color3;
     }
 
     &.warning {
-      ::selection {
-        background-color: color.scale($error-color, $alpha: -80%);
-        color: $error-color;
-      }
-
-      .label {
+      .field span, input[type="radio"]::after {
         color: $error-color !important;
-      }
-
-      .description {
-        color: $error-color !important;
-      }
-
-      .field {
-        position: relative;
-      }
-
-      .warningOverlay {
-        color: color.scale($error-color, $lightness: +100%) !important;
-        background-color: color.scale($error-color, $alpha: -30%) !important;
-        box-shadow: 2px 2px 2px $shadow-color;
-        backdrop-filter: blur(2px);
-        border: 0;
-        border-radius: 10px;
-        position: absolute;
-        z-index: 100;
-        top: 100%;
-        right: 0;
-        margin-top: 5px;
-        padding: 5px;
-
-        &::after {
-          content: "";
-          position: absolute;
-          bottom: 100%;
-          left: 50%;
-          margin-left: -5px;
-          border-width: 5px;
-          border-style: solid;
-          border-color: transparent transparent color.scale($error-color, $alpha: -30%) transparent;
-        }
       }
     }
   }

@@ -2,7 +2,7 @@
 {% import '_form.tpl' as f %}
 {% import '_tools.tpl' as t %}
 
-{% block title %}{{ 'adm.reports.location'|translate }}{% endblock %}
+{% block title %}{{ 'update'|translate(name: location.name) }}{% endblock %}
 {% set target = '/adm/reports/update/' ~ report.model.time_code ~ '/' ~ report.model.seal %}
 
 {% block notes %}

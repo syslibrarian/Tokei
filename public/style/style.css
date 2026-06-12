@@ -485,6 +485,41 @@ button:disabled {
   font-size: 10pt;
   color: rgb(95, 95, 95);
 }
+.formular .warning .label {
+  color: rgb(200, 0, 10) !important;
+}
+.formular .warning .description {
+  color: rgb(200, 0, 10) !important;
+}
+.formular .warning .field input[type=text], .formular .warning .field input[type=number], .formular .warning .field input[type=datetime-local], .formular .warning .field input[type=time], .formular .warning .field textarea, .formular .warning .field select {
+  background-color: rgb(255, 239.5, 240.275) !important;
+  border-color: rgb(255, 69, 78.3) rgb(200, 0, 10) !important;
+  color: rgb(255, 7, 19.4) !important;
+}
+.formular .warning .field option:checked {
+  background-color: rgb(255, 239.5, 240.275) !important;
+  border-color: rgb(255, 69, 78.3) rgb(200, 0, 10) !important;
+  color: rgb(200, 0, 10) !important;
+}
+.formular .warning .field:focus-within input[type=text], .formular .warning .field:focus-within input[type=number], .formular .warning .field:focus-within input[type=datetime-local], .formular .warning .field:focus-within input[type=time], .formular .warning .field:focus-within textarea, .formular .warning .field:focus-within select {
+  background-color: rgb(255, 224, 225.55) !important;
+  border-color: rgb(255, 7, 19.4) rgb(200, 0, 10) !important;
+  color: rgb(200, 0, 10) !important;
+}
+.formular .text.warning .field, .formular .text.warning input span {
+  background-color: rgb(255, 239.5, 240.275) !important;
+  border-color: rgb(255, 69, 78.3) rgb(200, 0, 10) !important;
+  position: relative;
+}
+.formular .text.warning ::selection {
+  background-color: rgba(200, 0, 10, 0.2);
+  color: rgb(200, 0, 10);
+}
+.formular .text.warning:focus-within .field {
+  background-color: rgb(255, 224, 225.55) !important;
+  border-color: rgb(255, 7, 19.4) rgb(200, 0, 10) !important;
+  color: rgb(200, 0, 10) !important;
+}
 .formular .text .field {
   display: flex;
   background-color: rgba(242, 242, 255, 0.5);
@@ -517,55 +552,6 @@ button:disabled {
   color: rgb(0, 0, 197.6);
   outline: none;
 }
-.formular .text.warning ::selection {
-  background-color: rgba(200, 0, 10, 0.2);
-  color: rgb(200, 0, 10);
-}
-.formular .text.warning .label {
-  color: rgb(200, 0, 10) !important;
-}
-.formular .text.warning .description {
-  color: rgb(200, 0, 10) !important;
-}
-.formular .text.warning .field {
-  background-color: rgb(255, 239.5, 240.275) !important;
-  border-color: rgb(255, 69, 78.3) rgb(200, 0, 10) !important;
-  position: relative;
-}
-.formular .text.warning .field input[type=text], .formular .text.warning .field input[type=password], .formular .text.warning .field textarea, .formular .text.warning .field span {
-  color: rgb(255, 7, 19.4) !important;
-}
-.formular .text.warning .field:focus-within {
-  background-color: rgb(255, 224, 225.55) !important;
-  border-color: rgb(255, 7, 19.4) rgb(200, 0, 10) !important;
-}
-.formular .text.warning .field:focus-within input[type=text], .formular .text.warning .field:focus-within input[type=password], .formular .text.warning .field:focus-within textarea, .formular .text.warning .field:focus-within span {
-  color: rgb(200, 0, 10) !important;
-}
-.formular .text.warning .warningOverlay {
-  color: white !important;
-  background-color: rgba(200, 0, 10, 0.7) !important;
-  box-shadow: 2px 2px 2px rgba(191, 191, 191, 0.5);
-  backdrop-filter: blur(2px);
-  border: 0;
-  border-radius: 10px;
-  position: absolute;
-  z-index: 100;
-  top: 100%;
-  right: 0;
-  margin-top: 5px;
-  padding: 5px;
-}
-.formular .text.warning .warningOverlay::after {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: transparent transparent rgba(200, 0, 10, 0.7) transparent;
-}
 .formular .check label {
   display: flex;
   font-size: 12pt;
@@ -596,6 +582,9 @@ button:disabled {
   border: 1px solid rgb(0, 0, 197.6);
   border-radius: 3px;
 }
+.formular .check.warning .field span, .formular .check.warning input[type=checkbox]::after {
+  color: rgb(200, 0, 10) !important;
+}
 .formular .radio .field {
   display: flex;
   flex-wrap: wrap;
@@ -618,7 +607,7 @@ button:disabled {
   padding: 1px;
   font-family: PhIcons;
   font-size: 16pt;
-  content: "\e602";
+  content: "\e18a";
   color: rgb(90.8, 90.8, 255);
 }
 .formular .radio input[type=radio]:checked::after {
@@ -626,42 +615,8 @@ button:disabled {
   content: "\e18a";
   color: rgb(0, 0, 197.6);
 }
-.formular .radio.warning ::selection {
-  background-color: rgba(200, 0, 10, 0.2);
-  color: rgb(200, 0, 10);
-}
-.formular .radio.warning .label {
+.formular .radio.warning .field span, .formular .radio.warning input[type=radio]::after {
   color: rgb(200, 0, 10) !important;
-}
-.formular .radio.warning .description {
-  color: rgb(200, 0, 10) !important;
-}
-.formular .radio.warning .field {
-  position: relative;
-}
-.formular .radio.warning .warningOverlay {
-  color: white !important;
-  background-color: rgba(200, 0, 10, 0.7) !important;
-  box-shadow: 2px 2px 2px rgba(191, 191, 191, 0.5);
-  backdrop-filter: blur(2px);
-  border: 0;
-  border-radius: 10px;
-  position: absolute;
-  z-index: 100;
-  top: 100%;
-  right: 0;
-  margin-top: 5px;
-  padding: 5px;
-}
-.formular .radio.warning .warningOverlay::after {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: transparent transparent rgba(200, 0, 10, 0.7) transparent;
 }
 .formular .select select {
   width: 100%;

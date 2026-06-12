@@ -11,22 +11,22 @@ final class DBSSection
     /** @var array<string, array<string, string>> */
     public const array SECTIONS = [
         'education' => [
-            '95-1' => 'Klasse 1 - 6', // it is berlin specific.
-            '95-2' => 'ab Klasse 7', // it is berlin specific.
-            '95-3' => 'Kita',
-            '95-4' => 'Sonstige Gruppen'
+            '95-1' => 'tokei.adm.events.dbs_95-1', // it is berlin specific.
+            '95-2' => 'tokei.adm.events.dbs_95-2', // it is berlin specific.
+            '95-3' => 'tokei.adm.events.dbs_95-3',
+            '95-4' => 'tokei.adm.events.dbs_95-4'
         ],
 
         'event' => [
-            '96-x' => 'Für Kinder und Jugendliche (bis 17 Jahre)',
-            '97-x' => 'Für Erwachsene'
+            '96-x' => 'tokei.adm.events.dbs_96-x',
+            '97-x' => 'tokei.adm.events.dbs_97-x'
         ],
 
         'other' => [
-            '92-x' => 'Soziale Bibliotheksarbeit',
-            '98-x' => 'Ausstellungen',
-            '99-0' => 'Sonstige Angebote',
-            '99-1' => 'Bibliotheksbesichtigungen & Führungen'
+            '92-x' => 'tokei.adm.events.dbs_92-x',
+            '98-x' => 'tokei.adm.events.dbs_98-x',
+            '99-0' => 'tokei.adm.events.dbs_99-0',
+            '99-1' => 'tokei.adm.events.dbs_99-1'
         ]
     ];
 

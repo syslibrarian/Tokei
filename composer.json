@@ -15,6 +15,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^8.5",
+        "ext-intl": "*",
         "tempest/framework": "^3.11",
         "twig/twig": "^3.26"
     },

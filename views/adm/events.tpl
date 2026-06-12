@@ -1,4 +1,5 @@
 {% extends "@adm/index.tpl" %}
+{% set intl_category %}tokei.adm.events{% endset %}
 
 {% block page_navigation %}
     <nav class="adm-navigation">

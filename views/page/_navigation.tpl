@@ -4,7 +4,7 @@
                 <li>
                         <a href="{{ item.target }}"
                             {% if item.target == activeTarget %}class="active"{% endif %}>
-                            {{ item.name }}
+                            {{ item.name|translateFull }}
                         </a>
                 </li>
             {% endif %}

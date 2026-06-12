@@ -1,7 +1,7 @@
 {% extends '@adm/events.tpl' %}
 {% import '_tools.tpl' as t %}
 
-{% block title %}{{ 'adm.events.list_institutions'|translate }}{% endblock %}
+{% block title %}{{ 'list_institutions'|translate }}{% endblock %}
 
 {% block content %}
     {% block pagination %}{{ pagination|raw }}{% endblock %}

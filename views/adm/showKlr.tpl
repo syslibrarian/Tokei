@@ -1,4 +1,4 @@
-{% extends "@adm/index.tpl" %}
+{% extends "@adm/reports.tpl" %}
 
 {% block page_navigation %}
     <nav class="adm-navigation">
@@ -10,7 +10,7 @@
     <div class="content">
         <header>
             {% if location %}
-                <h1>{% block title %}{{ adm.reports.klr }} - {{ year }}{% endblock %}</h1>
+                <h1>{% block title %}//KLR Übersicht {% endblock %}</h1>
             {% else %}
                 <h1></h1>
             {% endif %}
