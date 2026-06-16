@@ -21,8 +21,10 @@ use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
 use Tokei\Model\Institution\Institution;
 use Tokei\Model\Institution\Type;
+use Tokei\Model\Location\Location;
 use Tokei\Model\Location\LocationHelper;
 
+use Tokei\Tool\Event\Form;
 use Tokei\Tool\Pagination\Pagination;
 use function Tokei\Str\trim;
 
@@ -134,7 +136,7 @@ final class AdmEventController extends Controller
             email: trim($request->get('email', '')),
             phone: trim($request->get('phone', '')),
             seal: trim($request->get('seal', '')),
-            type: (int) $request->get('type', 0),
+            type: trim($request->get('type', '')),
         );
 
         $response = $this->executeCommand($institution, $request);
@@ -161,7 +163,7 @@ final class AdmEventController extends Controller
             email: trim($request->get('email', $model->email)),
             phone: trim($request->get('phone', $model->phone)),
             seal: trim($request->get('seal', $model->seal)),
-            type: (int) $request->get('type', $model->type)
+            type: trim($request->get('type', $model->type))
         );
 
         $response = $this->executeCommand($institution, $request);
@@ -191,10 +193,17 @@ final class AdmEventController extends Controller
         return $this->redirect($this->getBaseSlug() . 'list-institutions/');
     }
 
-    #[Get(uri: '/create/'), Post(uri: '/create/')]
-    public function createEvent(Request $request): View
+    #[
+        Get(uri: '/create/'),
+        Post(uri: '/create/'),
+        Get(uri: '/create/{for:pre-school|school}/'),
+        Post(uri: '/create/{for:pre-school|school}/'),
+    ]
+    public function createEvent(Request $request, string $for = 'event'): View
     {
-        $this->setActiveSlug('create/');
+        $location = Location::select()->where('seal = ?', '713')->first();
+        $this->setActiveSlug('create/' . (($for !== 'event') ? $for . '/' : ''));
+        $form = Form::getFor($for, $location);
 
         $command = new CreateEvent(
             seal: trim($request->get('seal', '')), // later here seal from user object
@@ -204,8 +213,8 @@ final class AdmEventController extends Controller
             staff: (int) $request->get('staff', 0),
             staff_external: (int) $request->get('staffExternal', 0),
             attendees: (int) $request->get('attendees', 0),
-            online: (int) $request->get('online', 0),
-            state: (int) $request->get('state', 0),
+            online: (int) $request->get('online', 1),
+            state: (int) $request->get('state', 1),
             title: trim($request->get('title', '')),
             description: trim($request->get('description', '')),
             audience: trim($request->get('audience', '')),
@@ -221,12 +230,18 @@ final class AdmEventController extends Controller
             '@adm/createEvent.tpl',
             event: $command,
             locations: LocationHelper::getLocationsForForm(),
-            types: DBSSection::getForForm(), // later here for sub categories
+            types: $form->getTypes(),
             states: EventHelper::getStateForForm(),
             onlineStates: EventHelper::getOnlineForForm(),
             audiences: EventHelper::getAudienceForForm(),
             errors: $this->validationParser->parsedErrors,
-            success: $response?->value instanceof Event
+            success: $response !== null,
+            timeFactors: $form->getTimeFactors(),
+            hiddenFields: $form->getHiddenFields(),
+            dataList: $form->getDataList(),
+            location: $form->location,
+            isBase: $form->isBase(),
+            for: $for,
         );
     }
 

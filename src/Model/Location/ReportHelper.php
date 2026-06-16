@@ -9,7 +9,7 @@ use Tokei\Model\TimeCode;
 
 final class ReportHelper
 {
-    public static function getReportFor(string $seal): ?Report
+    public static function getReportFor(string $seal): ?MonthlyReport
     {
         $month = DateTime::now()->getMonth();
         $year = DateTime::now()->getYear();
@@ -23,15 +23,15 @@ final class ReportHelper
 
         $timeCode = TimeCode::fromParts($year, $month);
 
-        return Report::select()->where('seal = ? AND time_code = ?', $seal, $timeCode)->first();
+        return MonthlyReport::select()->where('seal = ? AND time_code = ?', $seal, $timeCode)->first();
     }
 
     /**
      * @param string $seal
-     * @return Report[]
+     * @return MonthlyReport[]
      */
     public static function getReportsFor(string $seal): array
     {
-        return Report::select()->where('seal = ? AND year = ?', $seal, DateTime::now()->getYear())->all();
+        return MonthlyReport::select()->where('seal = ? AND year = ?', $seal, DateTime::now()->getYear())->all();
     }
 }

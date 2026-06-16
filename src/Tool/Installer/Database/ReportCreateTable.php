@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Tokei\Tool\Installer\Database;
 
 use Tempest\Database\Enums\DatabaseTextLength;
-use Tokei\Model\Location\Report;
+use Tokei\Model\Location\MonthlyReport;
 use Tokei\Tool\Installer\DatabaseTable;
 use Tokei\Tool\Installer\InstallType;
 
-#[DatabaseTable(modelClass: Report::class, type: InstallType::INSTALL)]
+#[DatabaseTable(modelClass: MonthlyReport::class, type: InstallType::INSTALL)]
 final class ReportCreateTable implements DatabaseCommand
 {
     use IsCreateTable;
@@ -17,7 +17,7 @@ final class ReportCreateTable implements DatabaseCommand
     protected function setFields(): void
     {
         $this->statement->primary()
-            ->integer('status', default: 1)
+            ->integer('report_status', default: 1)
             ->varchar('seal', 4)
             ->varchar('time_code', length: 7)
             ->integer('year')

@@ -31,11 +31,10 @@ trait IsAdmin
         $this->registerViewPath('adm', dirname(__DIR__, 2) . '/views/adm/');
         parent::extend();
 
-        $baseSlug = (str_starts_with('/', $this->getBaseSlug())) ? $this->getBaseSlug() : '/' . $this->getBaseSlug();
-
+        $baseSlug = str_starts_with($this->getBaseSlug(), '/') ? $this->getBaseSlug() : '/' . $this->getBaseSlug();
         $this->tokei->add(
             'route_base',
-            (str_ends_with('/', $baseSlug)) ? $baseSlug : $baseSlug . '/',
+            (str_ends_with($baseSlug, '/')) ? $baseSlug : $baseSlug . '/',
         );
         Navigation::get('adm_header')->setActiveTarget($this->getBaseSlug());
     }
@@ -45,7 +44,7 @@ trait IsAdmin
         $this->tokei->add('route_current', $slug);
         $this->tokei->add(
             'route_current',
-            (str_ends_with('/', $slug)) ? $slug : $slug . '/',
+            (str_ends_with($slug, '/')) ? $slug : $slug . '/',
         );
         Navigation::get($this->getSectionNavigation())->setActiveTarget($this->getBaseSlug() . $slug);
     }

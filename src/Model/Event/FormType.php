@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Tool\Event;
+namespace Tokei\Model\Event;
 
 enum FormType: string
 {

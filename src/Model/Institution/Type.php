@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Tokei\Model\Institution;
 
+use Tokei\Model\Event\FormType;
+
 final class Type
 {
-    protected static $types = [
-        1 => 'tokei.adm.events.institution.type_pre_school',
-        2 => 'tokei.adm.events.institution.type_school'
+    protected static array $types = [
+        FormType::PRE_SCHOOL->value => 'tokei.adm.institution.type_pre_school',
+        FormType::SCHOOL->value => 'tokei.adm.institution.type_school',
     ];
 
-    public static function checkType(int $type): bool
+    public static function checkType(string $type): bool
     {
         return array_key_exists($type, self::$types);
     }

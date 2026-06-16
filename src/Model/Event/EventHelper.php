@@ -11,9 +11,10 @@ use Tempest\DateTime\Timezone;
 final class EventHelper
 {
     public const array STATE = [
-        1 => 'tokei.adm.events.status_occurred',
-        2 => 'tokei.adm.events.status_canceled',
-        3 => 'tokei.adm.events.status_absent'
+        1 => 'occurred',
+        2 => 'canceled',
+        3 => 'absent',
+        4 => 'error',
     ];
 
     public const array ONLINE = [
@@ -23,6 +24,21 @@ final class EventHelper
     ];
 
     public const array AUDIENCE = ['young', 'adult'];
+
+    public static function isNormal(Event $event): bool
+    {
+        return $event->state === 1;
+    }
+
+    public static function isCanceled(Event $event): bool
+    {
+        return $event->state === 2;
+    }
+
+    public static function isAbsent(Event $event): bool
+    {
+        return $event->state === 3;
+    }
 
     public static function convertToDateTime(string $dateFromForm): int
     {
@@ -57,6 +73,12 @@ final class EventHelper
     public static function calculateEnd(int $startTime, string $endTime): int
     {
         $startDateTime = DateTime::fromTimestamp($startTime);
+
+        if (preg_match('#^\+([0-9]{2,3})$#u', $endTime, $timeFactor)) {
+            $factor = (int) $timeFactor[1];
+            return $startDateTime->getTimestamp()->getSeconds() + ($factor * 60);
+        }
+
         list($hour, $minute) = explode(':', $endTime); // pregmatch later.
 
         $endDateTime = DateTime::fromParts(
@@ -92,7 +114,7 @@ final class EventHelper
     public static function getStateForForm(): \Generator
     {
         foreach (self::STATE as $value => $name) {
-            yield ['value' => $value, 'name' => $name];
+            yield ['value' => $value, 'name' => 'tokei.adm.events.status_' . $name];
         }
     }
 

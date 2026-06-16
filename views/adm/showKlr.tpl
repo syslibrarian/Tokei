@@ -18,6 +18,7 @@
 
 
         {% for month in months %}
+            {{  }}
             <ol>
                 <li>{{ month.month }}</li>
                 <li>{{ month.seal }}</li>

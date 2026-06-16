@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tokei\Tool\Installer\Database;
 
-use Tokei\Model\Klr\Month;
+use Tokei\Model\Klr\KlrReport;
 use Tokei\Tool\Installer\DatabaseTable;
 use Tokei\Tool\Installer\InstallType;
 
-#[DatabaseTable(modelClass: Month::class, type: InstallType::INSTALL)]
+#[DatabaseTable(modelClass: KlrReport::class, type: InstallType::INSTALL)]
 class CreateKlrMonthTable implements DatabaseCommand
 {
     use IsCreateTable;
@@ -16,7 +16,7 @@ class CreateKlrMonthTable implements DatabaseCommand
     protected function setFields(): void
     {
         $this->statement->primary()
-            ->integer('status', default: 0)
+            ->integer('report_status', default: 0)
             ->varchar('seal', length: 4)
             ->integer('year')
             ->integer('month')

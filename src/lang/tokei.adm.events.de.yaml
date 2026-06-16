@@ -1,6 +1,13 @@
 tokei:
   adm:
     events:
+      event_create_school: 'Klasseführung eintragen'
+      event_create_pre-school: 'Kitaführung eintragen'
+      event_create_event: 'Veranstaltung eintragen'
+      status_error: 'Fehlerhaft'
+      time_factor_long: '90 Minuten'
+      time_factor_normal: '60 Minuten'
+      time_factor_short: '45 Minuten'
       update: 'Veranstaltung bearbeiten - {$title}'
       attendees: 'Anzahl der Teilnehmer:innen'
       attendees_desc: 'Wie viele Teilnehmer:innen haben an der Veranstaltung teilgenommen. Die Zuordnung zur Zielgruppe erfolgt automatisch.'
@@ -9,9 +16,9 @@ tokei:
       audience_desc: 'Die Zielgruppe wird in den meisten Fällen über den Typ automatisch ermittelt. Nur bei folgenden Gruppen ändern: {#strong}92, 98, 99-x{/strong}'
       audience_young: 'Kinder und Jugendliche'
       dbs_92-x: '92 Soziale Bibliotheksarbeit'
-      dbs_95-1: '95.1 Kindergarten & Kita (Pädagogische Angebote)'
-      dbs_95-2: '95.2 Grundschule (Klasse 1 - 6) (Pädagogische Angebote)'
-      dbs_95-3: '95.3 Ab der 7. Klasse (Pädagogische Angebote)'
+      dbs_95-1: '95.1 Grundschule (Klasse 1 - 6) (Pädagogische Angebote)'
+      dbs_95-2: '95.2 Ab der 7. Klasse (Pädagogische Angebote)'
+      dbs_95-3: '95.3 Kindergarten & Kita (Pädagogische Angebote)'
       dbs_95-4: '95.4 Sonstige Gruppen (Pädagogische Angebote)'
       dbs_96-x: '96 Veranstaltungen bis 17 Jahre'
       dbs_97-x: '97 Veranstaltung für Erwachsene'

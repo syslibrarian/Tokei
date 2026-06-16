@@ -19,7 +19,7 @@ final class InstitutionCreateTable implements DatabaseCommand
             ->primary()
             ->varchar('name')
             ->varchar('educator')
-            ->integer('type', default: 1)
+            ->varchar('type', length: 10)
             ->varchar('email', default: '')
             ->varchar('phone', default: '')
             ->varchar('seal', 4)

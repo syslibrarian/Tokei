@@ -2,8 +2,8 @@
 {% import '_form.tpl' as f %}
 {% import '_tools.tpl' as t %}
 
-{% block title %}{{ 'event_create'|translate }}{% endblock %}
-{% set target = target ?? '/adm/events/create/' %}
+{% block title %}{{ ('event_create_' ~ for)|translate }}{% endblock %}
+{% set target = target ?? getUri('create') %}
 
 {% block content %}
     {{ f.form_start(uri: target, title: block('title'), html_classes: 'content') }}
@@ -12,8 +12,11 @@
         {{ f.text(
             name: 'title',
             value: event.title,
-            error: errors.title
+            error: errors.title,
+            list: isBase != true
         ) }}
+
+        {{ f.listFor('title', dataList) }}
 
         {{ f.text(
             name: 'description',
@@ -21,12 +24,20 @@
             error: errors.description
         ) }}
 
-        {{ f.select(
-            name: 'seal',
-            options: locations,
-            value: event.seal,
-            error: errors.seal
-        ) }}
+        {% if hiddenFields.seal %}
+            {{ f.hiddenField(
+                name: 'seal',
+                value: hiddenFields.seal,
+                show: location.name
+            ) }}
+        {% else %}
+            {{ f.select(
+                name: 'seal',
+                options: locations,
+                value: event.seal,
+                error: errors.seal
+            ) }}
+        {% endif %}
 
         {{ f.date(
             name: 'startDateTime',
@@ -34,10 +45,18 @@
             time: true,
         ) }}
 
-        {{ f.time(
-            name: 'endTime',
-            value: event.endTime,
-        ) }}
+        {% if isBase %}
+            {{ f.time(
+                name: 'endTime',
+                value: event.endTime
+            ) }}
+        {% else %}
+            {{ f.select(
+                name: 'endTime',
+                options: timeFactors,
+                value: event.endTime
+            ) }}
+        {% endif %}
     {% endset %}
 
     {% set informationSection %}
@@ -53,17 +72,31 @@
             value: event.state,
         ) }}
 
-        {{ f.radio(
-            name: 'online',
-            options: onlineStates,
-            value: event.online,
-        ) }}
+        {% if hiddenFields.online %}
+            {{ f.hidden(
+                name: 'online',
+                value: hiddenFields.online,
+            ) }}
+        {% else %}
+            {{ f.radio(
+                name: 'online',
+                options: onlineStates,
+                value: event.online,
+            ) }}
+        {% endif %}
 
-        {{ f.select(
-            name: 'audience',
-            options: audiences,
-            value: event.audience,
-        ) }}
+        {% if hiddenFields.audience %}
+            {{ f.hidden(
+                name: 'audience',
+                value: hiddenFields.audience,
+            ) }}
+        {% else %}
+            {{ f.select(
+                name: 'audience',
+                options: audiences,
+                value: event.audience,
+            ) }}
+        {% endif %}
     {% endset %}
 
     {% set numberSection %}

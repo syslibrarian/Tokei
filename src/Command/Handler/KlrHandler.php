@@ -12,9 +12,9 @@ use Tokei\Command\Klr\BuildFromReports;
 use Tokei\Command\Klr\CreateMonths;
 use Tokei\Command\Klr\UpdateFromReports;
 use Tokei\Model\Klr\KlrHelper;
-use Tokei\Model\Klr\Month;
+use Tokei\Model\Klr\KlrReport;
 use Tokei\Model\Location\Location;
-use Tokei\Model\Location\Report;
+use Tokei\Model\Location\MonthlyReport;
 use Tokei\Model\ReportStatus;
 use Tokei\Model\TimeCode;
 
@@ -33,7 +33,7 @@ final class KlrHandler
             $locations = Location::select()->all();
             $existingMonths = KlrHelper::getAllMonthsForCommand($command->year);
 
-            $rawQuery = query(Month::class);
+            $rawQuery = query(KlrReport::class);
 
             $month = 1;
             while ($month <= 12) {
@@ -43,7 +43,7 @@ final class KlrHandler
                     }
 
                     $rawQuery->insert(
-                        status: ReportStatus::OPEN->value,
+                        report_status: ReportStatus::OPEN->value,
                         seal: $location->seal,
                         month: $month,
                         year: $command->year,
@@ -69,13 +69,13 @@ final class KlrHandler
         $this->transaction->begin();
         try {
             $timeCode = TimeCode::fromParts($command->year, $command->month);
-            $reports = Report::select()->where('time_code', $timeCode)->all();
+            $reports = MonthlyReport::select()->where('time_code', $timeCode)->all();
             $months = KlrHelper::getSortedMonths((string) $timeCode);
 
             foreach ($reports as $report) {
                 if (!isset($months[$report->seal])) {
-                    Month::create(
-                        status: ReportStatus::CLOSE->value,
+                    KlrReport::create(
+                        report_status: ReportStatus::CLOSE->value,
                         seal: $report->seal,
                         year: $report->year,
                         month: $report->month,
@@ -88,7 +88,7 @@ final class KlrHandler
                     );
                 } else {
                     $months[$report->seal]->update(
-                        status: ReportStatus::CLOSE->value,
+                        report_status: ReportStatus::CLOSE->value,
                         circulations: $report->circulations,
                         visits: $report->visits_total,
                         attendees: $report->events->totalAttendees,
@@ -97,7 +97,7 @@ final class KlrHandler
                 }
 
                 $report->update(
-                    status: ReportStatus::CLOSE->value,
+                    report_status: ReportStatus::CLOSE->value,
                     events_raw: $report->events->exportJson(),
                     modified: Timestamp::now()->getSeconds()
                 );
@@ -118,7 +118,7 @@ final class KlrHandler
         $this->transaction->begin();
         try {
             $timeCode = TimeCode::fromParts($command->year, $command->month);
-            $reports = Report::select()->where('timeCode', $timeCode)->all();
+            $reports = MonthlyReport::select()->where('timeCode', $timeCode)->all();
             $months = KlrHelper::getSortedMonths((string) $timeCode);
 
             foreach ($reports as $report) {
@@ -127,7 +127,7 @@ final class KlrHandler
                }
 
                $months[$report->seal]->update(
-                   status: ReportStatus::UPDATED->value,
+                   report_status: ReportStatus::UPDATED->value,
                    circulations: $report->circulations,
                    visits: $report->visits_total,
                    attendees: $report->events->totalAttendees,
@@ -135,7 +135,7 @@ final class KlrHandler
                );
 
                 $report->update(
-                    status: ReportStatus::CLOSE->value,
+                    report_status: ReportStatus::CLOSE->value,
                     events_raw: $report->events->exportJson(),
                     modified: Timestamp::now()->getSeconds()
                 );

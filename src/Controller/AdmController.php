@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tokei\Controller;
 
 use Tempest\DateTime\DateTime;
+use Tempest\Log\Logger;
 use Tokei\Command\Klr\CreateMonths;
 use Tokei\Command\Location\CreateLocation;
 use Tokei\Command\Location\CreateReports;
@@ -351,6 +352,7 @@ final class AdmController extends Controller
             $klrCommand = new CreateMonths($year);
             command($klrCommand); // fire and forget.
         } catch (\Throwable $e) {
+            get(Logger::class)->error($e);
             $this->session->flash('error', 'create_reports');
         }
 

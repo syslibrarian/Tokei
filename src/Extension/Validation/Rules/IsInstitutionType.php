@@ -8,7 +8,7 @@ use Tempest\Validation\Rule;
 use Tokei\Model\Institution\Type;
 
 #[\Attribute]
-final class IsInistitionType implements Rule
+final class IsInstitutionType implements Rule
 {
 
     public function isValid(mixed $value): bool

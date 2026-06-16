@@ -82,21 +82,15 @@ final class Permissions
                 'can_update_institutions',
             ],
             'location' => [
-                'can_create_report',
                 'can_update_report',
-                'can_close_report',
-            ],
-            'klr' => [
-                'can_create_klr',
-                'can_update_klr',
-                'can_close_klr'
+                'can_create_reports',
+                'can_close_reports',
+                'can_reopen_reports'
             ],
             'super' => [
                 'can_update_limitless',
                 'can_create_roles',
                 'can_update_roles',
-                'can_reopen_report',
-                'can_reopen_klr',
                 'can_delete'
             ]
         ];

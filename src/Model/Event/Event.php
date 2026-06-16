@@ -12,14 +12,15 @@ use Tempest\Validation\Rules\MatchesRegEx;
 use Tokei\Extension\Validation\Rules\IsDBSType;
 use Tokei\Extension\Validation\Rules\IsValidEventState;
 use Tokei\Extension\Validation\Rules\IsValidOnlineState;
+use Tokei\Model\IsLocated;
+use Tokei\Model\Located;
 
 #[Table(name: 'event')]
-final class Event
+final class Event implements Located
 {
     use IsDatabaseModel;
+    use IsLocated;
 
-    #[MatchesRegEx('#^[0-9]{3}[a-z]?$#u')]
-    public string $seal;
 
     #[IsDBSType]
     public string $type;

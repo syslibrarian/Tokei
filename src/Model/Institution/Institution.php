@@ -9,13 +9,15 @@ use Tempest\Database\Table;
 use Tempest\Validation\Rules\IsEmail;
 use Tempest\Validation\Rules\IsNotEmptyString;
 use Tempest\Validation\Rules\IsPhoneNumber;
-use Tokei\Extension\Validation\Rules\IsExistingSeal;
-use Tokei\Extension\Validation\Rules\IsInistitionType;
+use Tokei\Extension\Validation\Rules\IsInstitutionType;
+use Tokei\Model\IsLocated;
+use Tokei\Model\Located;
 
 #[Table(name: 'institution')]
-final class Institution
+final class Institution implements Located
 {
     use IsDatabaseModel;
+    use IsLocated;
 
     #[IsNotEmptyString]
     public string $name;
@@ -29,11 +31,8 @@ final class Institution
     #[IsPhoneNumber]
     public ?string $phone;
 
-    #[IsExistingSeal]
-    public string $seal;
-
-    #[IsInistitionType]
-    public int $type;
+    #[IsInstitutionType]
+    public string $type;
 
     public int $created;
 

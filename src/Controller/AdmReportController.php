@@ -14,10 +14,10 @@ use Tempest\View\View;
 use Tokei\Command\Klr\BuildFromReports;
 use Tokei\Command\Klr\UpdateFromReports;
 use Tokei\Command\Location\UpdateReport;
-use Tokei\Model\Klr\Month;
+use Tokei\Model\Klr\KlrReport;
 use Tokei\Model\Location\Location;
 use Tokei\Model\Location\LocationHelper;
-use Tokei\Model\Location\Report;
+use Tokei\Model\Location\MonthlyReport;
 
 #[Prefix('/adm/reports')]
 final class AdmReportController extends Controller
@@ -47,7 +47,7 @@ final class AdmReportController extends Controller
             $locations = LocationHelper::getLocationsForReports();
         }
 
-        $reportsRaw = Report::select();
+        $reportsRaw = MonthlyReport::select();
         if ($seal !== null) {
             $reportsRaw->where('year = ? AND seal = ?', $year, $seal)->orderBy('month');
         } else {
@@ -72,7 +72,7 @@ final class AdmReportController extends Controller
     {
         $this->setActiveSlug('');
 
-        $model = $this->getBySeal($seal, Report::class, $timeCode);
+        $model = $this->getBySeal($seal, MonthlyReport::class, $timeCode);
         $location = $this->getBySeal($seal, Location::class);
 
         $command = new UpdateReport(
@@ -105,7 +105,7 @@ final class AdmReportController extends Controller
     {
         $year = $year ?? DateTime::now()->getYear();
 
-        $months = Month::select()->where('year = ?', $year)->orderBy('month, seal')->all();
+        $months = KlrReport::select()->where('year = ?', $year)->orderBy('month, seal')->all();
         $locations = LocationHelper::getLocationsForReports();
 
         return $this->view(
@@ -120,7 +120,7 @@ final class AdmReportController extends Controller
     {
         $year = $year ?? DateTime::now()->getYear();
 
-        $months = Month::select()->where('year = ?', $year)->orderBy('month, seal')->all();
+        $months = KlrReport::select()->where('year = ?', $year)->orderBy('month, seal')->all();
         $locations = LocationHelper::getLocationsForReports();
 
         return $this->view(

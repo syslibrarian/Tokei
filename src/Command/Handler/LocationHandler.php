@@ -16,7 +16,7 @@ use Tokei\Command\Location\UpdateLocation;
 use Tokei\Command\Location\UpdateReport;
 use Tokei\Model\Location\Location;
 use Tokei\Model\Location\LocationHelper;
-use Tokei\Model\Location\Report;
+use Tokei\Model\Location\MonthlyReport;
 use Tokei\Model\ReportStatus;
 use Tokei\Model\TimeCode;
 
@@ -102,7 +102,7 @@ final class LocationHandler
             $locations = Location::select()->all();
             $reports = LocationHelper::getAllReportsForCommand($command->year);
 
-            $rawQuery = query(Report::class);
+            $rawQuery = query(MonthlyReport::class);
 
             $month = 1;
             while ($month <= 12) {
@@ -112,7 +112,7 @@ final class LocationHandler
                     }
 
                     $rawQuery->insert(
-                        status: 0,
+                        report_status: ReportStatus::OPEN->value,
                         seal: $location->seal,
                         month: $month,
                         year: $command->year,
@@ -139,7 +139,7 @@ final class LocationHandler
 
         try {
             $command->model->update(
-                status: ReportStatus::isClose($command->model->status) ? ReportStatus::UPDATED->value : $command->model->status,
+                report_status: ReportStatus::isClose($command->model->report_status) ? ReportStatus::UPDATED->value : $command->model->report_status,
                 modified: Timestamp::now()->getSeconds(),
                 circulations: $command->circulations,
                 visits: $command->visits,

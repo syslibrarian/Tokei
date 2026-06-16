@@ -1,0 +1,7 @@
+tokei:
+  adm:
+    navigation:
+      reports:
+        klr: 'KLR'
+        list: 'Monatsblätter'
+        main: 'Monatsstatistik und KLR'

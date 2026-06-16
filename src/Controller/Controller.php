@@ -24,7 +24,6 @@ abstract class Controller
 
     public function __construct(
         protected(set) Tokei         $tokei,
-        protected(set) AccessControl $accessControl,
         protected(set) Session       $session,
     ) {
         $this->extend();

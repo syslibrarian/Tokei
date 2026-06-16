@@ -11,10 +11,10 @@
     </nav>
 {% endblock %}
 
-{% block note %}
- {% if errors %}
-     {{ note("tokei.adm.error"|translateFull, 'error') }}
- {% endif %}
+{% block notes %}
+    {% if errors %}
+        {{ note("tokei.adm.error"|translateFull, 'error') }}
+    {% endif %}
     {% if success %}
         {{ note("tokei.adm.success"|translateFull, 'success') }}
     {% endif %}

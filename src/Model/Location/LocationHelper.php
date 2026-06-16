@@ -27,7 +27,7 @@ final class LocationHelper
     public static function getAllReportsForCommand(string|int $year): array
     {
         $sortedReports = [];
-        $reports = Report::select()->where('year = ?', $year)->all();
+        $reports = MonthlyReport::select()->where('year = ?', $year)->all();
 
         foreach ($reports as $report) {
             $sortedReports[(int)$report->month][$report->seal] = $report;

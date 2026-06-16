@@ -1,17 +1,37 @@
-{% macro text(name, value, placeholder = '', prefix = '', error = '') %}
+{% macro text(name, value, placeholder = '', prefix = '', error = '', list = false) %}
     <div class="text{% if error != '' %} warning{% endif %}">
         <div class="label"><label for="{{ name }}-id">{{ name|translate }}</label></div>
         <div class="field">
             {% if prefix != '' %}
                 <span>{{ prefix }}</span>
             {% endif %}
-            <input type="text" value="{{ value }}" placeholder="{{ placeholder }}" name="{{ name }}" id="{{ name }}-id">
+            <input type="text" value="{{ value }}" placeholder="{{ placeholder }}" name="{{ name }}" id="{{ name }}-id"{% if list %} list="{{ name }}-list"{% endif %}>
         </div>
         <div class="description"><span>{{ (name ~ '_desc')|translate }}</span></div>
     </div>
 {% endmacro %}
 
-{% macro hidden(name, value) %}
+{% macro listFor(name, options) %}
+    <datalist id="{{ name }}-list">
+        {% for option in options %}
+            <option value="{{ option.value }}">
+        {% endfor %}
+    </datalist>
+{% endmacro %}
+
+{% macro hiddenField(name, value, show) %}
+    {% if show %}
+        <div class="text{% if error != '' %} warning{% endif %}">
+            <div class="label"><label for="{{ name }}-view">{{ name|translate }}</label></div>
+            <div class="field">
+                {% if prefix != '' %}
+                    <span>{{ prefix }}</span>
+                {% endif %}
+                <input id="{{ name }}-view" type="text" value="{{ show }}" disabled>
+            </div>
+            <div class="description"><span>{{ (name ~ '_desc')|translate }}</span></div>
+        </div>
+    {% endif %}
     <input type="hidden" name="{{ name }}" value="{{ value }}">
 {% endmacro %}
 

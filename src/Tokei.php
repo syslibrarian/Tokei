@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tokei;
 
-use Tempest\Intl\Translator;
-use Tokei\Extension\Twig\TokeiTwigBaseExtension;
 use Tempest\Container\Singleton;
-use Tempest\Http\Session\Session;
+use Tempest\Intl\Translator;
+use Tokei\Component\Access\AccessControl;
+use Tokei\Extension\Twig\TokeiTwigBaseExtension;
 use Twig\Environment;
 use Twig\Extension\AttributeExtension;
 
@@ -21,7 +21,7 @@ final class Tokei
 
     public function __construct(
         protected(set) Environment $twig,
-        protected(set) Session $session,
+        protected(set) AccessControl $accessControl,
         protected(set) Translator $translator,
     ) {
         $this->extendTwig();
@@ -44,10 +44,11 @@ final class Tokei
     {
         $base = $this->data['route_base'] ?? '';
         $current = $this->data['route_current'] ?? '';
+        $uri = (str_starts_with($uri, '/') ? substr($uri, 1) : $uri);
 
         $uri = (($withBase) ? $base : '/')
             . (($withCurrent) ? $current : '')
-            . ((str_ends_with($uri, '/')) ? $uri : $uri . '/');
+            . ($uri !== '' && !(str_ends_with($uri, '/')) ? $uri . '/' : $uri);
 
         foreach ($parts as $part) {
             $uri.= $part . '/';

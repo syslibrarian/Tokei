@@ -7,16 +7,20 @@ namespace Tokei\Model\Location;
 use Tempest\Database\IsDatabaseModel;
 use Tempest\Database\Table;
 use Tempest\Database\Virtual;
+use Tokei\Model\IsLocated;
+use Tokei\Model\IsReport;
+use Tokei\Model\Report;
 use Tokei\Model\ReportStatus;
 use Tokei\Tool\Statistic\Events;
+use Tokei\Model\Located;
 
 #[Table('location_report')]
-final class Report
+final class MonthlyReport implements Report, Located
 {
     use IsDatabaseModel;
+    use IsReport;
+    use IsLocated;
 
-    public int $status;
-    public string $seal;
     public string $time_code;
     public int $year;
     public int $month;
@@ -43,7 +47,7 @@ final class Report
     #[Virtual]
     public Events $events {
         get {
-            if (ReportStatus::isOpen($this->status) || ReportStatus::isUpdated($this->status)) {
+            if (ReportStatus::isOpen($this->report_status) || ReportStatus::isUpdated($this->report_status)) {
                 if ($this->tmp === null) {
                     $this->tmp = new Events($this->seal, $this->year, $this->month);
                 }

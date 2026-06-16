@@ -17,15 +17,44 @@ final class TokeiTwigBaseExtension
     protected static ?Tokei $tokei = null;
     protected static ?string $translateBase = null;
 
+    protected static function checkTokei(Environment $env): void
+    {
+        if (self::$tokei === null) {
+            self::$tokei = $env->getGlobals()['_tokei'] ?? get(Tokei::class);
+        }
+    }
+
+    #[AsTwigFunction('hasPermission', needsEnvironment: true)]
+    public static function hasPermission(Environment $env, string $name): bool
+    {
+        self::checkTokei($env);
+
+        return self::$tokei->accessControl->hasPermission($name);
+    }
+
+    #[AsTwigFunction('canUpdate', needsEnvironment: true)]
+    public static function canUpdate(Environment $env, string|object $model): bool
+    {
+        self::checkTokei($env);
+
+        return self::$tokei->accessControl->canUpdate($model);
+    }
+
+    #[AsTwigFunction('canDelete', needsEnvironment: true)]
+    public static function canDelete(Environment $env, string|object $model): bool
+    {
+        self::checkTokei($env);
+
+        return self::$tokei->accessControl->canDelete($model);
+    }
+
     #[
         AsTwigFilter('translateFull', needsEnvironment: true, isSafe: ['html']),
         AsTwigFunction('translateFull', needsEnvironment: true, isSafe: ['html'])
     ]
     public static function translateFull(Environment $env, string $key, mixed ...$args): string
     {
-        if (self::$tokei === null) {
-            self::$tokei = $env->getGlobals()['_tokei'] ?? get(Tokei::class);
-        }
+        self::checkTokei($env);
 
         return self::$tokei->translator->translate($key, ...$args);
     }
@@ -68,9 +97,8 @@ final class TokeiTwigBaseExtension
         mixed ... $parts
     ): string
     {
-        if (self::$tokei === null) {
-            self::$tokei = $env->getGlobals()['_tokei'] ?? get(Tokei::class);
-        }
+        self::checkTokei($env);
+
         return self::$tokei->getUri($withBase, $withCurrent, $uri, ... $parts);
     }
 

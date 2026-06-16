@@ -6,6 +6,7 @@ namespace Tokei\Tool\Statistic;
 
 use Tokei\Model\Event\Event;
 
+use Tokei\Model\Event\EventHelper;
 use function Tempest\Support\Json\decode;
 use function Tempest\Support\Json\encode;
 
@@ -24,22 +25,30 @@ final class DBSContainer
         protected(set) int $staff,
         protected(set) int $staffExternal,
         protected(set) float $workHours,
-        protected(set) float $workHoursExternal
+        protected(set) float $workHoursExternal,
+        protected(set) int $absent,
+        protected(set) int $canceled,
     ) {}
 
     public function addEvent(Event $event): bool
     {
-        if ($event->type !== $this->number) {
+        if ($event->type !== $this->number || $event->state === 4) {
             return false;
         }
 
-        $this->amount++;
-        $this->attendees += $event->attendees;
-        $this->hours += $event->hours;
-        $this->workHours += $event->hours_staff;
-        $this->workHoursExternal += $event->hours_staff_external;
-        $this->staff += $event->staff;
-        $this->staffExternal += $event->staff_external;
+        if (EventHelper::isNormal($event)) {
+            $this->amount++;
+            $this->attendees += $event->attendees;
+            $this->hours += $event->hours;
+            $this->workHours += $event->hours_staff;
+            $this->workHoursExternal += $event->hours_staff_external;
+            $this->staff += $event->staff;
+            $this->staffExternal += $event->staff_external;
+        } elseif (EventHelper::isAbsent($event)) {
+            $this->absent++;
+        } elseif (EventHelper::isCanceled($event)) {
+            $this->canceled++;
+        }
 
         return true;
     }
@@ -56,6 +65,8 @@ final class DBSContainer
             'hours' => $this->hours,
             'workHours' => $this->workHours,
             'workHoursExternal' => $this->workHoursExternal,
+            'absent' => $this->absent,
+            'canceled' => $this->canceled,
         ]);
     }
 
@@ -78,6 +89,8 @@ final class DBSContainer
             $data['staffExternal'] ?? 0,
             $data['workHours'] ?? 0,
             $data['workHoursExternal'] ?? 0,
+            $data['absent'] ?? 0,
+            $data['canceled'] ?? 0,
         );
     }
 }

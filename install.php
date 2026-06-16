@@ -41,30 +41,32 @@ Navigation::create(name: 'adm_reports', is_system: true, is_admin: true, view_na
 
 $navigation = Navigation::select()->where('name = ?', 'adm_header')->first();
 
-Item::create(name: 'adm.navigation.general', target: '/adm/', position: 1, navigation_id: $navigation->id->value);
-Item::create(name: 'adm.navigation.events', target: '/adm/events/', position: 2, navigation_id: $navigation->id->value);
-Item::create(name: 'adm.navigation.reports', target: '/adm/reports/', position: 3, navigation_id: $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.general.main', target: '/adm/', position: 1, navigation_id: $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.events.main', target: '/adm/events/', position: 2, navigation_id: $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.reports.main', target: '/adm/reports/', position: 3, navigation_id: $navigation->id->value);
 
 $navigation = Navigation::select()->where('name = ?', 'adm_general')->first();
 
-Item::create(name: 'adm.location_list', target: '/adm/list-locations/', position: 1, navigation_id: (int) $navigation->id->value);
-Item::create(name: 'adm.location_create', target: '/adm/create-location/', position: 2, navigation_id: (int) $navigation->id->value);
-Item::create(name: 'adm.user_role_list', target: '/adm/list-roles/', position: 3, navigation_id: (int) $navigation->id->value);
-Item::create(name: 'adm.user_role_add', target: '/adm/create-role/', position: 4, navigation_id: (int) $navigation->id->value);
-Item::create(name: 'adm.user_list', target: '/adm/list-users/', position: 5, navigation_id: (int) $navigation->id->value);
-Item::create(name: 'adm.user_add', target: '/adm/create-user/', position: 6, navigation_id: (int) $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.general.location_list', target: '/adm/list-locations/', position: 1, navigation_id: (int) $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.general.location_create', target: '/adm/create-location/', position: 2, navigation_id: (int) $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.general.user_role_list', target: '/adm/list-roles/', position: 3, navigation_id: (int) $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.general.user_role_add', target: '/adm/create-role/', position: 4, navigation_id: (int) $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.general.user_list', target: '/adm/list-users/', position: 5, navigation_id: (int) $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.general.user_add', target: '/adm/create-user/', position: 6, navigation_id: (int) $navigation->id->value);
 
 $navigation = Navigation::select()->where('name = ?', 'adm_events')->first();
 
-Item::create(name: 'adm.events.list', target: '/adm/events/list/', position: 1, navigation_id: $navigation->id->value);
-Item::create(name: 'adm.events.create', target: '/adm/events/create/', position: 2, navigation_id: $navigation->id->value);
-Item::create(name: 'adm.events.institution_list', target: '/adm/events/list-institutions/', position: 3, navigation_id: $navigation->id->value);
-Item::create(name: 'adm.events.institution_create', target: '/adm/events/create-institution/', position: 4, navigation_id: $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.events.list', target: '/adm/events/list/', position: 1, navigation_id: $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.events.create', target: '/adm/events/create/', position: 2, navigation_id: $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.events.create_pre_school', target: '/adm/events/create/pre-school/', position: 3, navigation_id: $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.events.create_school', target: '/adm/events/create/school/', position: 4, navigation_id: $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.events.institution_list', target: '/adm/events/list-institutions/', position: 5, navigation_id: $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.events.institution_create', target: '/adm/events/create-institution/', position: 6, navigation_id: $navigation->id->value);
 
 $navigation = Navigation::select()->where('name = ?', 'adm_reports')->first();
 
-Item::create(name: 'adm.reports.list', target: '/adm/reports/', position: 1, navigation_id: $navigation->id->value);
-Item::create(name: 'adm.reports.klr', target: '/adm/reports/klr/', position: 2, navigation_id: $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.reports.list', target: '/adm/reports/', position: 1, navigation_id: $navigation->id->value);
+Item::create(name: 'tokei.adm.navigation.reports.klr', target: '/adm/reports/klr/', position: 2, navigation_id: $navigation->id->value);
 
 // User
 $userRole = new UserRoleCreateTable();

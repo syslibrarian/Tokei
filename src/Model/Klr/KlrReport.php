@@ -6,14 +6,18 @@ namespace Tokei\Model\Klr;
 
 use Tempest\Database\IsDatabaseModel;
 use Tempest\Database\Table;
+use Tokei\Model\IsLocated;
+use Tokei\Model\IsReport;
+use Tokei\Model\Report;
+use Tokei\Model\Located;
 
 #[Table('klr_month')]
-final class Month
+final class KlrReport implements Report, Located
 {
     use IsDatabaseModel;
+    use IsReport;
+    use IsLocated;
 
-    public int $status;
-    public string $seal;
     public int $year;
     public int $month;
     public string $time_code;
