@@ -1,0 +1,22 @@
+// imports
+@use "tools/reset";
+@use "tools/fonts";
+@use "layout/klr" as klr with (
+  $text-xl: 12pt,
+  $text-l: 10pt,
+  $text-m: 8pt,
+  $padding: 5pt,
+  $padding-s: 2pt,
+  $margin: 5pt,
+  $margin-s: 2pt
+);
+
+@page {
+  size: A4 landscape;
+}
+
+body {
+  print-color-adjust: exact;
+  margin: klr.$margin-s;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

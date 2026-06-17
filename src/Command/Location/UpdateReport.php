@@ -11,14 +11,20 @@ final class UpdateReport implements Command
 {
     public function __construct(
         public MonthlyReport $model,
-        public int           $circulations,
-        public int           $visits,
-        public int           $visitsManual,
-        public int           $openHours,
-        public int           $openLibraryHours,
-        public int           $mediaPackages,
-        public int           $shifts,
-        public int           $coversReceived,
-        public int           $coversGiven
+        public int $circulations,
+        public int $visits,
+        public int $visitsManual,
+        public int $openHours,
+        public int $openLibraryHours,
+        public int $mediaPackages,
+        public int $shifts,
+        public int $coversReceived,
+        public int $coversGiven,
+        public int $staffExternal,
+        public float $staffExternalHours,
+        public int $staffGrant,
+        public float $staffGrantHours,
+        public int $staffVolunteer,
+        public float $staffVolunteerHours
     ) {}
 }

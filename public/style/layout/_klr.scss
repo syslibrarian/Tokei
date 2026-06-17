@@ -1,0 +1,110 @@
+@use 'sass:color';
+@use "../tools/includes" as i;
+
+$text-xl: i.$text-xl !default;
+$text-l: i.$text-l !default;
+$text-m: i.$text-m !default;
+$padding: 10px !default;
+$padding-s: 5px !default;
+$margin: 10px !default;
+$margin-s: 5px !default;
+
+.content.klr {
+  padding: $padding;
+
+  header {
+    margin-bottom: $margin;
+    font-size: $text-xl;
+  }
+}
+
+table.klr-table {
+  border-spacing: 0;
+  padding-bottom: $padding;
+  width: 100%;
+  border-top: 1px solid i.$border-color;
+  border-bottom: 1px solid i.$border-color;
+
+  caption {
+    padding: $padding-s;
+    text-align: lefT;
+    background-color: color.scale(i.$color1, $lightness: +50%);
+    font-size: $text-l;
+    font-weight: bold;
+
+    border-bottom: 3px solid i.$border-color;
+
+    span {
+      color: red;
+    }
+  }
+
+  tr, th, td {
+    padding: $padding;
+    font-size: $text-m;
+  }
+
+  tr {
+    td, th {
+      text-align: right;
+    }
+
+    td:first-child, th:first-child {
+      font-weight: bold;
+      text-align: left;
+      width: 10%;
+    }
+
+    td:last-child, th:last-child {
+      border-left: 1px solid i.$border-color;
+      font-weight: bold;
+      text-align: right;
+      width: 10%;
+    }
+  }
+
+  thead {
+    tr {
+      background-color: color.scale(i.$color1, $lightness: +25%);
+    }
+  }
+
+  tbody {
+    tr:nth-child(odd) {
+      background-color: color.scale(i.$color1, $lightness: +90%);
+
+      .empty {
+        background-color: color.grayscale(color.scale(i.$color1, $lightness: +90%));
+        color: color.grayscale(color.scale(i.$text-color, $lightness: +80%));
+      }
+
+      .corrected {
+        font-weight: bold;
+        background-color: color.scale(i.$warning-color, $lightness: +90%);
+        color: color.scale(i.$warning-color, $lightness: -25%);
+      }
+    }
+    tr:nth-child(even) {
+      background-color: color.scale(i.$color1, $lightness: +80%);
+
+      .empty {
+        background-color: color.grayscale(color.scale(i.$color1, $lightness: +80%));
+        color: color.grayscale(color.scale(i.$text-color, $lightness: +80%));
+      }
+
+      .corrected {
+        font-weight: bold;
+        background-color: color.scale(i.$warning-color, $lightness: +90%);
+        color: color.scale(i.$warning-color, $lightness: -25%);
+      }
+    }
+  }
+
+  tfoot {
+    font-weight: bold;
+
+    td {
+      border-top: 1px solid i.$border-color;
+    }
+  }
+}

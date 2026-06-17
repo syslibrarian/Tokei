@@ -1,0 +1,153 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+*:not(dialog) {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+#root, #__next {
+  isolation: isolate;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url("../assets/font/Roboto.woff2");
+}
+@font-face {
+  font-family: RobotoMono;
+  src: url("../assets/font/Roboto_Mono.woff2");
+}
+@font-face {
+  font-family: PhIcons;
+  src: url("../assets/font/Phosphor.woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: PhIconsFill;
+  src: url("../assets/font/PhosphorFill.woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+.content.klr {
+  padding: 5pt;
+}
+.content.klr header {
+  margin-bottom: 5pt;
+  font-size: 12pt;
+}
+
+table.klr-table {
+  border-spacing: 0;
+  padding-bottom: 5pt;
+  width: 100%;
+  border-top: 1px solid rgb(223, 223, 223);
+  border-bottom: 1px solid rgb(223, 223, 223);
+}
+table.klr-table caption {
+  padding: 2pt;
+  text-align: lefT;
+  background-color: #dbdbff;
+  font-size: 10pt;
+  font-weight: bold;
+  border-bottom: 3px solid rgb(223, 223, 223);
+}
+table.klr-table caption span {
+  color: red;
+}
+table.klr-table tr, table.klr-table th, table.klr-table td {
+  padding: 5pt;
+  font-size: 8pt;
+}
+table.klr-table tr td, table.klr-table tr th {
+  text-align: right;
+}
+table.klr-table tr td:first-child, table.klr-table tr th:first-child {
+  font-weight: bold;
+  text-align: left;
+  width: 10%;
+}
+table.klr-table tr td:last-child, table.klr-table tr th:last-child {
+  border-left: 1px solid rgb(223, 223, 223);
+  font-weight: bold;
+  text-align: right;
+  width: 10%;
+}
+table.klr-table thead tr {
+  background-color: #c9c9ff;
+}
+table.klr-table tbody tr:nth-child(odd) {
+  background-color: rgb(247.8, 247.8, 255);
+}
+table.klr-table tbody tr:nth-child(odd) .empty {
+  background-color: rgb(251.4, 251.4, 251.4);
+  color: rgb(210.2, 210.2, 210.2);
+}
+table.klr-table tbody tr:nth-child(odd) .corrected {
+  font-weight: bold;
+  background-color: rgb(255, 241.48, 229);
+  color: rgb(187.5, 90, 0);
+}
+table.klr-table tbody tr:nth-child(even) {
+  background-color: rgb(240.6, 240.6, 255);
+}
+table.klr-table tbody tr:nth-child(even) .empty {
+  background-color: rgb(247.8, 247.8, 247.8);
+  color: rgb(210.2, 210.2, 210.2);
+}
+table.klr-table tbody tr:nth-child(even) .corrected {
+  font-weight: bold;
+  background-color: rgb(255, 241.48, 229);
+  color: rgb(187.5, 90, 0);
+}
+table.klr-table tfoot {
+  font-weight: bold;
+}
+table.klr-table tfoot td {
+  border-top: 1px solid rgb(223, 223, 223);
+}
+
+@page {
+  size: A4 landscape;
+}
+body {
+  print-color-adjust: exact;
+  margin: 2pt;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/*# sourceMappingURL=print.css.map */

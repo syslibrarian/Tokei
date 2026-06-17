@@ -18,6 +18,7 @@ use Tokei\Model\Klr\KlrReport;
 use Tokei\Model\Location\Location;
 use Tokei\Model\Location\LocationHelper;
 use Tokei\Model\Location\MonthlyReport;
+use Tokei\Tool\Statistic\KlrPrinter;
 
 #[Prefix('/adm/reports')]
 final class AdmReportController extends Controller
@@ -85,7 +86,13 @@ final class AdmReportController extends Controller
             mediaPackages: (int) $request->get('mediaPackages', $model->media_packages),
             shifts: (int) $request->get('shifts', $model->shifts),
             coversReceived: (int) $request->get('coversReceived', $model->covers_received),
-            coversGiven: (int) $request->get('coversGiven', $model->covers_given)
+            coversGiven: (int) $request->get('coversGiven', $model->covers_given),
+            staffExternal: (int) $request->get('staffExternal', $model->staff_external),
+            staffExternalHours: (float) $request->get('staffExternalHours', $model->staff_external_hours),
+            staffGrant: (int) $request->get('staffGrant', $model->staff_grant),
+            staffGrantHours: (float) $request->get('staffGrantHours', $model->staff_grant_hours),
+            staffVolunteer: (int) $request->get('staffVolunteer', $model->staff_volunteer),
+            staffVolunteerHours: (float) $request->get('staffVolunteerHours', $model->staff_volunteer_hours),
         );
 
         $response = $this->executeCommand($command, $request);
@@ -100,33 +107,23 @@ final class AdmReportController extends Controller
         );
     }
 
-    #[Get('/klr/{?year:[0-9]{4}}/')]
-    public function showKlr(?int $year = null): View
+    #[
+        Get('/klr/{?year:[0-9]{4}}/'),
+        Get('/klr/{print:print}/{?year:[0-9]{4}}/')
+    ]
+    public function showKlr(?int $year = null, string $print = ''): View
     {
         $year = $year ?? DateTime::now()->getYear();
 
         $months = KlrReport::select()->where('year = ?', $year)->orderBy('month, seal')->all();
         $locations = LocationHelper::getLocationsForReports();
+        $printer = new KlrPrinter($months, $locations);
 
         return $this->view(
-            '@adm/showKlr.tpl',
-            locations: $locations,
-            months: $months,
-        );
-    }
-
-    #[Get('/print-klr/{?year:[0-9]{4}}/')]
-    public function printKlr(?int $year = null): View
-    {
-        $year = $year ?? DateTime::now()->getYear();
-
-        $months = KlrReport::select()->where('year = ?', $year)->orderBy('month, seal')->all();
-        $locations = LocationHelper::getLocationsForReports();
-
-        return $this->view(
-            '@adm/printKlr.tpl',
-            locations: $locations,
-            months: $months,
+            ($print !== 'print') ? '@adm/showKlr.tpl' : '@adm/printKlr.tpl',
+            printer: $printer,
+            year: $year,
+            isPrint: $print === 'print'
         );
     }
 

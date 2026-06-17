@@ -12,7 +12,7 @@ final class KlrPrinter
 {
     protected(set) array $fieldToProduct= [];
     protected(set) array $products = [];
-    protected(set) array $tableMonths = [1 => 'Jan', 2 => 'Feb', 3 => 'März', 4 => 'Apr', 5 => 'Mai', 6 => 'Juni', 7 => 'Juli', 8 => 'Aug', 9 => 'Sep', 10 => 'Okt', 11 => 'Nov', 12 => 'Dec', 'year' => 'Gesamt'];
+    protected(set) array $months = [1 => 'Jan', 2 => 'Feb', 3 => 'März', 4 => 'Apr', 5 => 'Mai', 6 => 'Juni', 7 => 'Juli', 8 => 'Aug', 9 => 'Sep', 10 => 'Okt', 11 => 'Nov', 12 => 'Dec', 'year' => 'Gesamt'];
 
     /**
      * @param KlrReport[] $klrReports
@@ -26,11 +26,12 @@ final class KlrPrinter
 
     protected function createStructure(): void
     {
+        // buid structure
         foreach (KlrHelper::KLR_PRODUCTS as $number => $information) {
             $this->fieldToProduct[$information['field']] = $number;
             $this->products[$number] = [
                 'title' => $information['title'],
-                'location' => [],
+                'locations' => [],
                 'sum' => $this->getContainers(true)
             ];
         }
@@ -39,7 +40,7 @@ final class KlrPrinter
     protected function getContainers(bool $forSum = false): array
     {
         $containers = [];
-        foreach ($this->tableMonths as $key => $month) {
+        foreach ($this->months as $key => $month) {
             $containers[$key] = ($key === 'year' || $forSum) ? new Cell(0, 0) : null;
         }
 
@@ -50,17 +51,17 @@ final class KlrPrinter
     {
         foreach ($this->klrReports as $report) {
             foreach ($this->fieldToProduct as $field => $number) {
-                if (!isset($this->products[$number]['location'][$report->seal])) {
-                    $this->products[$number]['location'][$report->seal] = [
-                        'klrCode' => $report->seal,
+                if (!isset($this->products[$number]['locations'][$report->seal])) {
+                    $this->products[$number]['locations'][$report->seal] = [
+                        'klrCode' => $this->locations[$report->seal]->klr_code ?? $report->seal,
                         'data' => $this->getContainers()
                     ];
                 }
 
                 $this->products[$number]['sum'][$report->month]->value += $report->$field;
                 $this->products[$number]['sum']['year']->value += $report->$field;
-                $this->products[$number]['location'][$report->seal]['data'][$report->month] = new Cell($report->$field, $report->report_status);
-                $this->products[$number]['location'][$report->seal]['data']['year']->value += $report->$field;
+                $this->products[$number]['locations'][$report->seal]['data'][$report->month] = new Cell($report->$field, $report->report_status);
+                $this->products[$number]['locations'][$report->seal]['data']['year']->value += $report->$field;
             }
         }
     }

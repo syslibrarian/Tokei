@@ -33,6 +33,12 @@ final class MonthlyReport implements Report, Located
     public int $shifts; // in hours
     public int $covers_received;
     public int $covers_given;
+    public int $staff_external;
+    public float $staff_external_hours;
+    public int $staff_grant;
+    public float $staff_grant_hours;
+    public int $staff_volunteer;
+    public float $staff_volunteer_hours;
     public string $events_raw; // json object - calculatet every time until close;
     public int $created;
     public ?int $modified;

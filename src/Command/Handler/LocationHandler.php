@@ -150,6 +150,12 @@ final class LocationHandler
                 shifts: $command->shifts,
                 covers_received: $command->coversReceived,
                 covers_given: $command->coversGiven,
+                staff_external: $command->staffExternal,
+                staff_external_hours: $command->staffExternalHours,
+                staff_grant: $command->staffGrant,
+                staff_grant_hours: $command->staffGrantHours,
+                staff_volunteer: $command->staffVolunteer,
+                staff_volunteer_hours: $command->staffVolunteerHours
             );
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();

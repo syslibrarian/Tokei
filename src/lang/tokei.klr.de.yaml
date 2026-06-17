@@ -1,0 +1,6 @@
+tokei:
+  klr:
+    title: 'Kosten- und Leistungsrechnung - {$year}'
+    product_80035: 'Teilnehmende [E26] - <span>Produkt: 80035</span> (Vermittlung von Medienkompetenz)'
+    product_80007: 'Entleihungen [B8] - <span>Produkt: 80007</span>'
+    product_80008: 'Besuche [B6] - <span>Produkt: 80008</span>'
