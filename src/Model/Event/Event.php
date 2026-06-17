@@ -45,6 +45,10 @@ final class Event implements Located
 
     public string $description = '';
 
+    public string $audience;
+
+    public int $is_education;
+
     #[IsValidOnlineState]
     public int $online;
 
@@ -55,7 +59,6 @@ final class Event implements Located
 
     public ?int $modified = 0;
 
-    public string $audience;
 
     // virtual fields
     #[Virtual]

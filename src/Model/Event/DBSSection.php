@@ -77,4 +77,9 @@ final class DBSSection
             }
         }
     }
+
+    public static function isEducation(string $sectionNumber): int
+    {
+        return (isset(self::SECTIONS[FormType::PRE_SCHOOL->value][$sectionNumber]) || isset(self::SECTIONS[FormType::SCHOOL->value][$sectionNumber])) ? 1 : 0;
+    }
 }

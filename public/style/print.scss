@@ -1,8 +1,8 @@
 // imports
 @use "tools/reset";
 @use "tools/fonts";
-@use "layout/klr" as klr with (
-  $text-xl: 12pt,
+@use "content/klr" as klr with (
+  $text-xl: 11pt,
   $text-l: 10pt,
   $text-m: 8pt,
   $padding: 5pt,

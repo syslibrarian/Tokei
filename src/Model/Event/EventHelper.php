@@ -46,7 +46,7 @@ final class EventHelper
         return DateTime::fromPattern($dateFromForm, 'yyyy-MM-dd HH:mm')->getTimestamp()->getSeconds();
     }
 
-    public static function getEventsByPeriod(?string $seal = '', ?int $startTime = null, ?int $endTime = null): array
+    public static function getEventsByPeriod(?string $seal = '', bool $includeEducation = false, ?int $startTime = null, ?int $endTime = null): array
     {
         // now startime - last 30 days.
         if ($startTime === null) {
@@ -67,7 +67,12 @@ final class EventHelper
             $eventRaw = Event::select()->where('time_start >= ?', $startTime)->orderBy('time_start', Direction::DESC);
         }
 
-        return $eventRaw->andWhere('seal', $seal)->all();
+        $eventRaw->andWhere('seal', $seal);
+        if ($includeEducation === false) {
+            $eventRaw->andWhere('is_education = ?', 0);
+        }
+
+        return $eventRaw->all();
     }
 
     public static function calculateEnd(int $startTime, string $endTime): int
@@ -91,7 +96,6 @@ final class EventHelper
         );
 
         return $endDateTime->getTimestamp()->getSeconds();
-
     }
 
     public static function calculateHours(int $startTime, int $endTime): float

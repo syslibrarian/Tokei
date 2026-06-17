@@ -30,10 +30,12 @@ final class EventCreateTable implements DatabaseCommand
             ->integer('online')
             ->integer('state')
             ->string('audience')
+            ->integer('is_education')
             ->integer('created')
             ->integer('modified', default: 0)
-            ->index('time_start', 'seal')
-            ->index('time_code', 'seal')
+            ->index('time_start', 'seal', 'is_education')
+            ->index('time_code', 'seal', 'is_education')
+            ->index('time_start', 'is_education')
             ->index('time_start');
     }
 }

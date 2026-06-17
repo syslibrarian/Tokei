@@ -1,0 +1,10 @@
+tokei:
+  location:
+    events_list_information: ''
+    events_last: 'Veranstaltungen der letzten 30 Tage'
+    title_addition: 'Siegel: {$seal} - KLR-Kennung: {$code}'
+    base_information: 'Informationen'
+    overview: 'Übersicht'
+    area: 'Fläche {$area} m²'
+    fte: 'Stellen {$fte} - davon besetzt sind {$consumed}'
+    address: 'Addresse'

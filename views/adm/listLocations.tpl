@@ -15,7 +15,7 @@
             </section>
             <section class="fieldTitle">
                 {# own location side with all informations #}
-                <h2><a href="/adm/update-location/{{ location.id }}">{{ location.name }} ({{ location.seal }})</a></h2>
+                <h2><a href="/adm/show-location/{{ location.seal }}">{{ location.name }} ({{ location.seal }})</a></h2>
             </section>
             <section class="fieldTools">
                 <a href="/adm/update-location/{{ location.id }}"><span class="edit"></span></a>

@@ -1,4 +1,7 @@
 tokei:
+  number:
+    thousands: '.'
+    decimal: ','
   form:
     submit: 'Absenden'
     reset: 'Zurücksetzen'

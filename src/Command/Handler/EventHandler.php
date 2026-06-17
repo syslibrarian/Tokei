@@ -52,6 +52,7 @@ final class EventHandler
                 state: $command->state,
                 created: Timestamp::now()->getSeconds(),
                 audience: $command->audience,
+                is_education: DBSSection::isEducation($command->type),
             );
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();
@@ -89,7 +90,8 @@ final class EventHandler
                 description: $command->description,
                 online: $command->online,
                 state: $command->state,
-                modified: Timestamp::now()->getSeconds()
+                modified: Timestamp::now()->getSeconds(),
+                is_education: DBSSection::isEducation($command->type),
             );
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();

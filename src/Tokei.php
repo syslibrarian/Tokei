@@ -8,6 +8,7 @@ use Tempest\Container\Singleton;
 use Tempest\Intl\Translator;
 use Tokei\Component\Access\AccessControl;
 use Tokei\Extension\Twig\TokeiTwigBaseExtension;
+use Twig\Extension\CoreExtension;
 use Twig\Environment;
 use Twig\Extension\AttributeExtension;
 
@@ -31,6 +32,9 @@ final class Tokei
     {
         $this->twig->addExtension(new AttributeExtension(TokeiTwigBaseExtension::class));
         $this->twig->addGlobal('_tokei', $this);
+
+        // format number
+        $this->twig->getExtension(CoreExtension::class)->setNumberFormat(2, $this->translator->translate('tokei.number.decimal'), $this->translator->translate('tokei.number.thousands'));
     }
 
     /**
