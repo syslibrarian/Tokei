@@ -9,13 +9,21 @@ use Tempest\Database\Table;
 use Tempest\Database\Virtual;
 use Tempest\Validation\Rules\IsNotEmptyString;
 use Tempest\Validation\Rules\MatchesRegEx;
+use Tokei\Component\Access\CreatePermission;
+use Tokei\Component\Access\DeletePermission;
+use Tokei\Component\Access\UpdatePermission;
 use Tokei\Extension\Validation\Rules\IsDBSType;
 use Tokei\Extension\Validation\Rules\IsValidEventState;
 use Tokei\Extension\Validation\Rules\IsValidOnlineState;
 use Tokei\Model\IsLocated;
 use Tokei\Model\Located;
 
-#[Table(name: 'event')]
+#[
+    Table(name: 'event'),
+    CreatePermission('can_create_event'),
+    UpdatePermission('can_update_event', 48),
+    DeletePermission,
+]
 final class Event implements Located
 {
     use IsDatabaseModel;

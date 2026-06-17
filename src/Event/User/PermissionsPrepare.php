@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tokei\Event\User;
 
-use Tokei\Tool\User\Permissions;
+use Tokei\Tool\Role\Permissions;
 
 final class PermissionsPrepare
 {

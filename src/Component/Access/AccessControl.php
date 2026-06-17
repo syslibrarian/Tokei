@@ -7,7 +7,6 @@ namespace Tokei\Component\Access;
 use Tempest\Auth\AccessControl\AccessDecision;
 use Tempest\Auth\Authentication\Authenticator;
 use Tempest\Auth\Exceptions\AccessWasDenied;
-use Tokei\Model\ReportStatus;
 use Tokei\Model\User\User;
 
 final class AccessControl
@@ -40,19 +39,14 @@ final class AccessControl
         return true; // current state
     }
 
-    public function checkModel(string $name, object $model): void
+    public function checkModel(object|string $model, ?AccessContext $context = null): void
     {
-        // base check
-        $this->checkPermission($name);
+        $permissionClass = AccessContext::getClass($context, $model);
 
-        // seal
-        $seal = $model->seal ?? null;
-        if ($seal !== null && $this->user->seal !== $seal) {
-            throw new AccessWasDenied(AccessDecision::Denied($name));
+        // we have no permission, so no check
+        if ($permissionClass === null) {
+            return;
         }
-
-        // status
-
     }
 
     public function checkPermission(string $name): void

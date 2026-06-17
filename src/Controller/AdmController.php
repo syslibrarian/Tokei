@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace Tokei\Controller;
 
 use Tempest\DateTime\DateTime;
+use Tempest\Http\Request;
+use Tempest\Http\Responses\Redirect;
 use Tempest\Log\Logger;
+use Tempest\Router\Get;
+use Tempest\Router\Post;
+use Tempest\Router\Prefix;
+use Tempest\View\View;
 use Tokei\Command\Klr\CreateMonths;
 use Tokei\Command\Location\CreateLocation;
 use Tokei\Command\Location\CreateReports;
@@ -24,17 +30,10 @@ use Tokei\Model\User\Role;
 use Tokei\Model\User\RoleHelper;
 use Tokei\Model\User\User;
 use Tokei\Tool\Pagination\Pagination;
-use Tokei\Tool\User\Permissions;
-use Tempest\Http\Request;
-use Tempest\Http\Responses\Redirect;
-use Tempest\Router\Get;
-use Tempest\Router\Post;
-use Tempest\Router\Prefix;
-use Tempest\View\View;
-
-use function Tokei\str\trim;
+use Tokei\Tool\Role\Permissions;
 use function Tempest\CommandBus\command;
 use function Tempest\Container\get;
+use function Tokei\str\trim;
 
 #[Prefix('/adm')]
 final class AdmController extends Controller
@@ -74,7 +73,7 @@ final class AdmController extends Controller
     public function createRole(Request $request): View|Redirect
     {
         $this->setActiveSlug('create-role/');
-        /** @var \Tokei\Tool\User\Permissions $permissions */
+        /** @var \Tokei\Tool\Role\Permissions $permissions */
         $permissions = get(Permissions::class);
         $createRole = new CreateRole(
             name: trim($request->get('name', '')),
@@ -102,7 +101,7 @@ final class AdmController extends Controller
         $this->setActiveSlug('list-roles/');
         $role = Role::select()->where('user_role.id = ?', $id)->with('permissions')->first();
 
-        /** @var \Tokei\Tool\User\Permissions $permissions */
+        /** @var \Tokei\Tool\Role\Permissions $permissions */
         $permissions = get(Permissions::class);
         $updateRole = new UpdateRole(
             name: trim($request->get('name', $role->name)),

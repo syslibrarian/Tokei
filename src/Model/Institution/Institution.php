@@ -9,11 +9,19 @@ use Tempest\Database\Table;
 use Tempest\Validation\Rules\IsEmail;
 use Tempest\Validation\Rules\IsNotEmptyString;
 use Tempest\Validation\Rules\IsPhoneNumber;
+use Tokei\Component\Access\CreatePermission;
+use Tokei\Component\Access\DeletePermission;
+use Tokei\Component\Access\UpdatePermission;
 use Tokei\Extension\Validation\Rules\IsInstitutionType;
 use Tokei\Model\IsLocated;
 use Tokei\Model\Located;
 
-#[Table(name: 'institution')]
+#[
+    Table(name: 'institution'),
+    CreatePermission('can_create_institution'),
+    UpdatePermission('can_update_institution'),
+    DeletePermission,
+]
 final class Institution implements Located
 {
     use IsDatabaseModel;

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Tool\User;
+namespace Tokei\Tool\Role;
 
-use Tokei\Event\User\PermissionsPrepare;
-use Tokei\Model\User\Role;
 use Tempest\Container\Singleton;
 use Tempest\EventBus\EventBus;
 use Tempest\Http\Request;
+use Tokei\Event\User\PermissionsPrepare;
+use Tokei\Model\User\Role;
 
 #[Singleton]
 final class Permissions
@@ -78,19 +78,18 @@ final class Permissions
             'event' => [
                 'can_create_event',
                 'can_update_event',
-                'can_create_institutions',
-                'can_update_institutions',
+                'can_create_institution',
+                'can_update_institution',
             ],
             'location' => [
+                'can_create_report',
                 'can_update_report',
-                'can_create_reports',
-                'can_close_reports',
-                'can_reopen_reports'
+                'can_close_report',
             ],
             'super' => [
                 'can_update_limitless',
-                'can_create_roles',
-                'can_update_roles',
+                'can_create_role',
+                'can_update_role',
                 'can_delete'
             ]
         ];

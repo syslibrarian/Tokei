@@ -8,9 +8,17 @@ use Tempest\Database\IsDatabaseModel;
 use Tempest\Database\Table;
 use Tempest\Validation\Rules\IsNotEmptyString;
 use Tempest\Validation\Rules\MatchesRegEx;
+use Tokei\Component\Access\CreatePermission;
+use Tokei\Component\Access\DeletePermission;
+use Tokei\Component\Access\UpdatePermission;
 use Tokei\Extension\Validation\Rules\IsNotExistingSeal;
 
-#[Table(name: 'location')]
+#[
+    Table(name: 'location'),
+    CreatePermission('can_create_location'),
+    UpdatePermission('can_update_location'),
+    DeletePermission,
+]
 final class Location
 {
     use IsDatabaseModel;

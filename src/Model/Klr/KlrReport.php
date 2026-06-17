@@ -6,12 +6,20 @@ namespace Tokei\Model\Klr;
 
 use Tempest\Database\IsDatabaseModel;
 use Tempest\Database\Table;
+use Tokei\Component\Access\CreatePermission;
+use Tokei\Component\Access\DeletePermission;
+use Tokei\Component\Access\UpdatePermission;
 use Tokei\Model\IsLocated;
 use Tokei\Model\IsReport;
 use Tokei\Model\Report;
 use Tokei\Model\Located;
 
-#[Table('klr_month')]
+#[
+    Table('klr_month'),
+    CreatePermission('can_create_reports'),
+    UpdatePermission('can_update_report', super: 'can_close_report'),
+    DeletePermission,
+]
 final class KlrReport implements Report, Located
 {
     use IsDatabaseModel;

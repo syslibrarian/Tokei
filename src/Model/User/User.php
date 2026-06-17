@@ -12,8 +12,16 @@ use Tempest\Database\Table;
 use Tempest\Mapper\Hidden;
 use Tempest\Validation\Rules\IsEmail;
 use Tempest\Validation\Rules\IsNotEmptyString;
+use Tokei\Component\Access\CreatePermission;
+use Tokei\Component\Access\DeletePermission;
+use Tokei\Component\Access\UpdatePermission;
 
-#[Table('user')]
+#[
+    Table('user'),
+    CreatePermission('can_create_role'),
+    UpdatePermission('can_update_role'),
+    DeletePermission
+]
 final class User implements Authenticatable
 {
     use IsDatabaseModel;

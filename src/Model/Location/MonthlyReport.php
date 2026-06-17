@@ -7,6 +7,9 @@ namespace Tokei\Model\Location;
 use Tempest\Database\IsDatabaseModel;
 use Tempest\Database\Table;
 use Tempest\Database\Virtual;
+use Tokei\Component\Access\CreatePermission;
+use Tokei\Component\Access\DeletePermission;
+use Tokei\Component\Access\UpdatePermission;
 use Tokei\Model\IsLocated;
 use Tokei\Model\IsReport;
 use Tokei\Model\Report;
@@ -14,7 +17,12 @@ use Tokei\Model\ReportStatus;
 use Tokei\Tool\Statistic\Events;
 use Tokei\Model\Located;
 
-#[Table('location_report')]
+#[
+    Table('location_report'),
+    CreatePermission('can_create_report'),
+    UpdatePermission('can_update_report', super: 'can_close_report'),
+    DeletePermission,
+]
 final class MonthlyReport implements Report, Located
 {
     use IsDatabaseModel;
