@@ -194,10 +194,8 @@ final class AdmEventController extends Controller
     }
 
     #[
-        Get(uri: '/create/'),
-        Post(uri: '/create/'),
-        Get(uri: '/create/{for:pre-school|school}/'),
-        Post(uri: '/create/{for:pre-school|school}/'),
+        Get(uri: '/create/{?for:pre-school|school}/'),
+        Post(uri: '/create/{?for:pre-school|school}/'),
     ]
     public function createEvent(Request $request, string $for = 'event'): View
     {
@@ -282,7 +280,8 @@ final class AdmEventController extends Controller
             onlineStates: EventHelper::getOnlineForForm(),
             audiences: EventHelper::getAudienceForForm(),
             errors: $this->validationParser->parsedErrors,
-            success: $response !== null
+            success: $response !== null,
+            isBase: true,
         );
     }
 }

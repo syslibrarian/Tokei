@@ -20,6 +20,7 @@
         "twig/twig": "^3.26"
     },
     "require-dev": {
+        "phpstan/phpstan": "^2.2.2",
         "pestphp/pest": "^4.6",
         "carthage-software/mago": "^1.29"
     },

@@ -10,11 +10,18 @@
     </span>
 {% endmacro %}
 
-{% macro links(model, suffix = '', withBase = true, withCurrent = false) %}
-    test
-    {% if suffix != '' %}{% set suffix %}{{ suffix }}-{% endset %}{% endif %}
-    <section class="fieldTools">
-        <a href="{{ getUri(withBase, withCurrent, suffix ~ 'update', id:model.id) }}"><span class="edit"></span></a>
-        <a href="{{ getUri(withBase, withCurrent, suffix ~ 'delete', id:model.id) }}"><span class="delete"></span></a>
+{% macro modelTools(textUpdate = '', textDelte = '', updateUri = '', deleteUri = '') %}
+    <section class="model-tools">
+        <a href="{{ updateUri }}"><span class="update"></span></a>
+        {# <a href="{{ getUri(withBase, withCurrent, uri,  suffix: suffix ~ 'delete', id:model.id) }}"><span class="delete">1</span></a> #}
     </section>
+{% endmacro %}
+
+{% macro inlineTools(model, uri = '', hasClose = false) %}
+    <span class="inline-tools">
+        <a href="{{ uri }}"><span class="update"></span></a>
+        {# here more work for inlinetools
+            <span class="close"></span>
+        #}
+    </span>
 {% endmacro %}

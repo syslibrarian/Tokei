@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tokei;
 
 use Tempest\Container\Singleton;
+use Tempest\DateTime\DateTime;
 use Tempest\Intl\Translator;
 use Tokei\Component\Access\AccessControl;
 use Tokei\Extension\Twig\TokeiTwigBaseExtension;
@@ -26,6 +27,9 @@ final class Tokei
         protected(set) Translator $translator,
     ) {
         $this->extendTwig();
+        $this->add('year', DateTime::now()->getYear());
+        $this->add('month', DateTime::now()->getMonth());
+        $this->add('time', DateTime::now()->getTimestamp()->getSeconds());
     }
 
     protected function extendTwig(): void
@@ -34,7 +38,11 @@ final class Tokei
         $this->twig->addGlobal('_tokei', $this);
 
         // format number
-        $this->twig->getExtension(CoreExtension::class)->setNumberFormat(2, $this->translator->translate('tokei.number.decimal'), $this->translator->translate('tokei.number.thousands'));
+        $this->twig->getExtension(CoreExtension::class)->setNumberFormat(
+            decimal: 0,
+            decimalPoint: $this->translator->translate('tokei.number.decimal'),
+            thousandSep: $this->translator->translate('tokei.number.thousands')
+        );
     }
 
     /**

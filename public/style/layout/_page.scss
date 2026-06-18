@@ -15,15 +15,3 @@
     padding: 0 10px;
   }
 }
-
-.content {
-  margin: 10px 0;
-  opacity: 1;
-  background-color: color.scale(s.$background-color, $alpha: -50%);
-  backdrop-filter: blur(2px);
-  @include s.responsive-borders(s.$border-color, s.$shadow-color);
-
-  & > h1 {
-    color: s.$color3;
-  }
-}

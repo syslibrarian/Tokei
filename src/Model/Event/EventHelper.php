@@ -69,7 +69,7 @@ final class EventHelper
 
         $eventRaw->andWhere('seal', $seal);
         if ($includeEducation === false) {
-            $eventRaw->andWhere('is_education = ?', 0);
+            $eventRaw->andWhere('is_education', 0);
         }
 
         return $eventRaw->all();

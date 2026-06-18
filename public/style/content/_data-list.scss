@@ -1,0 +1,48 @@
+@use 'sass:color';
+@use '../tools/includes' as i;
+
+ol.data-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 10px;
+    &:nth-child(even) {
+      background-color: color.scale(i.$color1, $lightness: +95%);
+    }
+
+    &:nth-child(odd) {
+      background-color: color.scale(i.$color1, $lightness: +85%);
+    }
+
+    &:hover {
+      background-color: color.scale(i.$color1, $lightness: +65%);
+    }
+
+    .title {
+      min-width: 40%;
+
+      h2, h3, h4 {
+        display: block;
+        margin: 0;
+        padding: 0;
+        line-height: 1;
+        font-size: i.$text-m;
+        color: i.$text-color;
+      }
+
+      p {
+        font-size: i.$text-s;
+        color: i.$text-color-light;
+      }
+    }
+
+    .tools {
+      flex-basis: 20%;
+    }
+  }
+}

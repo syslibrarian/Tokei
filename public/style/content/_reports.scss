@@ -1,0 +1,39 @@
+@use '../tools/includes' as i;
+@use 'sass:color';
+
+table.events-table {
+  width: 100%;
+  column-gap: 0;
+
+  thead tr {
+    background-color: i.$color1
+  }
+
+  td, th {
+    padding: 5px;
+  }
+
+  td {
+    text-align: right;
+
+    &:first-child {
+      text-align: left;
+    }
+  }
+
+  tbody {
+    tr {
+      &:nth-child(2n) {
+        background-color: color.scale(i.$color1, $lightness: +95%);
+      }
+
+      &:nth-child(2n-1) {
+        background-color: color.scale(i.$color1, $lightness: +85%);
+      }
+
+      &:hover {
+        background-color: color.scale(i.$color1, $lightness: +65%);
+      }
+    }
+  }
+}

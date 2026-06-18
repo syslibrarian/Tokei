@@ -18,6 +18,7 @@ use Tokei\Model\Klr\KlrReport;
 use Tokei\Model\Location\Location;
 use Tokei\Model\Location\LocationHelper;
 use Tokei\Model\Location\MonthlyReport;
+use Tokei\Model\Location\ReportHelper;
 use Tokei\Tool\Statistic\KlrPrinter;
 
 #[Prefix('/adm/reports')]
@@ -44,30 +45,40 @@ final class AdmReportController extends Controller
         // location is needed for check
         if ($seal !== null) {
             $location = $this->getBySeal($seal, Location::class);
+            $locations = null;
         } else {
-            $locations = LocationHelper::getLocationsForReports();
+            $location = null;
+            $locations = Location::select()->all();
         }
 
-        $reportsRaw = MonthlyReport::select();
-        if ($seal !== null) {
-            $reportsRaw->where('year = ? AND seal = ?', $year, $seal)->orderBy('month');
-        } else {
-            $reportsRaw->where('year = ?', $year)->orderBy('month, seal');
-        }
+        $reports = ($seal !== null) ? ReportHelper::getFor($seal) : ReportHelper::getSealSorted();
 
         return $this->view(
             '@adm/reports.tpl',
-            reports: $reportsRaw->all(),
-            locations: $locations ?? null,
-            location: $location ?? null,
+            reports: $reports,
+            locations: $locations,
+            location: $location,
             year: $year,
-            seal: $seal ?? null,
+            seal: $seal,
+        );
+    }
+
+    #[Get('/show-report/{timeCode:[0-9]{4}-[0-9]{2}}/{seal:[0-9]{3}[a-z]?}')]
+    public function showReport(string $timeCode, string $seal): View
+    {
+        $report = $this->getBySeal($seal, MonthlyReport::class, $timeCode);
+        $location = $this->getBySeal($seal, Location::class);
+
+        return $this->view(
+            '@adm/showReport.tpl',
+            location: $location,
+            report: $report
         );
     }
 
     #[
         Get('/update/{timeCode:[0-9]{4}-[0-9]{2}}/{seal:[0-9]{3}[a-z]?}/'),
-        Post('/update/{timeCode:[0-9]{4}-[0-9]{2}}/{seal:[0-9]{3}[a-z]?}/')
+        Post('/update/{timeCode:[0-9]{4}-[0-9]{2}}/{seal:[0-9]{3}[a-z]?}/'),
     ]
     public function update(string $timeCode, string $seal, Request $request): View
     {

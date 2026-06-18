@@ -28,7 +28,7 @@
             </nav>
         {% endblock %}
 
-        <div>
+        <div class="adm-content">
         {% block content %}
             <div class="content">
                 <h1>{{ 'tokei.adm.index'|translateFull }}</h1>

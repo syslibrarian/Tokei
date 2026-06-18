@@ -1,5 +1,6 @@
 {% extends "@adm/index.tpl" %}
 {% import '_tools.tpl' as t %}
+{% import '_content.tpl' as c %}
 
 {% if intl_category == '' %}
     {% set intl_category %}tokei.adm.events{% endset %}
@@ -13,16 +14,6 @@
 
 {% block content %}
     <div class="content dataList">
-        <h1>// Events</h1>
-
-        <ol>
-            {% for event in events %}
-                <li>
-                    {{ event.title }} - {{ event.time_start|date }}  (// Stunden: {{ event.hours }} )
-                    test
-                    {{ t.links(event) }}
-                </li>
-            {% endfor %}
-        </ol>
+        {{ c.eventList(events) }}
     </div>
 {% endblock %}

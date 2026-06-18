@@ -9,7 +9,7 @@ use Tokei\Model\TimeCode;
 
 final class ReportHelper
 {
-    public static function getReportFor(string $seal): ?MonthlyReport
+    public static function getLastFor(string $seal): ?MonthlyReport
     {
         $month = DateTime::now()->getMonth();
         $year = DateTime::now()->getYear();
@@ -30,8 +30,19 @@ final class ReportHelper
      * @param string $seal
      * @return MonthlyReport[]
      */
-    public static function getReportsFor(string $seal): array
+    public static function getFor(string $seal): array
     {
         return MonthlyReport::select()->where('seal = ? AND year = ?', $seal, DateTime::now()->getYear())->all();
+    }
+
+    public static function getSealSorted(): array
+    {
+        $reports = MonthlyReport::select()->where('year = ?', DateTime::now()->getYear())->all();
+        $sorted = [];
+        foreach ($reports as $report) {
+            $sorted[$report->seal][$report->month] = $report;
+        }
+
+        return $sorted;
     }
 }

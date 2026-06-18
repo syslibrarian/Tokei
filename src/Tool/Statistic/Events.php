@@ -7,6 +7,7 @@ namespace Tokei\Tool\Statistic;
 use Tokei\Model\Event\DBSSection;
 use Tokei\Model\Event\Event;
 
+use Tokei\Model\TimeCode;
 use function Tempest\Support\Json\decode;
 use function Tempest\Support\Json\encode;
 
@@ -76,6 +77,8 @@ final class Events
                 $this->containers[$number] = new DBSContainer(
                     $number,
                     $name,
+                    0,
+                    0,
                     0,
                     0,
                     0,

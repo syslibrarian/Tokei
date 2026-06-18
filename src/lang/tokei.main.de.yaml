@@ -1,4 +1,16 @@
 tokei:
+  month12: 'Dezember'
+  month11: 'November'
+  month10: 'Oktober'
+  month9: 'September'
+  month8: 'August'
+  month7: 'Juli'
+  month6: 'Juni'
+  month5: 'Mai'
+  month4: 'April'
+  month3: 'März'
+  month2: 'Februar'
+  month1: 'Januar'
   number:
     thousands: '.'
     decimal: ','

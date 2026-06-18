@@ -1,6 +1,9 @@
 tokei:
   adm:
     reports:
+      title_year: 'Monatsblätter für {$year}'
+      title_seal: 'Monatsblätter für {$name} ({$year})'
+      for_location: '{$name}'
       coversGiven_desc: 'In Schichten, {#strong}NICHT{/strong} Stunden.'
       coversGiven: 'Vertretungen gegeben'
       coversReceived_desc: 'In Schichten, {#strong}NICHT{/strong} Stunden.'

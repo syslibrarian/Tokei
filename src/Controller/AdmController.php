@@ -229,8 +229,8 @@ final class AdmController extends Controller
     {
         $location = $this->getBySeal($seal, Location::class);
         $events = EventHelper::getEventsByPeriod($location->seal);
-        $reports = ReportHelper::getReportsFor($location->seal);
-        $report = ReportHelper::getReportFor($location->seal);
+        $reports = ReportHelper::getFor($location->seal);
+        $report = ReportHelper::getLastFor($location->seal);
 
         return $this->view(
             '@adm/showLocation.tpl',

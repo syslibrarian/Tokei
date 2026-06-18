@@ -1,3 +1,99 @@
+@use '../tools/includes' as i;
+@use 'sass:color';
 @use 'page';
 @use '../content/form';
 @use '../content/klr';
+@use '../content/reports';
+@use '../content/data-list';
+
+.content {
+  margin: 10px 0;
+  padding: 10px;
+  opacity: 1;
+  background-color: color.scale(i.$background-color, $alpha: -50%);
+  backdrop-filter: blur(2px);
+  @include i.responsive-borders(i.$border-color, i.$shadow-color);
+
+  & > h1 {
+    color: i.$color3;
+  }
+
+  header {
+    h2 {
+      font-size: i.$text-xl;
+    }
+  }
+
+  dl {
+    display: flex;
+
+    dt {
+      &:after {
+        content: ':';
+      }
+
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    dl {
+      margin: 0 10px;
+    }
+  }
+
+  .card {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid i.$border-color;
+
+    &:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.airy-header {
+  h1 {
+    font-size: i.$text-xxl;
+    font-weight: bold;
+    color: i.$color3;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+  }
+  span {
+    padding: 0;
+    margin: 0;
+    font-size: i.$text-m;
+    color: i.$text-color-light;
+
+    &:hover {
+      color: i.$text-color;
+    }
+  }
+}
+
+.inline-tools, .model-tools {
+  a {
+    color: i.$color2;
+    text-decoration: none;
+
+    &:hover {
+      color: i.$text-color;
+      text-decoration: none;
+    }
+  }
+
+  .close::after {
+    font-family: PhIcons;
+    font-size: i.$text-l;
+    content: "\E308";
+  }
+
+  .update::after {
+    font-family: PhIcons;
+    font-size: i.$text-l;
+    content: "\E3B4";
+  }
+}

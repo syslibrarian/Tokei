@@ -1,28 +1,41 @@
-{% extends "@adm/index.tpl" %}
+{% extends '@adm/index.tpl' %}
+{% import '_tools.tpl' as t %}
+{% import '_content.tpl' as printContent %}
 {% set intl_category %}tokei.location{% endset %}
 
 {% block content %}
-    <header class="airyHeader">
+    <header class="airy-header">
         <h1>{% block title %}{{ location.name }}{% endblock %}</h1>
         <span>{{ 'title_addition'|translate(seal: location.seal, code: location.klr_code) }}</span>
     </header>
 
-    <div class="content card">
+    <div class="content overview">
         <header>
             <h2>{{ 'overview'|translate }}</h2>
         </header>
-        <div class="address">
+        <section class="card">
             <h3>{{ 'address'|translate }}</h3>
             {{ location.street }}<br>
             {{ location.postal_code }} {{ location.city }}
-        </div>
-        <div class="information">
+        </section>
+        <section class="card">
             <h3>{{ 'base_information'|translate }}</h3>
-            <ol>
-                <li>{{ 'fte'|translate(fte: location.fte|number_format(2), consumed: location.fte_consumed|number_format(2)) }}
-                <li>{{ 'area'|translate(area: location.area|number_format(2)) }}</li>
-            </ol>
-        </div>
+            <dl>
+                <dt>{{ 'fte'|translate }}</dt>
+                <dd>{{ 'fte_definition'|translate(fte: location.fte|number_format(2), consumed: location.fte_consumed|number_format(2)) }}</dd>
+            </dl>
+            <dl>
+                <dt>{{ 'area'|translate }}</dt>
+                <dd>{{ 'area_definition'|translate(area: location.area|number_format(2)) }}</dd>
+            </dl>
+        </section>
+    </div>
+
+    <div class="content report">
+        <header>
+            <h2>{{ 'report_last'|translate }}{{ t.inlineTools(model, getUri(true, false, uri: '/reports/update/', timeCode: lastReport.time_code, seal: lastReport.seal)) }}</h2>
+        </header>
+        {{ printContent.reportSheet(lastReport) }}
     </div>
 
     <div class="content events">
@@ -30,34 +43,13 @@
             <h2>{{ 'events_last'|translate }}</h2>
             <span>{{ 'events_list_information'|translate }}</span>
         </header>
-        <ol>
-            {% for event in events %}
-                <li>{{ event.time_start|date }} {{ event.title }}</li>
-            {% else %}
-                <li>// Keine Events inen letzten 30 Tagen</li>
-            {% endfor %}
-        </ol>
-    </div>
-
-    <div class="content report">
-        <h2>{{ 'report_last'|translate }}</h2>
-        <ol>
-            {% if lastReport %}
-                <li><a href="/adm/reports/update/{{ lastReport.time_code }}/{{ lastReport.seal }}/">{{ lastReport.time_code }}</a></li>
-            {% else %}
-                <li>//Report noch nicht erstellt</li>
-            {% endif %}
-        </ol>
+        {{ printContent.eventList(events) }}
     </div>
 
     <div class="content reports">
-        <h2>// Monatstatistikblätter (laufend Jahr)</h2>
-        <ol>
-            {% for report in reports %}
-                <li><a href="/adm/reports/update/{{ report.time_code }}/{{ report.seal }}/">{{ report.time_code }}</a></li>
-                {% else %}
-                <li>//Reports noch nicht erstellt</li>
-            {% endfor %}
-        </ol>
+        <header>
+            <h2>{{ 'reports_for_location'|translate(year: _tokei.year )}}</h2>
+        </header>
+        {{ printContent.reportList(reports) }}
     </div>
 {% endblock %}
