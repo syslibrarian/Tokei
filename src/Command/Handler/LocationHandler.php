@@ -71,11 +71,11 @@ final class LocationHandler
                 modified: Timestamp::now()->getSeconds()
             );
 
-            if ($command->seal !== $command->model->seal) {
+            /*if ($command->seal !== $command->model->seal) {
                 $command->model->update(
                     seal: $command->seal,
                 );
-            }
+            }*/ // seals should not be updated afer creation.
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();
             $this->response->set($command, $e);

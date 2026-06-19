@@ -9,11 +9,16 @@
     {{ f.form_start(uri: target, title: block('title'), html_classes: 'content') }}
 
     {% set generalSection %}
+        {% if isBase != true and for != 'event' %}
+            {% set titleTranslate %}title_group{% endset %}
+        {% endif %}
+
         {{ f.text(
             name: 'title',
             value: event.title,
             error: errors.title,
-            list: isBase != true
+            list: isBase != true,
+            forTranslate: titleTranslate
         ) }}
 
         {{ f.listFor('title', dataList) }}

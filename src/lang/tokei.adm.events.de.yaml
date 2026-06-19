@@ -1,6 +1,8 @@
 tokei:
   adm:
     events:
+      title_group_desc: ''
+      title_group: 'Gruppen-, Klassen- oder Schulnamen'
       event_create_school: 'Klasseführung eintragen'
       event_create_pre-school: 'Kitaführung eintragen'
       event_create_event: 'Veranstaltung eintragen'

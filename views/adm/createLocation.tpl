@@ -12,37 +12,46 @@
     {{ f.text(
         name: "name",
         value: location.name,
-        errorMsg: errors.name ?? ''
+        error: errors.name ?? ''
     ) }}
 
-    {{ f.text(
-        name: "seal",
-        value: location.seal,
-        errorMsg: errors.seal ?? ''
-    ) }}
+    {% if location.model %}
+        {{ f.hiddenField(
+            name: "seal",
+            value: location.seal,
+            show: true,
+            forTranslate: 'seal_update'
+        ) }}
+    {% else %}
+        {{ f.text(
+            name: "seal",
+            value: location.seal,
+            error: errors.seal ?? ''
+        ) }}
+    {% endif %}
 
     {{ f.text(
         name: "klrCode",
         value: location.klrCode,
-        errorMsg: errors.seal ?? ''
+        error: errors.seal ?? ''
     ) }}
 
     {{ f.text(
         name: "street",
         value: location.street,
-        errorMsg: errors.street ?? ''
+        error: errors.street ?? ''
     ) }}
 
     {{ f.text(
         name: "city",
         value: location.city,
-        errorMsg: errors.city ?? ''
+        error: errors.city ?? ''
     ) }}
 
     {{ f.text(
         name: 'postal_code',
         value: location.postal_code,
-        errorMsg: errors.postal_code ?? ''
+        error: errors.postal_code ?? ''
     ) }}
 
     {{ f.number(

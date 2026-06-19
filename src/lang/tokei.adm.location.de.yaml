@@ -1,6 +1,8 @@
 tokei:
   adm:
     location:
+      seal_update_desc: 'Das Siegel kann bei bestehenden Standorten nicht geändert werden.'
+      seal_update: 'Siegel'
       upate: 'Standort aktualisieren - {$name}'
       area_suffix: 'm²'
       fte_suffix: 'Vollzeit Equivalent'

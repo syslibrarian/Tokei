@@ -49,7 +49,7 @@ final class AdmEventController extends Controller
     ]
     public function index(?string $seal = null, int $no = 1): View
     {
-        $this->setACtiveSlug('list/');
+        $this->setActiveSlug('list/');
         $location = ($seal !== null) ? $this->getBySeal($seal, Event::class) : null;
 
         $pagination = new Pagination(
@@ -201,7 +201,8 @@ final class AdmEventController extends Controller
     ]
     public function createEvent(Request $request, string $for = 'event'): View
     {
-        $location = Location::select()->where('seal = ?', '713')->first();
+        //$location = Location::select()->where('seal = ?', '713')->first(); // implement seal from user
+        $location = null;
         $this->setActiveSlug('create/' . (($for !== 'event') ? $for . '/' : ''));
         $form = Form::getFor($for, $location);
 

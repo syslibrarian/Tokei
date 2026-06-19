@@ -1,13 +1,29 @@
-{% macro text(name, value, placeholder = '', prefix = '', error = '', list = false) %}
+{% macro text(name, value, placeholder = '', prefix = '', error = '', list = false, forTranslate = '') %}
     <div class="text{% if error != '' %} warning{% endif %}">
-        <div class="label"><label for="{{ name }}-id">{{ name|translate }}</label></div>
+        <div class="label">
+            <label for="{{ name }}-id">
+                {% if forTranslate != '' %}
+                    {{ forTranslate|translate }}
+                {% else %}
+                    {{ name|translate }}
+                {% endif %}
+            </label>
+        </div>
         <div class="field">
             {% if prefix != '' %}
                 <span>{{ prefix }}</span>
             {% endif %}
             <input type="text" value="{{ value }}" placeholder="{{ placeholder }}" name="{{ name }}" id="{{ name }}-id"{% if list %} list="{{ name }}-list"{% endif %}>
         </div>
-        <div class="description"><span>{{ (name ~ '_desc')|translate }}</span></div>
+        <div class="description">
+                <span>
+                    {% if forTranslate != '' %}
+                        {{ (forTranslate ~ '_desc')|translate }}
+                    {% else %}
+                        {{ (name ~ '_desc')|translate }}
+                    {% endif %}
+                </span>
+        </div>
     </div>
 {% endmacro %}
 
@@ -19,17 +35,30 @@
     </datalist>
 {% endmacro %}
 
-{% macro hiddenField(name, value, show) %}
-    {% if show %}
+{% macro hiddenField(name, value, show = false, forTranslate = '') %}
+    {% if show == true %}
         <div class="text{% if error != '' %} warning{% endif %}">
-            <div class="label"><label for="{{ name }}-view">{{ name|translate }}</label></div>
-            <div class="field">
-                {% if prefix != '' %}
-                    <span>{{ prefix }}</span>
-                {% endif %}
-                <input id="{{ name }}-view" type="text" value="{{ show }}" disabled>
+            <div class="label">
+                <label for="{{ name }}-view">
+                    {% if forTranslate != '' %}
+                        {{ forTranslate|translate }}
+                    {% else %}
+                        {{ name|translate }}
+                    {% endif %}
+                </label>
             </div>
-            <div class="description"><span>{{ (name ~ '_desc')|translate }}</span></div>
+            <div class="field">
+                <input id="{{ name }}-view" type="text" value="{{ value }}" disabled>
+            </div>
+            <div class="description">
+                <span>
+                    {% if forTranslate != '' %}
+                        {{ (forTranslate ~ '_desc')|translate }}
+                    {% else %}
+                        {{ (name ~ '_desc')|translate }}
+                    {% endif %}
+                </span>
+            </div>
         </div>
     {% endif %}
     <input type="hidden" name="{{ name }}" value="{{ value }}">
