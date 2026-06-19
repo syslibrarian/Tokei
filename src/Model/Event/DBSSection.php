@@ -35,15 +35,15 @@ final class DBSSection
         '95-4' => 'adult',
         '96-x' => 'young',
         '97-x' => 'adult',
-        '92-x' => '',
-        '98-x' => '',
-        '99-x' => '',
-        '99-1' => ''
+        '92-x' => 'mixed',
+        '98-x' => 'mixed',
+        '99-0' => 'mixed',
+        '99-1' => 'mixed'
     ];
 
     public static function getAudience(string $audience, string $sectionNumber): string
     {
-        if (isset(self::INDEX_TO_AUDIENCE[$sectionNumber]) && self::INDEX_TO_AUDIENCE[$sectionNumber] !== '') {
+        if (isset(self::INDEX_TO_AUDIENCE[$sectionNumber])) {
             return self::INDEX_TO_AUDIENCE[$sectionNumber];
         }
 

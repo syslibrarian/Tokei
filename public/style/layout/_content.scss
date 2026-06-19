@@ -97,3 +97,15 @@
     content: "\E3B4";
   }
 }
+
+.title, header {
+  a {
+    color: i.$color2;
+    text-decoration: none;
+
+    &:hover {
+      color: i.$text-color;
+      text-decoration: none;
+    }
+  }
+}

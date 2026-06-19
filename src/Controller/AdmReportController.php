@@ -12,7 +12,6 @@ use Tempest\Router\Post;
 use Tempest\Router\Prefix;
 use Tempest\View\View;
 use Tokei\Command\Klr\BuildFromReports;
-use Tokei\Command\Klr\UpdateFromReports;
 use Tokei\Command\Location\UpdateReport;
 use Tokei\Model\Klr\KlrReport;
 use Tokei\Model\Location\Location;
@@ -53,6 +52,7 @@ final class AdmReportController extends Controller
 
         $reports = ($seal !== null) ? ReportHelper::getFor($seal) : ReportHelper::getSealSorted();
 
+
         return $this->view(
             '@adm/reports.tpl',
             reports: $reports,
@@ -60,6 +60,7 @@ final class AdmReportController extends Controller
             location: $location,
             year: $year,
             seal: $seal,
+            klrStatus: $this->session->consume('klr'),
         );
     }
 
@@ -72,7 +73,7 @@ final class AdmReportController extends Controller
         return $this->view(
             '@adm/showReport.tpl',
             location: $location,
-            report: $report
+            report: $report,
         );
     }
 
@@ -138,37 +139,34 @@ final class AdmReportController extends Controller
         );
     }
 
-    #[Get('close-report/{?month:[0-9]{2}}/{?year:[0-9]{4}}/')]
+    #[Get('close-report/{?month:[0-9]{1,2}}/{?year:[0-9]{4}}/')]
     public function closeReports(?int $month = null, ?int $year = null): Redirect
     {
         [$month, $year] = $this->getTimeCode($month, $year);
 
-        $command = new BuildFromReports($month, $year);
-        $response = $this->sendCommand($command);
-        $this->session->flash('generated_klr', ($response->value === true));
-
-        return $this->redirect('/adm/reports/');
-    }
-
-    #[Get('update-klr/{?month:[0-9]{2}}/{?year:[0-9]{4}}/')]
-    public function updateKlr(?int $month = null, ?int $year = null): Redirect
-    {
-        [$month, $year] = $this->getTimeCode($month, $year);
-
-        $command = new UpdateFromReports($month, $year);
-        $response = $this->sendCommand($command);
-        $this->session->flash('update_klr', ($response->value === true));
+        if ($year > DateTime::now()->getYear() || ($year === DateTime::now()->getYear() && $month >= DateTime::now()->getMonth())) {
+            $this->session->set('klr', 'error');
+        } else {
+            $command = new BuildFromReports($month, $year);
+            $response = $this->sendCommand($command);
+            $this->session->set('klr', (($response->value === true) ? 'success' : 'error'));
+        }
 
         return $this->redirect('/adm/reports/');
     }
 
     protected function getTimeCode(?int $month, ?int $year): array
     {
-        $month = $month ?? DateTime::now()->getMonth();
-        if ($year === null && $month === 1) {
-            $month = 12;
-            $year = DateTime::now()->getYear() - 1;
+        if ($month === null && $year === null) {
+            $month = DateTime::now()->getMonth();
+            $year = DateTime::now()->getYear();
+
+            if ($month === 1) {
+                $month = 12;
+                $year--;
+            }
         } else {
+            $month = $month ?? DateTime::now()->getMonth();
             $year = $year ?? DateTime::now()->getYear();
         }
 

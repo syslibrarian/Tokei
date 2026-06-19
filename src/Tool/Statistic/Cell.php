@@ -9,9 +9,7 @@ use Tokei\Model\ReportStatus;
 final class Cell
 {
     public function __construct(public int $value, public int $status)
-    {
-
-    }
+    {}
 
     public function empty(): bool
     {

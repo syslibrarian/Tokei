@@ -17,7 +17,7 @@ final class CreateEvent implements Command
         public string $startDateTime = '',
         public string $endTime = '',
         public int $staff = 0,
-        public int $staff_external = 0,
+        public int $staffExternal = 0,
         public int $attendees = 0,
         public int $online = 1,
         public int $state = 1,

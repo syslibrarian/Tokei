@@ -113,7 +113,7 @@ final class Events
 
         return encode([
             'seal' => $this->seal,
-            'timeCode' => $this->timeCode,
+            'timeCode' => $this->timeCode->timeCode,
             'containers' => $containers
         ]);
     }
@@ -127,7 +127,7 @@ final class Events
 
         $containers = $tmp['containers'] ?? [];
         foreach ($containers as $container) {
-            $containerObj = DBSContainer::fromArray($container);
+            $containerObj = (is_string($container)) ? DBSContainer::fromJsonString($container) : DBSContainer::fromArray($container);
 
             // only formal check for empty string
             if ($containerObj->number !== '') {

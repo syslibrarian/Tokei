@@ -34,7 +34,7 @@
             <li>
                 <section class="title">
                     <h3>{{ event.title }}</h3>
-                    <p>{{ event.time_start|date('d.m.Y - h:i') }} {% if event.description %} - {{ event.description }}{% endif %}</p>
+                    <p>{{ event.time_start|date('d.m.Y - H:i') }} {% if event.description %} - {{ event.description }}{% endif %}</p>
                 </section>
                 <section class="information">
                     <dl>
@@ -43,7 +43,7 @@
                     </dl>
                     <dl>
                         <dt>{{ 'tokei.location.events_attendees'|translateFull }}</dt>
-                        <dd>{{ event.hours|number_format }}</dd>
+                        <dd>{{ event.attendees|number_format }}</dd>
                     </dl>
                 </section>
                 {{ tool.modelTools(
@@ -68,20 +68,31 @@
                         <a href="{{ getUri(false, false, 'adm/reports/show-report', timeCode: report.time_code, seal: report.seal) }}">
                             {{ 'tokei.location.report_sheet'|translateFull(month: translateFull('tokei.month' ~ report.month)) }}
                         </a>
+                        <span class="report-tool">
+                            <a href="{{ getUri(false, false, 'adm/reports/close-report/', month: report.month, year: report.year) }}">
+                                {% if report.report_status == 1 %}
+                                    <span class="open"></span>
+                                {% elseif report.report_status == 3 %}
+                                    <span class="update"></span>
+                                {% else %}
+                                    <span class="close"></span>
+                                {% endif %}
+                            </a>
+                        </span>
                     </h3>
                 </section>
                 <section class="information">
                     <dl>
                         <dt>{{ 'tokei.location.visits'|translateFull }}</dt>
-                        <dd>{{ 'tokei.location.visits_definiton_short'|translateFull(total: lastReport.visits_total) }}</dd>
+                        <dd>{{ 'tokei.location.visits_definiton_short'|translateFull(total: report.visits_total|number_format) }}</dd>
                     </dl>
                     <dl>
                         <dt>{{ 'tokei.location.circulations'|translateFull }}</dt>
-                        <dd>{{ lastReport.circulations|number_format }}</dd>
+                        <dd>{{ report.circulations|number_format }}</dd>
                     </dl>
                     <dl>
                         <dt>{{ 'tokei.location.media_packages'|translateFull }}</dt>
-                        <dd>{{ lastReport.media_packages|number_format }}</dd>
+                        <dd>{{ rport.media_packages|number_format }}</dd>
                     </dl>
                 </section>
                 {{ tool.modelTools('', '', getUri(false, false, uri: 'adm/reports/update/', timeCode: report.time_code, seal: report.seal)) }}

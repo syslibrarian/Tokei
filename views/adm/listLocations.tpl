@@ -1,7 +1,7 @@
 {% extends '@adm/index.tpl' %}
 {% import '_tools.tpl' as t %}
 
-{% block title %}{{ 'locations_title'|translate }}{% endblock %}
+{% block title %}{{ 'tokei.amd.location.locations_title'|translate }}{% endblock %}
 
 {% block content %}
 {% block pagination %}{{ pagination|raw }}{% endblock %}

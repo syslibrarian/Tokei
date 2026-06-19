@@ -1,6 +1,7 @@
 {% extends '@adm/reports.tpl' %}
 {% import '_form.tpl' as f %}
 {% import '_tools.tpl' as t %}
+{% import '_content.tpl' as printContent %}
 
 {% block title %}{{ 'update'|translate(name: location.name, year: report.model.year, month: report.model.month) }}{% endblock %}
 {% set target = '/adm/reports/update/' ~ report.model.time_code ~ '/' ~ report.model.seal %}
@@ -82,4 +83,11 @@
 
     {# TODO implement Event overview #}
     {{ f.form_end() }}
+
+    <div class="content events">
+        <header>
+            <h2>{{ 'tokei.location.events_report'|translateFull }}</h2>
+        </header>
+        {{ printContent.eventReport(report.model.events.containers) }}
+    </div>
 {% endblock %}

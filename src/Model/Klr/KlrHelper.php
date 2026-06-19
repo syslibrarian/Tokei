@@ -38,7 +38,7 @@ final class KlrHelper
     public static function getSortedMonths(string $timeCode): array
     {
         $sortedMonths = [];
-        $months = KlrReport::select()->where('timeCode = ?', $timeCode)->all();
+        $months = KlrReport::select()->where('time_code = ?', $timeCode)->all();
 
         foreach ($months as $month) {
             $sortedMonths[$month->seal] = $month;

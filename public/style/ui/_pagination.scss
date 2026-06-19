@@ -1,0 +1,33 @@
+@use '../tools/includes' as s;
+@use 'sass:color';
+
+.pagination {
+  ol {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+
+    li {
+      padding: 10px;
+      margin: 5px !important;
+      font-size: s.$text-m;
+      background-color: color.scale(s.$color1, $lightness: +85%) !important;
+      border-radius: 10px !important;
+
+      &:hover {
+        background-color: color.scale(s.$color1, $lightness: +65%) !important;
+      }
+
+      a {
+        font-weight: bold;
+        color: s.$text-color;
+        text-decoration: none;
+
+        &:hover {
+          color: s.$text-color;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

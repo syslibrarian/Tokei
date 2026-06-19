@@ -1,4 +1,8 @@
 tokei:
+  pagination_last: 'letzte Seite'
+  pagination_next: 'nächste Seite'
+  pagination_previous: 'vorherige Seite'
+  pagination_first: 'erste Seite'
   month12: 'Dezember'
   month11: 'November'
   month10: 'Oktober'

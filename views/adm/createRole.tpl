@@ -2,14 +2,8 @@
 {% import '_form.tpl' as f %}
 {% import '_tools.tpl' as t %}
 
-{% block meta %}
-    {{ parent() }}
-    {{ translateBase('tokei.adm.role') }}
-{% endblock %}
-
-{% block title %}{{ 'create'|translate }}{% endblock %}
+{% block title %}{{ 'tokei.adm.role.create'|translateFull }}{% endblock %}
 {% set target = target ?? '/adm/create-role/' %}
-
 
 {% block content %}
     {{ f.form_start(uri: target, title: block('title'), html_classes: 'content') }}

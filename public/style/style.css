@@ -331,6 +331,31 @@ button:disabled {
   background-color: #b7b7ff;
 }
 
+.pagination ol {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+.pagination ol li {
+  padding: 10px;
+  margin: 5px !important;
+  font-size: 12pt;
+  background-color: rgb(244.2, 244.2, 255) !important;
+  border-radius: 10px !important;
+}
+.pagination ol li:hover {
+  background-color: rgb(229.8, 229.8, 255) !important;
+}
+.pagination ol li a {
+  font-weight: bold;
+  color: rgb(31, 31, 31);
+  text-decoration: none;
+}
+.pagination ol li a:hover {
+  color: rgb(31, 31, 31);
+  text-decoration: none;
+}
+
 #page {
   font-size: 12pt;
   z-index: 0;
@@ -685,6 +710,32 @@ table.events-table tbody tr:hover {
   background-color: rgb(229.8, 229.8, 255);
 }
 
+.report-tool {
+  font-family: PhIcons;
+  font-size: 12pt;
+}
+.report-tool a {
+  color: rgb(115, 115, 251);
+  text-decoration: none;
+}
+.report-tool a:hover {
+  color: rgb(31, 31, 31);
+  text-decoration: none;
+}
+.report-tool .close::after {
+  content: "\ea3c";
+}
+.report-tool .open::after {
+  content: "\e256";
+}
+.report-tool .update::after {
+  color: rgb(250, 120, 0) !important;
+  content: "\e094";
+}
+.report-tool .update::after:hover {
+  color: rgb(187.5, 90, 0) !important;
+}
+
 ol.data-list {
   list-style: none;
   margin: 0;
@@ -808,6 +859,15 @@ ol.data-list li .tools {
   font-family: PhIcons;
   font-size: 16pt;
   content: "\e3b4";
+}
+
+.title a, header a {
+  color: rgb(115, 115, 251);
+  text-decoration: none;
+}
+.title a:hover, header a:hover {
+  color: rgb(31, 31, 31);
+  text-decoration: none;
 }
 
 .content.table, .inlineTable {

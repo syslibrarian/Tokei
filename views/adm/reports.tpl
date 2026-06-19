@@ -12,6 +12,15 @@
 </nav>
 {% endblock %}
 
+{% block notes %}
+    {{ parent() }}
+    {% if klrStatus == 'error' %}
+        {{ note('tokei.adm.reports.klr_error'|translateFull, 'error') }}
+    {% elseif klrStatus == 'success' %}
+        {{ note('tokei.adm.reports.klr_success'|translateFull, 'success') }}
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <header class="airy-header">
         <h1>

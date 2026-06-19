@@ -16,7 +16,7 @@ final class UpdateEvent implements Command
         public string $startDateTime,
         public string $endTime,
         public int $staff,
-        public int $staff_external,
+        public int $staffExternal,
         public int $attendees,
         public int $online,
         public int $state,

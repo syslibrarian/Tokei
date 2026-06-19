@@ -2,7 +2,7 @@
 {% import '_form.tpl' as f %}
 {% import '_tools.tpl' as t %}
 
-{% block title %}{{ ('event_create_' ~ for)|translate }}{% endblock %}
+{% block title %}{{ ('tokei.adm.events.event_create_' ~ for)|translateFull }}{% endblock %}
 {% set target = target ?? getUri('create') %}
 
 {% block content %}
@@ -107,7 +107,7 @@
 
         {{ f.number(
             name: 'staffExternal',
-            value: event.staff,
+            value: event.staffExternal,
         ) }}
 
         {{ f.number(

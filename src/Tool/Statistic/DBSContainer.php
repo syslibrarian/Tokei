@@ -77,7 +77,7 @@ final class DBSContainer
         return self::fromArray($data);
     }
 
-    public static function fromArray(array $data): self
+    public static function fromArray(string|array $data): self
     {
         return new self(
             $data['number'] ?? '',

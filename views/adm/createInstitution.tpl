@@ -3,7 +3,7 @@
 {% import '_tools.tpl' as t %}
 {% set intl_category %}tokei.adm.institution{% endset %}
 
-{% block title %}{{ 'create'|translate }}{% endblock %}
+{% block title %}{{ 'tokei.adm.institution.create'|translateFull }}{% endblock %}
 {% set target = target ?? '/adm/events/create-institution/' %}
 
 {% block content %}

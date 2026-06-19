@@ -37,3 +37,35 @@ table.events-table {
     }
   }
 }
+
+.report-tool {
+  font-family: PhIcons;
+  font-size: i.$text-m;
+
+  a {
+    color: i.$color2;
+    text-decoration: none;
+
+    &:hover {
+      color: i.$text-color;
+      text-decoration: none;
+    }
+  }
+
+  .close::after {
+    content: '\EA3C';
+  }
+
+  .open::after {
+    content: '\E256';
+  }
+
+  .update::after {
+    color: i.$warning-color !important;
+    content: '\E094';
+
+    &:hover {
+      color: color.scale(i.$warning-color, $lightness: -25%) !important;
+    }
+  }
+}

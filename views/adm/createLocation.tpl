@@ -3,7 +3,7 @@
 {% import '_tools.tpl' as t %}
 {% set intl_category %}tokei.adm.location{% endset %}
 
-{% block title %}{{ 'create'|translate }}{% endblock %}
+{% block title %}{{ 'tokei.adm.location.create'|translateFull }}{% endblock %}
 {% set target = target ?? '/adm/create-location/' %}
 
 {% block content %}

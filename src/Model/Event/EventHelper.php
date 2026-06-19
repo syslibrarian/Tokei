@@ -23,7 +23,7 @@ final class EventHelper
         3 => 'tokei.adm.events.online_only'
     ];
 
-    public const array AUDIENCE = ['young', 'adult'];
+    public const array AUDIENCE = ['young', 'adult', 'mixed'];
 
     public static function isNormal(Event $event): bool
     {

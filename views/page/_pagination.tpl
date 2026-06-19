@@ -12,7 +12,7 @@
                 <li><a href="{{ pagination.getUri(pagination.pageNo + 1) }}">{{ 'tokei.pagination_next'|translateFull }}</a></li>
             {% endif %}
             {% if pagination.pageNo < pagination.pages %}
-                <li><a href="{{ pagination.getUri(pagination.pages + 1) }}">{{ 'tokei.pagination_last'|translateFull }}</a></li>
+                <li><a href="{{ pagination.getUri(pagination.pages) }}">{{ 'tokei.pagination_last'|translateFull }}</a></li>
             {% endif %}
         </ol>
     </div>

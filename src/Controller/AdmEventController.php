@@ -68,6 +68,7 @@ final class AdmEventController extends Controller
 
         return $this->view(
             '@adm/events.tpl',
+            pagination: $pagination,
             location: $location,
             events: $eventsRaw->all()
         );
@@ -98,6 +99,7 @@ final class AdmEventController extends Controller
 
         return $this->view(
             '@adm/events.tpl',
+            pagination: $pagination,
             location: $location,
             events: $eventsRaw->all()
         );
@@ -209,7 +211,7 @@ final class AdmEventController extends Controller
             startDateTime: trim($request->get('startDateTime', '')),
             endTime: trim($request->get('endTime', '')),
             staff: (int) $request->get('staff', 0),
-            staff_external: (int) $request->get('staffExternal', 0),
+            staffExternal: (int) $request->get('staffExternal', 0),
             attendees: (int) $request->get('attendees', 0),
             online: (int) $request->get('online', 1),
             state: (int) $request->get('state', 1),
@@ -256,7 +258,7 @@ final class AdmEventController extends Controller
             startDateTime: trim($request->get('startDateTime', \DateTime::createFromTimestamp($model->time_start)->format('Y-m-d\TH:i'))),
             endTime: trim($request->get('endTime', \DateTime::createFromTimestamp($model->time_end)->format('H:i'))),
             staff: (int) $request->get('staff', $model->staff),
-            staff_external: (int) $request->get('staffExternal', $model->staff_external),
+            staffExternal: (int) $request->get('staffExternal', $model->staff_external),
             attendees: (int) $request->get('attendees', $model->attendees),
             online: (int) $request->get('online', $model->online),
             state: (int) $request->get('state', $model->state),
