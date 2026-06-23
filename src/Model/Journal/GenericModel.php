@@ -6,12 +6,27 @@ namespace Tokei\Model\Journal;
 
 use function Tempest\Support\Json\decode;
 
+/**
+ * @template TModel of object
+ * @mixin TModel
+ */
 final class GenericModel
 {
-    protected(set) array $data = [];
+    /**
+     * @var array<string, mixed>
+     */
+    private(set) array $data = [];
 
-    public function __construct(protected(set) int $id, protected(set) string $objectClass, string $data)
-    {
+    /**
+     * @param int $id
+     * @param class-string<TModel> $objectClass
+     * @param string $data
+     */
+    public function __construct(
+        protected(set) int $id,
+        protected(set) string $objectClass,
+        string $data,
+    ) {
         $this->data = decode($data);
     }
 
@@ -27,6 +42,6 @@ final class GenericModel
 
     public function __set(string $name, mixed $value): void
     {
-        return;
+        throw new \RuntimeException('GenericModel is read-only');
     }
 }

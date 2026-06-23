@@ -22,6 +22,7 @@ final class UserCreateTable implements DatabaseCommand
             ->varchar('surname', default: '')
             ->varchar('email')
             ->varchar('password')
+            ->varchar('seal', length: 4, default: '')
             ->belongsTo('user.role_id', 'user_role.id')
             ->index('email')
             ->index('username');

@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace Tokei\Tool\Statistic;
 
 use Tokei\Model\Event\Event;
-
 use Tokei\Model\Event\EventHelper;
+
 use function Tempest\Support\Json\decode;
 use function Tempest\Support\Json\encode;
 
 final class DBSContainer
 {
     public float $workHoursTotal {
-        get { return $this->workHours + $this->workHoursExternal; }
+        get {
+            return $this->workHours + $this->workHoursExternal;
+        }
     }
 
     public function __construct(

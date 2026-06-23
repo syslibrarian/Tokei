@@ -9,6 +9,7 @@ use Tokei\Model\Event\DBSSection;
 use Tokei\Model\Event\FormType;
 use Tokei\Model\Institution\Institution;
 use Tokei\Model\Location\Location;
+
 use function Tempest\Container\get;
 
 final class Form
@@ -20,16 +21,18 @@ final class Form
     ];
 
     /** @var Institution[] */
-    protected array $institutions;
+    private array $institutions;
 
-    protected function __construct(protected(set) FormType $type, protected(set) ?Location $location)
-    {
+    private function __construct(
+        protected(set) FormType $type,
+        protected(set) ?Location $location,
+    ) {
         $this->getInstitutions();
     }
 
     public function isBase(): bool
     {
-        return ($this->type === FormType::SYSTEM || $this->type === FormType::EVENT);
+        return $this->type === FormType::SYSTEM || $this->type === FormType::EVENT;
     }
 
     public function getTypes(): \Generator
@@ -42,7 +45,7 @@ final class Form
         foreach (self::TIME_FACTORS as $timeFactor) {
             yield [
                 'name' => get(Translator::class)->translate($timeFactor['name']),
-                'value' => $timeFactor['value']
+                'value' => $timeFactor['value'],
             ];
         }
     }
@@ -52,7 +55,7 @@ final class Form
         // select seal from user here
         return match ($this->type) {
             FormType::PRE_SCHOOL, FormType::SCHOOL => ['seal' => $this->location->seal, 'online' => 1, 'audience' => 'young'],
-            default => []
+            default => [],
         };
     }
 
@@ -72,7 +75,7 @@ final class Form
         };
     }
 
-    protected function getInstitutions(): void
+    private function getInstitutions(): void
     {
         $this->institutions = Institution::select()->where('seal = ? AND type = ?', $this->location->seal, $this->type->value)->all();
     }

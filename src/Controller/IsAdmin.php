@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Tokei\Controller;
 
-use Tokei\Command\Command;
-use Tokei\Command\Response;
-use Tokei\Component\Navigation\Navigation;
-use Tokei\Component\Validation\ValidationParser;
 use Tempest\Http\Method;
 use Tempest\Http\Request;
 use Tempest\Validation\Exceptions\ValidationFailed;
-
+use Tokei\Command\Command;
+use Tokei\Command\Response;
+use Tokei\Component\Access\AccessContext;
+use Tokei\Component\Access\AccessControl;
+use Tokei\Component\Navigation\Navigation;
+use Tokei\Component\Validation\ValidationParser;
 use Tokei\Controller\Exception\NotFoundException;
+
 use function Tempest\CommandBus\command;
 use function Tempest\Container\get;
 
@@ -21,6 +23,12 @@ trait IsAdmin
     protected ValidationParser $validationParser {
         get {
             return get(ValidationParser::class);
+        }
+    }
+
+    protected AccessControl $accessControl {
+        get {
+            return $this->tokei->accessControl;
         }
     }
 
@@ -34,7 +42,7 @@ trait IsAdmin
         $baseSlug = str_starts_with($this->getBaseSlug(), '/') ? $this->getBaseSlug() : '/' . $this->getBaseSlug();
         $this->tokei->add(
             'route_base',
-            (str_ends_with($baseSlug, '/')) ? $baseSlug : $baseSlug . '/',
+            str_ends_with($baseSlug, '/') ? $baseSlug : $baseSlug . '/',
         );
         Navigation::get('adm_header')->setActiveTarget($this->getBaseSlug());
     }
@@ -44,7 +52,7 @@ trait IsAdmin
         $this->tokei->add('route_current', $slug);
         $this->tokei->add(
             'route_current',
-            (str_ends_with($slug, '/')) ? $slug : $slug . '/',
+            str_ends_with($slug, '/') ? $slug : $slug . '/',
         );
         Navigation::get($this->getSectionNavigation())->setActiveTarget($this->getBaseSlug() . $slug);
     }
@@ -90,7 +98,7 @@ trait IsAdmin
      * @return TModel
      * @throws NotFoundException
      */
-    protected function getModel(int $id, string $modelClass): object
+    protected function getModel(int $id, string $modelClass, ?AccessContext $context = null): object
     {
         $model = $modelClass::select()
             ->where('id = ?', $id)
@@ -98,6 +106,10 @@ trait IsAdmin
 
         if ($model === null) {
             throw new NotFoundException($modelClass, $this->getBaseSlug());
+        }
+
+        if ($context !== null) {
+            $this->checkModel($model, $context);
         }
 
         return $model;
@@ -111,7 +123,7 @@ trait IsAdmin
      * @return TModel
      * @throws NotFoundException
      */
-    protected function getBySeal(string $seal, string $modelClass, ?string $timeCode = null): object
+    protected function getBySeal(string $seal, string $modelClass, ?string $timeCode = null, ?AccessContext $context = null): object
     {
         $raw = $modelClass::select();
 
@@ -127,6 +139,15 @@ trait IsAdmin
             throw new NotFoundException($modelClass, $this->getBaseSlug());
         }
 
+        if ($context !== null) {
+            $this->checkModel($model, $context);
+        }
+
         return $model;
+    }
+
+    protected function checkModel(string|object $model, ?AccessContext $context = null): void
+    {
+        $this->accessControl->checkModel($model, $context);
     }
 }

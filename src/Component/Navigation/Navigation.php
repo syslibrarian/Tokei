@@ -12,24 +12,24 @@ use function Tempest\Container\get;
 final class Navigation
 {
     /** @var Navigation[] $loadedNavigation */
-    protected static array $loadedNavigation = [];
+    private static array $loadedNavigation = [];
 
-    protected(set) NavigationModel $navigation;
-    protected Environment $twig {
+    private(set) NavigationModel $navigation;
+    private Environment $twig {
         get {
             return get(Environment::class);
         }
     }
 
-    protected(set) string $activeTarget = '';
+    private(set) string $activeTarget = '';
 
-    protected function __construct(
+    private function __construct(
         protected string $name,
     ) {
         $this->loadNavigation();
     }
 
-    protected function loadNavigation(): void
+    private function loadNavigation(): void
     {
         $this->navigation = NavigationModel::select()
             ->where('navigation.name = ?', $this->name)
@@ -50,12 +50,12 @@ final class Navigation
         return $this;
     }
 
-    public static function get(string $name, bool $load = false): ?static
+    public static function get(string $name, bool $load = false): ?self
     {
-        if (! isset(static::$loadedNavigation[$name]) && $load) {
-            static::$loadedNavigation[$name] = new Navigation($name);
+        if (! isset(self::$loadedNavigation[$name]) && $load) {
+            self::$loadedNavigation[$name] = new Navigation($name);
         }
 
-        return static::$loadedNavigation[$name] ?? null;
+        return self::$loadedNavigation[$name] ?? null;
     }
 }

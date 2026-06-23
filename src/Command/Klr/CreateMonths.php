@@ -9,6 +9,6 @@ use Tokei\Command\Command;
 final class CreateMonths implements Command
 {
     public function __construct(
-        public int|string $year
+        public int|string $year,
     ) {}
 }

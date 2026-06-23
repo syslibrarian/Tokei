@@ -8,7 +8,7 @@ use Tokei\Model\Event\FormType;
 
 final class Type
 {
-    protected static array $types = [
+    private static array $types = [
         FormType::PRE_SCHOOL->value => 'tokei.adm.institution.type_pre_school',
         FormType::SCHOOL->value => 'tokei.adm.institution.type_school',
     ];

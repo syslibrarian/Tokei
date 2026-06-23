@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tokei\Extension\Validation\Rules;
 
-use Tokei\Model\User\Role;
 use Tempest\Validation\Rule;
+use Tokei\Model\User\Role;
 
 #[\Attribute]
 final class IsNotExistingRole implements Rule

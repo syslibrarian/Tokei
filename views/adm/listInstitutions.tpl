@@ -4,8 +4,6 @@
 {% block title %}{{ 'tokei.adm.events.list_institutions'|translateFull }}{% endblock %}
 
 {% block content %}
-    {% block pagination %}{{ pagination|raw }}{% endblock %}
-
     <div class="content dataList">
         <ol>
             {% for institution in institutions %}
@@ -28,5 +26,4 @@
             {% endfor %}
         </ol>
     </div>
-    {{ block('pagination') }}
 {% endblock %}

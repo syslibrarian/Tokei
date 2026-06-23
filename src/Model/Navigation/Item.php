@@ -22,5 +22,7 @@ final class Item
 
     public int $position;
 
+    public ?string $need_permission;
+
     public bool $is_active;
 }

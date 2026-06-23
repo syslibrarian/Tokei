@@ -1,6 +1,7 @@
 tokei:
   adm:
     location:
+      for_all: 'Alle Standorte'
       seal_update_desc: 'Das Siegel kann bei bestehenden Standorten nicht geändert werden.'
       seal_update: 'Siegel'
       upate: 'Standort aktualisieren - {$name}'

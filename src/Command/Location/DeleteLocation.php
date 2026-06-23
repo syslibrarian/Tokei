@@ -10,6 +10,6 @@ use Tokei\Model\Location\Location;
 final class DeleteLocation implements Command
 {
     public function __construct(
-        public Location $model
+        public Location $model,
     ) {}
 }

@@ -10,9 +10,12 @@ use Tempest\Http\Responses\Redirect;
 use Tempest\Router\Get;
 use Tempest\Router\Post;
 use Tempest\Router\Prefix;
+use Tempest\Router\WithMiddleware;
 use Tempest\View\View;
 use Tokei\Command\Klr\BuildFromReports;
 use Tokei\Command\Location\UpdateReport;
+use Tokei\Component\Access\AccessContext;
+use Tokei\Component\Access\IsAuthenticated;
 use Tokei\Model\Klr\KlrReport;
 use Tokei\Model\Location\Location;
 use Tokei\Model\Location\LocationHelper;
@@ -20,7 +23,7 @@ use Tokei\Model\Location\MonthlyReport;
 use Tokei\Model\Location\ReportHelper;
 use Tokei\Tool\Statistic\KlrPrinter;
 
-#[Prefix('/adm/reports')]
+#[Prefix('/adm/reports'), WithMiddleware(IsAuthenticated::class)]
 final class AdmReportController extends Controller
 {
     use IsAdmin;
@@ -39,7 +42,7 @@ final class AdmReportController extends Controller
     public function index(?int $year = null, ?string $seal = null): View
     {
         $this->setActiveSlug('');
-        $year = $year ?? DateTime::now()->getYear();
+        $year ??= DateTime::now()->getYear();
 
         // location is needed for check
         if ($seal !== null) {
@@ -50,8 +53,7 @@ final class AdmReportController extends Controller
             $locations = Location::select()->all();
         }
 
-        $reports = ($seal !== null) ? ReportHelper::getFor($seal) : ReportHelper::getSealSorted();
-
+        $reports = $seal !== null ? ReportHelper::getFor($seal) : ReportHelper::getSealSorted();
 
         return $this->view(
             '@adm/reports.tpl',
@@ -85,7 +87,7 @@ final class AdmReportController extends Controller
     {
         $this->setActiveSlug('');
 
-        $model = $this->getBySeal($seal, MonthlyReport::class, $timeCode);
+        $model = $this->getBySeal($seal, MonthlyReport::class, $timeCode, AccessContext::UPDATE);
         $location = $this->getBySeal($seal, Location::class);
 
         $command = new UpdateReport(
@@ -121,35 +123,36 @@ final class AdmReportController extends Controller
 
     #[
         Get('/klr/{?year:[0-9]{4}}/'),
-        Get('/klr/{print:print}/{?year:[0-9]{4}}/')
+        Get('/klr/{print:print}/{?year:[0-9]{4}}/'),
     ]
     public function showKlr(?int $year = null, string $print = ''): View
     {
-        $year = $year ?? DateTime::now()->getYear();
+        $year ??= DateTime::now()->getYear();
 
         $months = KlrReport::select()->where('year = ?', $year)->orderBy('month, seal')->all();
         $locations = LocationHelper::getLocationsForReports();
         $printer = new KlrPrinter($months, $locations);
 
         return $this->view(
-            ($print !== 'print') ? '@adm/showKlr.tpl' : '@adm/printKlr.tpl',
+            $print !== 'print' ? '@adm/showKlr.tpl' : '@adm/printKlr.tpl',
             printer: $printer,
             year: $year,
-            isPrint: $print === 'print'
+            isPrint: $print === 'print',
         );
     }
 
     #[Get('close-report/{?month:[0-9]{1,2}}/{?year:[0-9]{4}}/')]
     public function closeReports(?int $month = null, ?int $year = null): Redirect
     {
+        $this->checkModel(KlrReport::class, AccessContext::UPDATE);
         [$month, $year] = $this->getTimeCode($month, $year);
 
-        if ($year > DateTime::now()->getYear() || ($year === DateTime::now()->getYear() && $month >= DateTime::now()->getMonth())) {
+        if ($year > DateTime::now()->getYear() || $year === DateTime::now()->getYear() && $month >= DateTime::now()->getMonth()) {
             $this->session->set('klr', 'error');
         } else {
             $command = new BuildFromReports($month, $year);
             $response = $this->sendCommand($command);
-            $this->session->set('klr', (($response->value === true) ? 'success' : 'error'));
+            $this->session->set('klr', $response->value === true ? 'success' : 'error');
         }
 
         return $this->redirect('/adm/reports/');
@@ -166,8 +169,8 @@ final class AdmReportController extends Controller
                 $year--;
             }
         } else {
-            $month = $month ?? DateTime::now()->getMonth();
-            $year = $year ?? DateTime::now()->getYear();
+            $month ??= DateTime::now()->getMonth();
+            $year ??= DateTime::now()->getYear();
         }
 
         return [$month, $year];

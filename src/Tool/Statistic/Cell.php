@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace Tokei\Tool\Statistic;
 
@@ -8,8 +8,10 @@ use Tokei\Model\ReportStatus;
 
 final class Cell
 {
-    public function __construct(public int $value, public int $status)
-    {}
+    public function __construct(
+        public int $value,
+        public int $status,
+    ) {}
 
     public function empty(): bool
     {

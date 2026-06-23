@@ -41,7 +41,7 @@ final class LocationHandler
                 fte_consumed: $command->fte_consumed,
                 area: $command->area,
                 klr_code: $command->klrCode,
-                created: Timestamp::now()->getSeconds()
+                created: Timestamp::now()->getSeconds(),
             );
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();
@@ -68,14 +68,15 @@ final class LocationHandler
                 fte_consumed: $command->fte_consumed,
                 area: $command->area,
                 klr_code: $command->klrCode,
-                modified: Timestamp::now()->getSeconds()
+                modified: Timestamp::now()->getSeconds(),
             );
 
             /*if ($command->seal !== $command->model->seal) {
-                $command->model->update(
-                    seal: $command->seal,
-                );
-            }*/ // seals should not be updated afer creation.
+             * $command->model->update(
+             * seal: $command->seal,
+             * );
+             * }*/
+            // seals should not be updated afer creation.
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();
             $this->response->set($command, $e);
@@ -111,14 +112,16 @@ final class LocationHandler
                         continue;
                     }
 
-                    $rawQuery->insert(
-                        report_status: ReportStatus::OPEN->value,
-                        seal: $location->seal,
-                        month: $month,
-                        year: $command->year,
-                        time_code: TimeCode::fromParts($command->year, $month),
-                        created: Timestamp::now()->getSeconds()
-                    )->execute();
+                    $rawQuery
+                        ->insert(
+                            report_status: ReportStatus::OPEN->value,
+                            seal: $location->seal,
+                            month: $month,
+                            year: $command->year,
+                            time_code: TimeCode::fromParts($command->year, $month),
+                            created: Timestamp::now()->getSeconds(),
+                        )
+                        ->execute();
                 }
                 $month++;
             }
@@ -155,7 +158,7 @@ final class LocationHandler
                 staff_grant: $command->staffGrant,
                 staff_grant_hours: $command->staffGrantHours,
                 staff_volunteer: $command->staffVolunteer,
-                staff_volunteer_hours: $command->staffVolunteerHours
+                staff_volunteer_hours: $command->staffVolunteerHours,
             );
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();

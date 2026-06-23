@@ -11,6 +11,6 @@ final class DeletePermission implements Permission
 
     public function __construct(
         protected(set) string $name = 'can_delete',
-        protected(set) string $super = 'can_delete'
+        protected(set) string $super = 'can_delete',
     ) {}
 }

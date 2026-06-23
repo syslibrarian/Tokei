@@ -15,7 +15,8 @@ final class EventCreateTable implements DatabaseCommand
 
     protected function setFields(): void
     {
-        $this->statement->primary()
+        $this->statement
+            ->primary()
             ->varchar('title', default: '')
             ->varchar('description', default: '')
             ->varchar('seal', 4)

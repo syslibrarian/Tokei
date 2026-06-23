@@ -11,6 +11,7 @@ use Tempest\Log\Logger;
 use Tempest\Router\Get;
 use Tempest\Router\Post;
 use Tempest\Router\Prefix;
+use Tempest\Router\WithMiddleware;
 use Tempest\View\View;
 use Tokei\Command\Klr\CreateMonths;
 use Tokei\Command\Location\CreateLocation;
@@ -23,19 +24,24 @@ use Tokei\Command\User\DeleteRole;
 use Tokei\Command\User\DeleteUser;
 use Tokei\Command\User\UpdateRole;
 use Tokei\Command\User\UpdateUser;
+use Tokei\Component\Access\AccessContext;
+use Tokei\Component\Access\IsAuthenticated;
 use Tokei\Model\Event\EventHelper;
 use Tokei\Model\Location\Location;
+use Tokei\Model\Location\LocationHelper;
+use Tokei\Model\Location\MonthlyReport;
 use Tokei\Model\Location\ReportHelper;
 use Tokei\Model\User\Role;
 use Tokei\Model\User\RoleHelper;
 use Tokei\Model\User\User;
 use Tokei\Tool\Pagination\Pagination;
 use Tokei\Tool\Role\Permissions;
+
 use function Tempest\CommandBus\command;
 use function Tempest\Container\get;
 use function Tokei\str\trim;
 
-#[Prefix('/adm')]
+#[Prefix('/adm'), WithMiddleware(IsAuthenticated::class)]
 final class AdmController extends Controller
 {
     use IsAdmin;
@@ -72,6 +78,8 @@ final class AdmController extends Controller
     #[Get(uri: '/create-role'), Post(uri: '/create-role')]
     public function createRole(Request $request): View|Redirect
     {
+        $this->checkModel(Role::class);
+
         $this->setActiveSlug('create-role/');
         /** @var \Tokei\Tool\Role\Permissions $permissions */
         $permissions = get(Permissions::class);
@@ -100,6 +108,7 @@ final class AdmController extends Controller
     {
         $this->setActiveSlug('list-roles/');
         $role = Role::select()->where('user_role.id = ?', $id)->with('permissions')->first();
+        $this->checkModel($role);
 
         /** @var \Tokei\Tool\Role\Permissions $permissions */
         $permissions = get(Permissions::class);
@@ -127,7 +136,7 @@ final class AdmController extends Controller
     #[Get(uri: '/delete-role/{id:[0-9]+}')]
     public function deleteRole(int $id): Redirect
     {
-        $role = Role::select()->where('id = ?', $id)->first();
+        $role = $this->getModel($id, Role::class, AccessContext::DELETE);
 
         $deleteRole = new DeleteRole($role);
         command($deleteRole);
@@ -140,6 +149,9 @@ final class AdmController extends Controller
     {
         $this->setActiveSlug('list-users/');
 
+        $userId = $this->session->get('created_id', null);
+        $user = $userId !== null ? User::select()->where('id = ?', $userId)->first() : null;
+
         $pagination = new Pagination(
             pageNo: $currentPage,
             maxItems: User::count()->execute(),
@@ -147,13 +159,16 @@ final class AdmController extends Controller
         );
 
         $users = User::select()
+            ->with('role')
             ->limit($pagination->limit)
             ->offset($pagination->offset)
             ->all();
 
         return $this->view(
-            '@adm/listUsers.tpl',
+            '@adm/listUser.tpl',
+            success: $this->session->get('success', false),
             users: $users,
+            user: $user,
             pagination: $pagination,
         );
     }
@@ -161,6 +176,7 @@ final class AdmController extends Controller
     #[Get(uri: '/create-user'), Post(uri: '/create-user')]
     public function createUser(Request $request): View|Redirect
     {
+        $this->checkModel(User::class);
         $this->setActiveSlug('create-user/');
 
         $createUser = new CreateUser(
@@ -169,20 +185,23 @@ final class AdmController extends Controller
             surname: trim($request->get('surname', '')),
             email: trim($request->get('email', '')),
             password: trim($request->get('password', '')),
-            password_repeat: trim($request->get('password_repeat', '')),
+            password_repeat: trim($request->get('passwordRepeat', '')),
+            seal: trim($request->get('seal', '')),
             role_id: (int) $request->get('role', 0),
         );
 
         $response = $this->executeCommand($createUser, $request);
         if ($response?->value instanceof User) {
             $this->session->flash('success', true);
-            $this->session->flash('id', $response->value->id->value);
+            $this->session->flash('created_id', $response->value->id->value);
             return $this->redirect('/adm/list-users');
         }
 
         return $this->view(
             '@adm/createUser.tpl',
             user: $createUser,
+            roles: RoleHelper::getForForm(),
+            locations: LocationHelper::getLocationsForForm(true),
             errors: $this->validationParser->parsedErrors,
         );
     }
@@ -193,33 +212,44 @@ final class AdmController extends Controller
         $this->setActiveSlug('update-user/');
 
         $user = User::select()->where('id = ?', $id)->include('email')->first();
+        $this->checkModel($user);
+
         $updateUser = new UpdateUser(
-            user: $user,
+            model: $user,
             username: trim($request->get('username', $user->username)),
             name: trim($request->get('name', $user->name)),
             surname: trim($request->get('surname', '')),
-            email: trim($request->get('email', '')),
+            email: trim($request->get('email', $user->email)),
             change_password: (int) $request->get('change_password', 0),
             password: trim($request->get('password', '')),
-            password_repeat: trim($request->get('password_repeat', '')),
+            password_repeat: trim($request->get('passwordRepeat', '')),
+            seal: trim($request->get('seal', $user->seal)),
             role_id: (int) $request->get('role', $user->role_id),
         );
+
+        $response = $this->executeCommand($updateUser, $request);
 
         return $this->view(
             '@adm/updateUser.tpl',
             user: $updateUser,
             roles: RoleHelper::getForForm(),
+            locations: LocationHelper::getLocationsForForm(true),
             errors: $this->validationParser->parsedErrors,
+            success: $response?->value === true,
         );
     }
 
     #[Get(uri: '/delete-user/{id:[0-9]+}')]
     public function deleteUser(int $id): Redirect
     {
-        $user = User::select()->where('id = ?', $id)->first();
+        $user = $this->getModel($id, User::class, AccessContext::DELETE);
 
-        $deleteUser = new DeleteUser($user);
-        command($deleteUser);
+        if ($this->accessControl->isSelf($user)) {
+            $this->session->flash('error', 'no_self_delete');
+        } else {
+            $deleteUser = new DeleteUser($user);
+            command($deleteUser);
+        }
 
         return $this->redirect('/adm/list-user');
     }
@@ -249,7 +279,7 @@ final class AdmController extends Controller
         $pagination = new Pagination(
             pageNo: $currentPage,
             maxItems: Location::count()->execute(),
-            uri: '/adm/list-locations/{no}'
+            uri: '/adm/list-locations/{no}',
         );
 
         $locations = Location::select()
@@ -267,6 +297,7 @@ final class AdmController extends Controller
     #[Get(uri: '/create-location'), Post(uri: '/create-location')]
     public function createLocation(Request $request): View|Redirect
     {
+        $this->checkModel(Location::class);
         $this->setActiveSlug('create-location/');
         $createLocation = new CreateLocation(
             name: trim($request->get('name', '')),
@@ -291,7 +322,7 @@ final class AdmController extends Controller
         return $this->view(
             '@adm/createLocation.tpl',
             location: $createLocation,
-            errors: $this->validationParser->parsedErrors
+            errors: $this->validationParser->parsedErrors,
         );
     }
 
@@ -299,7 +330,7 @@ final class AdmController extends Controller
     public function updateLocation(Request $request, int $id): View
     {
         $this->setActiveSlug('list-locations/');
-        $location = Location::select()->where('id = ?', $id)->first();
+        $location = $this->getModel($id, Location::class, AccessContext::UPDATE);
 
         $updateLocation = new UpdateLocation(
             model: $location,
@@ -324,16 +355,15 @@ final class AdmController extends Controller
             '@adm/updateLocation.tpl',
             location: $updateLocation,
             errors: $this->validationParser->parsedErrors,
-            success: $response !== null
+            success: $response !== null,
         );
     }
 
     #[Get(uri: '/delete-location/{id:[0-9]+}')]
     public function deleteLocation(int $id): Redirect
     {
-        $location = Location::select()->where('id = ?', $id)->first();
-        //$this->checkModel($location, Location::class);
-        $response = $this->executeCommand(new DeleteLocation($location), onPost: false);
+        $location = $this->getModel($id, Location::class, AccessContext::DELETE);
+        $this->executeCommand(new DeleteLocation($location), onPost: false);
 
         return $this->redirect('/adm/list-locations/');
     }
@@ -341,7 +371,8 @@ final class AdmController extends Controller
     #[Get(uri: '/create-reports/{?year:[0-9]{4}}')]
     public function createReports(Request $request, int $year = 0): Redirect
     {
-        $validYear = fn(int $year) => ($year >= 2026); // for later - get installation year for checkup.
+        $this->checkModel(MonthlyReport::class);
+        $validYear = fn (int $year) => $year >= 2026; // for later - get installation year for checkup.
         $year = $validYear($year) ? $year : DateTime::now()->getYear();
 
         try {

@@ -115,10 +115,10 @@
     </div>
 {% endmacro %}
 
-{% macro passwort(name, error = '') %}
+{% macro password(name, error = '') %}
     <div class="text {% if error != '' %} warning{% endif %}">
         <div class="label"><label for="{{ name }}-id">{{ name|translate }}</label></div>
-        <div class="field"><input type="password" name="{{ name }}" id="{{ name }}-id"></div>#
+        <div class="field"><input type="password" name="{{ name }}" id="{{ name }}-id"></div>
         <div class="description"><span>{{ (name ~ '_desc')|translate }}</span></div>
     </div>
 {% endmacro %}

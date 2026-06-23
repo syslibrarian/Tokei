@@ -1,10 +1,11 @@
 {% macro modelInfo(model) %}
     <span>
         {% if model.modified or model.created %}
+            {# System workds best in UTC #}
             {% if model.modified %}
-                {{ 'tokei.adm.modified'|translateFull(date: model.modified|date('d.m.Y - h:i')) }}
+                {{ 'tokei.adm.modified'|translateFull(date: model.modified|date('d.m.Y - H:i', timezone: "Europe/Berlin")) }}
             {% elseif model.created %}
-                {{ 'tokei.adm.created'|translateFull(date: model.created|date('d.m.Y - h:i')) }}
+                {{ 'tokei.adm.created'|translateFull(date: model.created|date('d.m.Y - H:i', timezone: "Europe/Berlin")) }}
             {% endif %}
         {% endif %}
     </span>

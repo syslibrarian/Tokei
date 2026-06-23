@@ -15,13 +15,14 @@ class CreateKlrMonthTable implements DatabaseCommand
 
     protected function setFields(): void
     {
-        $this->statement->primary()
+        $this->statement
+            ->primary()
             ->integer('report_status', default: 0)
             ->varchar('seal', length: 4)
             ->integer('year')
             ->integer('month')
             ->varchar('time_code', length: 7)
-            ->integer('circulations', default:0)
+            ->integer('circulations', default: 0)
             ->integer('visits', default: 0)
             ->integer('attendees', default: 0)
             ->integer('created')

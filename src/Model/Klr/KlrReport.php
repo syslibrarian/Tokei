@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Tokei\Model\Klr;
 
@@ -11,13 +11,13 @@ use Tokei\Component\Access\DeletePermission;
 use Tokei\Component\Access\UpdatePermission;
 use Tokei\Model\IsLocated;
 use Tokei\Model\IsReport;
-use Tokei\Model\Report;
 use Tokei\Model\Located;
+use Tokei\Model\Report;
 
 #[
     Table('klr_month'),
     CreatePermission('can_create_reports'),
-    UpdatePermission('can_update_report', super: 'can_close_report'),
+    UpdatePermission('can_close_report'),
     DeletePermission,
 ]
 final class KlrReport implements Report, Located

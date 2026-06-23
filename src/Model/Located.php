@@ -6,5 +6,5 @@ namespace Tokei\Model;
 
 interface Located
 {
-    public string $seal {get; set;}
+    public string $seal { get; set; }
 }

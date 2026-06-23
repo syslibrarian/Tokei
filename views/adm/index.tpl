@@ -29,11 +29,14 @@
         {% endblock %}
 
         <div class="adm-content">
-        {% block content %}
-            <div class="content">
-                <h1>{{ 'tokei.adm.index'|translateFull }}</h1>
-            </div>
-        {% endblock %}
+            {% block content %}
+                <div class="content">
+                    <h1>{{ 'tokei.adm.index'|translateFull }}</h1>
+                </div>
+            {% endblock %}
+            {% block pagination %}
+                {{ pagination|raw }}
+            {% endblock %}
         </div>
     </div>
 {% endblock %}

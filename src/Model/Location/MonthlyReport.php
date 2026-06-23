@@ -12,10 +12,10 @@ use Tokei\Component\Access\DeletePermission;
 use Tokei\Component\Access\UpdatePermission;
 use Tokei\Model\IsLocated;
 use Tokei\Model\IsReport;
+use Tokei\Model\Located;
 use Tokei\Model\Report;
 use Tokei\Model\ReportStatus;
 use Tokei\Tool\Statistic\Events;
-use Tokei\Model\Located;
 
 #[
     Table('location_report'),
@@ -55,7 +55,9 @@ final class MonthlyReport implements Report, Located
     // virtual fields
     #[Virtual]
     public int $visits_total {
-        get { return $this->visits + $this->visits_manual; }
+        get {
+            return $this->visits + $this->visits_manual;
+        }
     }
 
     #[Virtual]

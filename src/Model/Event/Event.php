@@ -29,7 +29,6 @@ final class Event implements Located
     use IsDatabaseModel;
     use IsLocated;
 
-
     #[IsDBSType]
     public string $type;
 
@@ -67,15 +66,18 @@ final class Event implements Located
 
     public ?int $modified = 0;
 
-
     // virtual fields
     #[Virtual]
     public float $hours_staff {
-        get { return $this->staff * $this->hours; }
+        get {
+            return $this->staff * $this->hours;
+        }
     }
 
     #[Virtual]
     public float $hours_staff_external {
-        get { return $this->staff_external * $this->hours; }
+        get {
+            return $this->staff_external * $this->hours;
+        }
     }
 }

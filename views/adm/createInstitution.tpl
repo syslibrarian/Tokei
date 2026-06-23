@@ -47,7 +47,6 @@
         errorMsg: errors.phone ?? ''
     ) }}
 
-
     {{ t.modelInfo(institution.model) }}
 
     {{ f.form_end() }}

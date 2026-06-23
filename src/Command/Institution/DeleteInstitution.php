@@ -10,6 +10,6 @@ use Tokei\Model\Institution\Institution;
 final class DeleteInstitution implements Command
 {
     public function __construct(
-        public Institution $model
+        public Institution $model,
     ) {}
 }

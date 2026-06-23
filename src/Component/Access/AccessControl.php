@@ -11,42 +11,40 @@ use Tokei\Model\User\User;
 
 final class AccessControl
 {
-    protected User $user;
+    private User $user;
+
     public function __construct(
         protected(set) Authenticator $authenticator,
     ) {
         $this->setUser();
     }
 
-    protected function setUser(): void
+    private function setUser(): void
     {
         $user = $this->authenticator->current();
         if ($user instanceof User) {
             $this->user = $user;
-        } //else {
-            //throw new AccessWasDenied(); // now valid user object from authenticator
-        //}
+        }
     }
 
-    public function hasPermission(string $name): bool
+    public function hasPermission(?string $name): bool
     {
+        if ($name === '' || $name === null) {
+            return true;
+        }
+
         $user = $this->authenticator->current();
 
         if ($user instanceof User) {
             return $user->role->hasPermission($name);
         }
 
-        return true; // current state
+        return false;
     }
 
     public function checkModel(object|string $model, ?AccessContext $context = null): void
     {
-        $permissionClass = AccessContext::getClass($context, $model);
-
-        // we have no permission, so no check
-        if ($permissionClass === null) {
-            return;
-        }
+        $permissionClass = AccessContext::getClass($model, $context);
     }
 
     public function checkPermission(string $name): void
@@ -69,5 +67,10 @@ final class AccessControl
     public function canDelete(string|object $modelClass): bool
     {
         return true;
+    }
+
+    public function isSelf(User $user): bool
+    {
+        return $user->id === $this->user->id;
     }
 }

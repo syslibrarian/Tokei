@@ -11,6 +11,6 @@ final class CreatePermission implements Permission
 
     public function __construct(
         protected(set) string $name,
-        protected(set) string $super = ''
+        protected(set) string $super = '',
     ) {}
 }

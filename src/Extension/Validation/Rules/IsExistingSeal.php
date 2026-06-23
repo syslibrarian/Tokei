@@ -10,9 +10,8 @@ use Tokei\Model\Location\LocationHelper;
 #[\Attribute]
 final class IsExistingSeal implements Rule
 {
-
     public function isValid(mixed $value): bool
     {
-        return LocationHelper::isExistingSeal($value);
+        return $value === 'x' || LocationHelper::isExistingSeal($value);
     }
 }

@@ -9,6 +9,6 @@ use Tokei\Command\Command;
 final class CreateReports implements Command
 {
     public function __construct(
-        public string|int $year
+        public string|int $year,
     ) {}
 }

@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Tokei\Controller;
 
-use Tokei\Component\Access\AccessControl;
-use Tokei\Component\Navigation\Navigation;
-use Tokei\Tokei;
 use Tempest\Http\Responses\Redirect;
 use Tempest\Http\Session\Session;
 use Tempest\View\View;
+use Tokei\Component\Navigation\Navigation;
+use Tokei\Tokei;
 
 use function Tempest\Support\Arr\each;
 use function Tempest\View\view;
@@ -22,9 +21,14 @@ abstract class Controller
     /** @var string[] */
     protected array $viewPaths = [];
 
+    public Session $session {
+        get {
+            return $this->tokei->session;
+        }
+    }
+
     public function __construct(
-        protected(set) Tokei         $tokei,
-        protected(set) Session       $session,
+        protected(set) Tokei $tokei,
     ) {
         $this->extend();
     }

@@ -10,7 +10,6 @@ use Tokei\Model\Institution\Type;
 #[\Attribute]
 final class IsInstitutionType implements Rule
 {
-
     public function isValid(mixed $value): bool
     {
         return Type::checkType($value);

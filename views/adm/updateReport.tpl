@@ -18,6 +18,7 @@
 
 {% block content %}
     {{ f.form_start(uri: target, title: block('title'), html_classes: 'content') }}
+
         {{ f.number(
             name: 'circulations',
             value: report.circulations,
@@ -81,7 +82,6 @@
             description: 'adm.reports.coversGiven.description'
         ) }}
 
-    {# TODO implement Event overview #}
     {{ f.form_end() }}
 
     <div class="content events">

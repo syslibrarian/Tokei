@@ -55,6 +55,19 @@ final class Permissions
         return $permissions;
     }
 
+    public function buildForInstall(): array
+    {
+        $permissions = [];
+
+        foreach ($this->permissions as $group) {
+            foreach ($group as $permission) {
+                $permissions[$permission] = 1;
+            }
+        }
+
+        return $permissions;
+    }
+
     public function buildForForm(?Role $role = null): \Generator
     {
         $permissionFunc = static function (array $permissions, ?Role $role = null): \Generator {
@@ -90,8 +103,8 @@ final class Permissions
                 'can_update_limitless',
                 'can_create_role',
                 'can_update_role',
-                'can_delete'
-            ]
+                'can_delete',
+            ],
         ];
 
         $this->eventBus->dispatch(new PermissionsPrepare($this));

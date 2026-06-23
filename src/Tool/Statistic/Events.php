@@ -6,20 +6,20 @@ namespace Tokei\Tool\Statistic;
 
 use Tokei\Model\Event\DBSSection;
 use Tokei\Model\Event\Event;
-
 use Tokei\Model\TimeCode;
+
 use function Tempest\Support\Json\decode;
 use function Tempest\Support\Json\encode;
 
 final class Events
 {
     /** @var array<string, DBSContainer> */
-    protected(set) array $containers = [];
+    private(set) array $containers = [];
 
     /** @var Event[] */
-    protected(set) array $events = [];
-    protected(set) TimeCode $timeCode;
-    protected(set) int $untracked = 0;
+    private(set) array $events = [];
+    private(set) TimeCode $timeCode;
+    private(set) int $untracked = 0;
 
     public int $totalAttendees {
         get {
@@ -53,7 +53,7 @@ final class Events
 
     private function checkArguments(): void
     {
-        if (!preg_match("/^\d{3}[a-z]?$/", $this->seal)) {
+        if (! preg_match("/^\d{3}[a-z]?$/", $this->seal)) {
             throw new \InvalidArgumentException('Seal must be in format XXX(a)');
         }
     }
@@ -64,7 +64,7 @@ final class Events
             ->where('time_code = ? AND seal = ?', $this->timeCode, $this->seal)
             ->all();
 
-        if (!empty($this->events)) {
+        if (! empty($this->events)) {
             $this->buildStatistic();
         }
     }
@@ -85,7 +85,7 @@ final class Events
                     0,
                     0,
                     0,
-                    0
+                    0,
                 );
             }
         }
@@ -114,7 +114,7 @@ final class Events
         return encode([
             'seal' => $this->seal,
             'timeCode' => $this->timeCode->timeCode,
-            'containers' => $containers
+            'containers' => $containers,
         ]);
     }
 
@@ -127,7 +127,7 @@ final class Events
 
         $containers = $tmp['containers'] ?? [];
         foreach ($containers as $container) {
-            $containerObj = (is_string($container)) ? DBSContainer::fromJsonString($container) : DBSContainer::fromArray($container);
+            $containerObj = is_string($container) ? DBSContainer::fromJsonString($container) : DBSContainer::fromArray($container);
 
             // only formal check for empty string
             if ($containerObj->number !== '') {

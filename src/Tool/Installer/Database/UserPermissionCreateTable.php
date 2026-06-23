@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tokei\Tool\Installer\Database;
 
+use Tempest\Database\QueryStatements\OnDelete;
 use Tokei\Model\User\Permission;
 use Tokei\Tool\Installer\DatabaseTable;
 use Tokei\Tool\Installer\InstallType;
-use Tempest\Database\QueryStatements\OnDelete;
 
 #[DatabaseTable(modelClass: Permission::class, type: InstallType::INSTALL, after: UserRoleCreateTable::class)]
 final class UserPermissionCreateTable implements DatabaseCommand

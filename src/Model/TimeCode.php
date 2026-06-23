@@ -8,9 +8,9 @@ use Tempest\DateTime\DateTime;
 
 final class TimeCode
 {
-
-    private function __construct(protected(set) string $timeCode)
-    {}
+    private function __construct(
+        protected(set) string $timeCode,
+    ) {}
 
     public function __toString(): string
     {

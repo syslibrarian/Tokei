@@ -22,6 +22,6 @@ final class UpdateEvent implements Command
         public int $state,
         public string $title,
         public string $description,
-        public string $audience
+        public string $audience,
     ) {}
 }

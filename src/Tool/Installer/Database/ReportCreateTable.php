@@ -16,7 +16,8 @@ final class ReportCreateTable implements DatabaseCommand
 
     protected function setFields(): void
     {
-        $this->statement->primary()
+        $this->statement
+            ->primary()
             ->integer('report_status', default: 1)
             ->varchar('seal', 4)
             ->varchar('time_code', length: 7)

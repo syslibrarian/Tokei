@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tokei\Tool\Installer\Database;
 
-use Tokei\Tool\Installer\DatabaseTable;
 use Tempest\Database\Query;
 use Tempest\Database\QueryStatements\AlterTableStatement;
+use Tokei\Tool\Installer\DatabaseTable;
 
 trait IsAlterTable
 {

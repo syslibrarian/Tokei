@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Tokei\Extension\Validation\Rules;
 
-use Tokei\Model\User\User;
 use Tempest\Validation\Rule;
+use Tokei\Model\User\User;
 
 #[\Attribute]
-final class IsNotExistingUsername implements Rule
+final class IsExistingUsername implements Rule
 {
     public function isValid(mixed $value): bool
     {
-        $user = User::select()->where('username = ?', $value)->first();
+        $user = User::select()->where('username LIKE ?', $value)->first();
 
-        return $user !== null;
+        return $user === null;
     }
 }

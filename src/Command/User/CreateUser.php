@@ -12,10 +12,13 @@ final class CreateUser implements Command
         public string $username,
         public string $name,
         public string $surname,
+        #[\SensitiveParameter]
         public string $email,
         #[\SensitiveParameter]
         public string $password,
+        #[\SensitiveParameter]
         public string $password_repeat,
+        public string $seal,
         public int $role_id,
     ) {}
 }

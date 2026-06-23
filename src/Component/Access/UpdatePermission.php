@@ -10,6 +10,6 @@ final class UpdatePermission implements Permission
     public function __construct(
         protected(set) string $name,
         protected(set) int $timeLimit = -1,
-        protected(set) string $super = 'can_update_limitless'
+        protected(set) string $super = 'can_update_limitless',
     ) {}
 }

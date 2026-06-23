@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tokei\Extension\Discovery;
 
-use Tokei\Tool\Installer\DatabaseTable;
 use Tempest\Discovery\Discovery;
 use Tempest\Discovery\DiscoveryLocation;
 use Tempest\Discovery\IsDiscovery;
 use Tempest\Reflection\ClassReflector;
+use Tokei\Tool\Installer\DatabaseTable;
 
 final class DatabaseSetupDiscovery implements Discovery
 {

@@ -10,21 +10,37 @@ use Tokei\Model\Location\Location;
 
 final class KlrPrinter
 {
-    protected(set) array $fieldToProduct= [];
-    protected(set) array $products = [];
-    protected(set) array $months = [1 => 'Jan', 2 => 'Feb', 3 => 'März', 4 => 'Apr', 5 => 'Mai', 6 => 'Juni', 7 => 'Juli', 8 => 'Aug', 9 => 'Sep', 10 => 'Okt', 11 => 'Nov', 12 => 'Dec', 'year' => 'Gesamt'];
+    private(set) array $fieldToProduct = [];
+    private(set) array $products = [];
+    private(set) array $months = [
+        1 => 'Jan',
+        2 => 'Feb',
+        3 => 'März',
+        4 => 'Apr',
+        5 => 'Mai',
+        6 => 'Juni',
+        7 => 'Juli',
+        8 => 'Aug',
+        9 => 'Sep',
+        10 => 'Okt',
+        11 => 'Nov',
+        12 => 'Dec',
+        'year' => 'Gesamt',
+    ];
 
     /**
      * @param KlrReport[] $klrReports
      * @param Location[] $locations
      */
-    public function __construct(protected(set) array $klrReports, protected(set) ?array $locations = null)
-    {
+    public function __construct(
+        protected(set) array $klrReports,
+        protected(set) ?array $locations = null,
+    ) {
         $this->createStructure();
         $this->build();
     }
 
-    protected function createStructure(): void
+    private function createStructure(): void
     {
         // buid structure
         foreach (KlrHelper::KLR_PRODUCTS as $number => $information) {
@@ -32,29 +48,29 @@ final class KlrPrinter
             $this->products[$number] = [
                 'title' => $information['title'],
                 'locations' => [],
-                'sum' => $this->getContainers(true)
+                'sum' => $this->getContainers(true),
             ];
         }
     }
 
-    protected function getContainers(bool $forSum = false): array
+    private function getContainers(bool $forSum = false): array
     {
         $containers = [];
         foreach ($this->months as $key => $month) {
-            $containers[$key] = ($key === 'year' || $forSum) ? new Cell(0, 0) : null;
+            $containers[$key] = $key === 'year' || $forSum ? new Cell(0, 0) : null;
         }
 
         return $containers;
     }
 
-    protected function build(): void
+    private function build(): void
     {
         foreach ($this->klrReports as $report) {
             foreach ($this->fieldToProduct as $field => $number) {
-                if (!isset($this->products[$number]['locations'][$report->seal])) {
+                if (! isset($this->products[$number]['locations'][$report->seal])) {
                     $this->products[$number]['locations'][$report->seal] = [
                         'klrCode' => $this->locations[$report->seal]->klr_code ?? $report->seal,
-                        'data' => $this->getContainers()
+                        'data' => $this->getContainers(),
                     ];
                 }
 

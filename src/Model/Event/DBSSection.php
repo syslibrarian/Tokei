@@ -25,7 +25,7 @@ final class DBSSection
             '98-x' => 'tokei.adm.events.dbs_98-x', // Exhibitions
             '99-0' => 'tokei.adm.events.dbs_99-0', // Other types
             '99-1' => 'tokei.adm.events.dbs_99-1', // Guided tours.
-        ]
+        ],
     ];
 
     public const array INDEX_TO_AUDIENCE = [
@@ -38,16 +38,12 @@ final class DBSSection
         '92-x' => 'mixed',
         '98-x' => 'mixed',
         '99-0' => 'mixed',
-        '99-1' => 'mixed'
+        '99-1' => 'mixed',
     ];
 
     public static function getAudience(string $audience, string $sectionNumber): string
     {
-        if (isset(self::INDEX_TO_AUDIENCE[$sectionNumber])) {
-            return self::INDEX_TO_AUDIENCE[$sectionNumber];
-        }
-
-        return $audience;
+        return self::INDEX_TO_AUDIENCE[$sectionNumber] ?? $audience;
     }
 
     public static function exists(mixed $value): bool
@@ -80,6 +76,6 @@ final class DBSSection
 
     public static function isEducation(string $sectionNumber): int
     {
-        return (isset(self::SECTIONS[FormType::PRE_SCHOOL->value][$sectionNumber]) || isset(self::SECTIONS[FormType::SCHOOL->value][$sectionNumber])) ? 1 : 0;
+        return isset(self::SECTIONS[FormType::PRE_SCHOOL->value][$sectionNumber]) || isset(self::SECTIONS[FormType::SCHOOL->value][$sectionNumber]) ? 1 : 0;
     }
 }

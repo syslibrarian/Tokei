@@ -10,6 +10,6 @@ use Tokei\Model\Event\Event;
 final class DeleteEvent implements Command
 {
     public function __construct(
-        public Event $model
+        public Event $model,
     ) {}
 }

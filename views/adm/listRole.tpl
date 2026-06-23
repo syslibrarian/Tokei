@@ -4,8 +4,6 @@
 {% block title %}{{ 'adm.list_roles'|translate }}{% endblock %}
 
 {% block content %}
-    {% block pagination %}{{ pagination|raw }}{% endblock %}
-
     <div class="content dataList">
         <ol>
             {% for role in roles %}
@@ -26,5 +24,4 @@
             {% endfor %}
         </ol>
     </div>
-    {{ block('pagination') }}
 {% endblock %}

@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace Tokei\Model\User;
 
-use Tokei\Component\Access\CreatePermission;
-use Tokei\Component\Access\DeletePermission;
-use Tokei\Component\Access\UpdatePermission;
-use Tokei\Extension\Validation\Rules\IsNotExistingRole;
 use Tempest\Database\HasMany;
 use Tempest\Database\IsDatabaseModel;
 use Tempest\Database\Table;
 use Tempest\Database\Virtual;
 use Tempest\Validation\Rules\HasLength;
 use Tempest\Validation\Rules\IsNotEmptyString;
+use Tokei\Component\Access\CreatePermission;
+use Tokei\Component\Access\DeletePermission;
+use Tokei\Component\Access\UpdatePermission;
+use Tokei\Extension\Validation\Rules\IsNotExistingRole;
 
 #[
     Table(name: 'user_role'),
     CreatePermission('can_create_role'),
     UpdatePermission('can_update_role'),
-    DeletePermission
+    DeletePermission,
 ]
 final class Role
 {

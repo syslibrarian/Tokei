@@ -28,7 +28,7 @@ final class InstitutionHandler
                 educator: $command->educator,
                 seal: $command->seal,
                 type: $command->type,
-                created: Timestamp::now()->getSeconds()
+                created: Timestamp::now()->getSeconds(),
             );
 
             if ($command->email !== '') {
@@ -58,18 +58,18 @@ final class InstitutionHandler
                 name: $command->name,
                 educator: $command->educator,
                 seal: $command->seal,
-                type: $command->type
+                type: $command->type,
             );
 
             if ($command->email !== '') {
                 $command->model->update(
-                    email: $command->email
+                    email: $command->email,
                 );
             }
 
             if ($command->phone !== '') {
                 $command->model->update(
-                    phone: $command->phone
+                    phone: $command->phone,
                 );
             }
         } catch (ValidationFailed $e) {

@@ -8,16 +8,16 @@ use Tokei\Tokei;
 use Twig\Attribute\AsTwigFilter;
 use Twig\Attribute\AsTwigFunction;
 use Twig\Environment;
-
 use Twig\Runtime\EscaperRuntime;
+
 use function Tempest\Container\get;
 
 final class TokeiTwigBaseExtension
 {
-    protected static ?Tokei $tokei = null;
-    protected static ?string $translateBase = null;
+    private static ?Tokei $tokei = null;
+    private static ?string $translateBase = null;
 
-    protected static function checkTokei(Environment $env): void
+    private static function checkTokei(Environment $env): void
     {
         if (self::$tokei === null) {
             self::$tokei = $env->getGlobals()['_tokei'] ?? get(Tokei::class);
@@ -25,7 +25,7 @@ final class TokeiTwigBaseExtension
     }
 
     #[AsTwigFunction('hasPermission', needsEnvironment: true)]
-    public static function hasPermission(Environment $env, string $name): bool
+    public static function hasPermission(Environment $env, ?string $name): bool
     {
         self::checkTokei($env);
 
@@ -50,7 +50,7 @@ final class TokeiTwigBaseExtension
 
     #[
         AsTwigFilter('translateFull', needsEnvironment: true, isSafe: ['html']),
-        AsTwigFunction('translateFull', needsEnvironment: true, isSafe: ['html'])
+        AsTwigFunction('translateFull', needsEnvironment: true, isSafe: ['html']),
     ]
     public static function translateFull(Environment $env, string $key, mixed ...$args): string
     {
@@ -61,20 +61,19 @@ final class TokeiTwigBaseExtension
 
     #[
         AsTwigFilter('translateSecure', needsEnvironment: true, isSafe: ['html']),
-        AsTwigFunction('translateSecure', needsEnvironment: true, isSafe: ['html'])
+        AsTwigFunction('translateSecure', needsEnvironment: true, isSafe: ['html']),
     ]
     public static function translateSecure(
         Environment $env,
         string $key,
         bool $full = false,
         string $context = 'html',
-        mixed ...$args
-    ): string
-    {
+        mixed ...$args,
+    ): string {
         return $env->getRuntime(EscaperRuntime::class)
             ->escape(
-                ($full) ? self::translateFull($env, $key, ...$args) : self::translate($env, $key, ...$args),
-                $context
+                $full ? self::translateFull($env, $key, ...$args) : self::translate($env, $key, ...$args),
+                $context,
             );
     }
 
@@ -94,21 +93,20 @@ final class TokeiTwigBaseExtension
         bool $withBase = true,
         bool $withCurrent = true,
         string $uri = '',
-        mixed ... $parts
-    ): string
-    {
+        mixed ...$parts,
+    ): string {
         self::checkTokei($env);
 
-        return self::$tokei->getUri($withBase, $withCurrent, $uri, ... $parts);
+        return self::$tokei->getUri($withBase, $withCurrent, $uri, ...$parts);
     }
 
     #[
         AsTwigFilter('translate', needsEnvironment: true, isSafe: ['html']),
-        AsTwigFunction('translate', needsEnvironment: true, isSafe: ['html'])
+        AsTwigFunction('translate', needsEnvironment: true, isSafe: ['html']),
     ]
     public static function translate(Environment $env, string $key, mixed ...$args): string
     {
-        return self::translateFull($env,(self::$translateBase ?? 'tokei') . '.' . $key, ...$args);
+        return self::translateFull($env, (self::$translateBase ?? 'tokei') . '.' . $key, ...$args);
     }
 
     #[AsTwigFunction('translateBase')]

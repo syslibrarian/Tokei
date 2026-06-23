@@ -26,7 +26,7 @@ final class Location
     #[IsNotEmptyString]
     public string $name;
 
-    #[MatchesRegEx('/^[0-9]{3}[a-z]?$/u'), IsNotExistingSeal()]
+    #[MatchesRegEx('/^[0-9]{3}[a-z]?$/u'), IsNotExistingSeal]
     public string $seal;
 
     #[IsNotEmptyString]

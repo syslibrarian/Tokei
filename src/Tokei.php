@@ -6,12 +6,13 @@ namespace Tokei;
 
 use Tempest\Container\Singleton;
 use Tempest\DateTime\DateTime;
+use Tempest\Http\Session\Session;
 use Tempest\Intl\Translator;
 use Tokei\Component\Access\AccessControl;
 use Tokei\Extension\Twig\TokeiTwigBaseExtension;
-use Twig\Extension\CoreExtension;
 use Twig\Environment;
 use Twig\Extension\AttributeExtension;
+use Twig\Extension\CoreExtension;
 
 #[Singleton]
 final class Tokei
@@ -24,6 +25,7 @@ final class Tokei
     public function __construct(
         protected(set) Environment $twig,
         protected(set) AccessControl $accessControl,
+        protected(set) Session $session,
         protected(set) Translator $translator,
     ) {
         $this->extendTwig();
@@ -32,7 +34,7 @@ final class Tokei
         $this->add('time', DateTime::now()->getTimestamp()->getSeconds());
     }
 
-    protected function extendTwig(): void
+    private function extendTwig(): void
     {
         $this->twig->addExtension(new AttributeExtension(TokeiTwigBaseExtension::class));
         $this->twig->addGlobal('_tokei', $this);
@@ -41,29 +43,27 @@ final class Tokei
         $this->twig->getExtension(CoreExtension::class)->setNumberFormat(
             decimal: 0,
             decimalPoint: $this->translator->translate('tokei.number.decimal'),
-            thousandSep: $this->translator->translate('tokei.number.thousands')
+            thousandSep: $this->translator->translate('tokei.number.thousands'),
         );
     }
 
     /**
      * @param bool $withBase
      * @param bool $withCurrent
-     * @param string $addUri
+     * @param string $uri
      * @param mixed ...$parts
      * @return string
      */
-    public function getUri(bool $withBase = true, bool $withCurrent = true, string $uri = '', ... $parts): string
+    public function getUri(bool $withBase = true, bool $withCurrent = true, string $uri = '', ...$parts): string
     {
         $base = $this->data['route_base'] ?? '';
         $current = $this->data['route_current'] ?? '';
-        $uri = (str_starts_with($uri, '/') ? substr($uri, 1) : $uri);
+        $uri = str_starts_with($uri, '/') ? substr($uri, 1) : $uri;
 
-        $uri = (($withBase) ? $base : '/')
-            . (($withCurrent) ? $current : '')
-            . ($uri !== '' && !(str_ends_with($uri, '/')) ? $uri . '/' : $uri);
+        $uri = ($withBase ? $base : '/') . ($withCurrent ? $current : '') . ($uri !== '' && ! str_ends_with($uri, '/') ? $uri . '/' : $uri);
 
         foreach ($parts as $part) {
-            $uri.= $part . '/';
+            $uri .= $part . '/';
         }
 
         return $uri;

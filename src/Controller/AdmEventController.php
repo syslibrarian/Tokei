@@ -10,25 +10,27 @@ use Tempest\Http\Responses\Redirect;
 use Tempest\Router\Get;
 use Tempest\Router\Post;
 use Tempest\Router\Prefix;
+use Tempest\Router\WithMiddleware;
 use Tempest\View\View;
 use Tokei\Command\Event\CreateEvent;
 use Tokei\Command\Event\UpdateEvent;
 use Tokei\Command\Institution\CreateInstitution;
 use Tokei\Command\Institution\DeleteInstitution;
 use Tokei\Command\Institution\UpdateInstitution;
+use Tokei\Component\Access\AccessContext;
+use Tokei\Component\Access\IsAuthenticated;
 use Tokei\Model\Event\DBSSection;
 use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
 use Tokei\Model\Institution\Institution;
 use Tokei\Model\Institution\Type;
-use Tokei\Model\Location\Location;
 use Tokei\Model\Location\LocationHelper;
-
 use Tokei\Tool\Event\Form;
 use Tokei\Tool\Pagination\Pagination;
+
 use function Tokei\Str\trim;
 
-#[Prefix('/adm/events')]
+#[Prefix('/adm/events'), WithMiddleware(IsAuthenticated::class)]
 final class AdmEventController extends Controller
 {
     use IsAdmin;
@@ -45,24 +47,25 @@ final class AdmEventController extends Controller
 
     #[
         Get(uri: '/{?seal:[0-9]{3}[a-z]?}/{?no:[0-9]+}/'),
-        Get(uri: '/{no:[0-9]+}/')
+        Get(uri: '/{no:[0-9]+}/'),
     ]
     public function index(?string $seal = null, int $no = 1): View
     {
         $this->setActiveSlug('list/');
-        $location = ($seal !== null) ? $this->getBySeal($seal, Event::class) : null;
+        $location = $seal !== null ? $this->getBySeal($seal, Event::class) : null;
 
         $pagination = new Pagination(
             pageNo: $no,
-            maxItems: ($location === null) ? Event::count()->execute() : Event::count()->where('seal', $location->seal)->execute(),
-            uri: $this->getBaseSlug() . (($location !== null) ? $location->seal . '/' : '') . '{no}'
+            maxItems: $location === null ? Event::count()->execute() : Event::count()->where('seal', $location->seal)->execute(),
+            uri: $this->getBaseSlug() . ($location !== null ? $location->seal . '/' : '') . '{no}',
         );
 
         $eventsRaw = Event::select();
         if ($location !== null) {
             $eventsRaw = $eventsRaw->where('seal', $location->seal);
         }
-        $eventsRaw->orderBy('time_start', Direction::DESC)
+        $eventsRaw
+            ->orderBy('time_start', Direction::DESC)
             ->offset($pagination->offset)
             ->limit($pagination->limit);
 
@@ -70,30 +73,31 @@ final class AdmEventController extends Controller
             '@adm/events.tpl',
             pagination: $pagination,
             location: $location,
-            events: $eventsRaw->all()
+            events: $eventsRaw->all(),
         );
     }
 
     #[
         Get(uri: '/list/{?seal:[0-9]{3}[a-z]?}/{?no:[0-9]+}/'),
-        Get(uri: '/list/{no:[0-9]+}/')
+        Get(uri: '/list/{no:[0-9]+}/'),
     ]
     public function list(?string $seal = null, int $no = 1): View
     {
         $this->setACtiveSlug('list/');
-        $location = ($seal !== null) ? $this->getBySeal($seal, Event::class) : null;
+        $location = $seal !== null ? $this->getBySeal($seal, Event::class) : null;
 
         $pagination = new Pagination(
             pageNo: $no,
-            maxItems: ($location === null) ? Event::count()->execute() : Event::count()->where('seal', $location->seal)->execute(),
-            uri: $this->getBaseSlug() . (($location !== null) ? $location->seal . '/' : '') . '{no}'
+            maxItems: $location === null ? Event::count()->execute() : Event::count()->where('seal', $location->seal)->execute(),
+            uri: $this->getBaseSlug() . ($location !== null ? $location->seal . '/' : '') . '{no}',
         );
 
         $eventsRaw = Event::select();
         if ($location !== null) {
             $eventsRaw = $eventsRaw->where('seal', $location->seal);
         }
-        $eventsRaw->orderBy('time_start', Direction::DESC)
+        $eventsRaw
+            ->orderBy('time_start', Direction::DESC)
             ->offset($pagination->offset)
             ->limit($pagination->limit);
 
@@ -101,7 +105,7 @@ final class AdmEventController extends Controller
             '@adm/events.tpl',
             pagination: $pagination,
             location: $location,
-            events: $eventsRaw->all()
+            events: $eventsRaw->all(),
         );
     }
 
@@ -122,14 +126,15 @@ final class AdmEventController extends Controller
 
         return $this->view(
             '@adm/listInstitutions.tpl',
-            pagination: $pagination ,
-            institutions: $institutions
+            pagination: $pagination,
+            institutions: $institutions,
         );
     }
 
     #[Get(uri: '/create-institution/'), Post(uri: '/create-institution/')]
     public function createInstitution(Request $request): View|Redirect
     {
+        $this->checkModel(Institution::class);
         $this->setActiveSlug('create-institution/');
 
         $institution = new CreateInstitution(
@@ -156,8 +161,8 @@ final class AdmEventController extends Controller
     public function updateInstitution(Request $request, int $id): View
     {
         $this->setActiveSlug('list-institutions/');
+        $model = $this->getModel($id, Institution::class, AccessContext::UPDATE);
 
-        $model = $this->getModel($id, Institution::class);
         $institution = new UpdateInstitution(
             model: $model,
             name: trim($request->get('name', $model->name)),
@@ -165,7 +170,7 @@ final class AdmEventController extends Controller
             email: trim($request->get('email', $model->email)),
             phone: trim($request->get('phone', $model->phone)),
             seal: trim($request->get('seal', $model->seal)),
-            type: trim($request->get('type', $model->type))
+            type: trim($request->get('type', $model->type)),
         );
 
         $response = $this->executeCommand($institution, $request);
@@ -180,14 +185,14 @@ final class AdmEventController extends Controller
             locations: LocationHelper::getLocationsForForm(),
             types: Type::getForForm(),
             errors: $this->validationParser->parsedErrors,
-            success: $response !== null
+            success: $response !== null,
         );
     }
 
     #[Get(uri: '/delete-institution/{id:[0-9]+}/')]
     public function deleteInstitution(int $id): Redirect
     {
-        $model = $this->getModel($id, Institution::class);
+        $model = $this->getModel($id, Institution::class, AccessContext::DELETE);
         $institution = new DeleteInstitution($model);
 
         $response = $this->executeCommand($institution, onPost: false);
@@ -201,9 +206,10 @@ final class AdmEventController extends Controller
     ]
     public function createEvent(Request $request, string $for = 'event'): View
     {
+        $this->checkModel(Event::class);
         //$location = Location::select()->where('seal = ?', '713')->first(); // implement seal from user
         $location = null;
-        $this->setActiveSlug('create/' . (($for !== 'event') ? $for . '/' : ''));
+        $this->setActiveSlug('create/' . ($for !== 'event' ? $for . '/' : ''));
         $form = Form::getFor($for, $location);
 
         $command = new CreateEvent(
@@ -250,7 +256,7 @@ final class AdmEventController extends Controller
     public function updateEvent(Request $request, int $id): View
     {
         $this->setActiveSlug('update/');
-        $model = $this->getModel($id, Event::class);
+        $model = $this->getModel($id, Event::class, AccessContext::UPDATE);
 
         $command = new UpdateEvent(
             model: $model,

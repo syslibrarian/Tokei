@@ -9,8 +9,8 @@ use Tempest\Container\Singleton;
 #[Singleton]
 final class Response
 {
-    protected(set) ?Command $command = null;
-    protected(set) mixed $value = null;
+    private(set) ?Command $command = null;
+    private(set) mixed $value = null;
 
     public function set(Command $command, mixed $value): static
     {

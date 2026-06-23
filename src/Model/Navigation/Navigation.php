@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tokei\Model\Navigation;
 
-use Tokei\Tokei;
 use Tempest\Database\HasMany;
 use Tempest\Database\IsDatabaseModel;
 use Tempest\Database\Table;
 use Tempest\Validation\Rules\IsNotEmptyString;
 use Tempest\Validation\Rules\MatchesRegEx;
+use Tokei\Tokei;
 
 #[Table('navigation')]
 final class Navigation

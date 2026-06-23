@@ -25,6 +25,6 @@ final class UpdateReport implements Command
         public int $staffGrant,
         public float $staffGrantHours,
         public int $staffVolunteer,
-        public float $staffVolunteerHours
+        public float $staffVolunteerHours,
     ) {}
 }

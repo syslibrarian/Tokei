@@ -6,12 +6,12 @@ namespace Tokei\Command;
 
 trait IsResetable
 {
-    public function reset(... $overrideDefaults): void
+    public function reset(...$overrideDefaults): void
     {
         $reflector = new \ReflectionClass($this);
         $parameters = $reflector->getMethod('__construct')->getParameters();
         foreach ($parameters as $parameter) {
-            if (!$parameter->isDefaultValueAvailable()) {
+            if (! $parameter->isDefaultValueAvailable()) {
                 throw new \RuntimeException('Resetable *Command must implement default values for parameters');
             }
 

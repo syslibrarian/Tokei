@@ -15,7 +15,6 @@ use Tokei\Tool\Installer\Database\InstitutionCreateTable;
 use Tokei\Tool\Installer\Database\LocationCreateTable;
 use Tokei\Tool\Installer\Database\NavigationCreateTable;
 use Tokei\Tool\Installer\Database\NavigationItemCreateTable;
-use Tokei\Tool\Installer\Database\PageCreateTable;
 use Tokei\Tool\Installer\Database\ReportCreateTable;
 use Tokei\Tool\Installer\Database\UserCreateTable;
 use Tokei\Tool\Installer\Database\UserPermissionCreateTable;

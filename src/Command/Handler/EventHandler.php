@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tokei\Command\Handler;
 
 use Tempest\CommandBus\CommandHandler;
-use Tempest\DateTime\Timestamp;
+use Tempest\DateTime\DateTime;
 use Tempest\Validation\Exceptions\ValidationFailed;
 use Tempest\Validation\Rules\IsNotEmptyString;
 use Tempest\Validation\Validator;
@@ -50,7 +50,7 @@ final class EventHandler
                 description: $command->description,
                 online: $command->online,
                 state: $command->state,
-                created: Timestamp::now()->getSeconds(),
+                created: DateTime::now()->getTimestamp()->getSeconds(),
                 audience: $command->audience,
                 is_education: DBSSection::isEducation($command->type),
             );
@@ -91,7 +91,7 @@ final class EventHandler
                 description: $command->description,
                 online: $command->online,
                 state: $command->state,
-                modified: Timestamp::now()->getSeconds(),
+                modified: DateTime::now()->getTimestamp()->getSeconds(),
                 is_education: DBSSection::isEducation($command->type),
             );
         } catch (ValidationFailed $e) {
@@ -104,7 +104,7 @@ final class EventHandler
         $this->response->set($command, $command);
     }
 
-    protected function timeFlip(int &$startTime, int &$endTime): void
+    private function timeFlip(int &$startTime, int &$endTime): void
     {
         if ($startTime > $endTime) {
             $tmp = $startTime;
@@ -113,12 +113,12 @@ final class EventHandler
         }
     }
 
-    protected function checkTimeStrings(string $startTime, string $endTime): void
+    private function checkTimeStrings(string $startTime, string $endTime): void
     {
         $failingRules['startDateTime'] = get(Validator::class)->validateValue($startTime, [new IsNotEmptyString()]);
         $failingRules['endTime'] = get(Validator::class)->validateValue($endTime, [new IsNotEmptyString()]);
 
-        if (!empty($failingRules['startDateTime']) || !empty($failingRules['endTime'])) {
+        if (! empty($failingRules['startDateTime']) || ! empty($failingRules['endTime'])) {
             throw new ValidationFailed($failingRules);
         }
     }

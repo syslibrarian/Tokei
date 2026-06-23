@@ -9,6 +9,6 @@ use Tokei\Model\User\User;
 final class DeleteUser implements Command
 {
     public function __construct(
-        public User $user,
+        public User $model,
     ) {}
 }

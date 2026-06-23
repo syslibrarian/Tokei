@@ -15,18 +15,21 @@ use Tempest\Validation\Rules\IsNotEmptyString;
 use Tokei\Component\Access\CreatePermission;
 use Tokei\Component\Access\DeletePermission;
 use Tokei\Component\Access\UpdatePermission;
+use Tokei\Extension\Validation\Rules\IsExistingEmail;
+use Tokei\Extension\Validation\Rules\IsExistingSeal;
+use Tokei\Extension\Validation\Rules\IsExistingUsername;
 
 #[
     Table('user'),
     CreatePermission('can_create_role'),
     UpdatePermission('can_update_role'),
-    DeletePermission
+    DeletePermission,
 ]
 final class User implements Authenticatable
 {
     use IsDatabaseModel;
 
-    #[IsNotEmptyString]
+    #[IsNotEmptyString, IsExistingUsername]
     public string $username;
 
     public string $surname = '';
@@ -35,9 +38,14 @@ final class User implements Authenticatable
     #[Hashed, Hidden]
     public string $password;
 
-    #[IsNotEmptyString, IsEmail, Hidden]
+    #[IsNotEmptyString, IsEmail, IsExistingEmail, Hidden]
     public string $email;
 
     #[BelongsTo(relationJoin: 'user_role.id', ownerJoin: 'user.role_id')]
     public ?Role $role;
+
+    #[IsExistingSeal]
+    public string $seal = '';
+
+    public int $role_id;
 }

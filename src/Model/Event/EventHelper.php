@@ -20,7 +20,7 @@ final class EventHelper
     public const array ONLINE = [
         1 => 'tokei.adm.events.online_normal',
         2 => 'tokei.adm.events.online_hybrid',
-        3 => 'tokei.adm.events.online_only'
+        3 => 'tokei.adm.events.online_only',
     ];
 
     public const array AUDIENCE = ['young', 'adult', 'mixed'];
@@ -92,7 +92,7 @@ final class EventHelper
             $startDateTime->getMonth(),
             $startDateTime->getDay(),
             (int) $hour,
-            (int) $minute
+            (int) $minute,
         );
 
         return $endDateTime->getTimestamp()->getSeconds();
@@ -102,14 +102,14 @@ final class EventHelper
     {
         $time = $endTime - $startTime;
         $hours = floor($time / 3600);
-        $minutes = floor($time / 60 % 60);
+        $minutes = floor(($time / 60) % 60);
 
-        $min = fn ($minutes) => match(true) {
+        $min = fn ($minutes) => match (true) {
             $minutes >= 53 => 1,
             $minutes >= 38 => 0.75,
             $minutes >= 23 => 0.5,
             $minutes >= 8 => 0.25,
-            default => 0
+            default => 0,
         };
 
         return $hours + $min($minutes);

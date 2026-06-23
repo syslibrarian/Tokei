@@ -41,14 +41,16 @@ final class KlrHandler
                         continue;
                     }
 
-                    $rawQuery->insert(
-                        report_status: ReportStatus::OPEN->value,
-                        seal: $location->seal,
-                        month: $month,
-                        year: $command->year,
-                        time_code: TimeCode::fromParts($command->year, $month),
-                        created: Timestamp::now()->getSeconds()
-                    )->execute();
+                    $rawQuery
+                        ->insert(
+                            report_status: ReportStatus::OPEN->value,
+                            seal: $location->seal,
+                            month: $month,
+                            year: $command->year,
+                            time_code: TimeCode::fromParts($command->year, $month),
+                            created: Timestamp::now()->getSeconds(),
+                        )
+                        ->execute();
                 }
                 $month++;
             }
@@ -72,9 +74,9 @@ final class KlrHandler
             $months = KlrHelper::getSortedMonths((string) $timeCode);
 
             foreach ($reports as $report) {
-                if (!isset($months[$report->seal])) {
+                if (! isset($months[$report->seal])) {
                     KlrReport::create(
-                        report_status: (ReportStatus::isUpdated($report->report_status)) ? ReportStatus::UPDATED->value : ReportStatus::CLOSE->value,
+                        report_status: ReportStatus::isUpdated($report->report_status) ? ReportStatus::UPDATED->value : ReportStatus::CLOSE->value,
                         seal: $report->seal,
                         year: $report->year,
                         month: $report->month,
@@ -83,22 +85,22 @@ final class KlrHandler
                         visits: $report->visits_total,
                         attendees: $report->events->totalAttendees,
                         created: Timestamp::now()->getSeconds(),
-                        reported: Timestamp::now()->getSeconds()
+                        reported: Timestamp::now()->getSeconds(),
                     );
                 } else {
                     $months[$report->seal]->update(
-                        report_status: (ReportStatus::isUpdated($report->report_status)) ? ReportStatus::UPDATED->value : ReportStatus::CLOSE->value,
+                        report_status: ReportStatus::isUpdated($report->report_status) ? ReportStatus::UPDATED->value : ReportStatus::CLOSE->value,
                         circulations: $report->circulations,
                         visits: $report->visits_total,
                         attendees: $report->events->totalAttendees,
-                        reported: Timestamp::now()->getSeconds()
+                        reported: Timestamp::now()->getSeconds(),
                     );
                 }
 
                 $report->update(
                     report_status: ReportStatus::CLOSE->value,
                     events_raw: $report->events->exportJson(),
-                    modified: Timestamp::now()->getSeconds()
+                    modified: Timestamp::now()->getSeconds(),
                 );
             }
         } catch (DatabaseException $e) {
