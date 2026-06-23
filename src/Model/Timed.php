@@ -6,6 +6,6 @@ namespace Tokei\Model;
 
 interface Timed
 {
-    public int $created_time { get; set; }
-    public int $modified_time { get; set; }
+    public int $created { get; }
+    public int $modified { get; }
 }

@@ -5,11 +5,8 @@ declare(strict_types=1);
 namespace Tokei\Tool\Event;
 
 use Tempest\Intl\Translator;
-use Tokei\Model\Event\DBSSection;
-use Tokei\Model\Event\FormType;
 use Tokei\Model\Institution\Institution;
 use Tokei\Model\Location\Location;
-
 use function Tempest\Container\get;
 
 final class Form

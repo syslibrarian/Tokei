@@ -12,11 +12,10 @@ use Tempest\Validation\Validator;
 use Tokei\Command\Event\CreateEvent;
 use Tokei\Command\Event\UpdateEvent;
 use Tokei\Command\IsHandler;
-use Tokei\Model\Event\DBSSection;
 use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
 use Tokei\Model\TimeCode;
-
+use Tokei\Tool\Event\DBSSection;
 use function Tempest\Container\get;
 
 final class EventHandler

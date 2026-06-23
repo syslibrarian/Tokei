@@ -4,14 +4,15 @@
          bootstrap="vendor/autoload.php"
          colors="true"
 >
+    <php>
+        <env name="ENVIRONMENT" value="testing"/>
+    </php>
     <testsuites>
-        <testsuite name="Tokei Tests">
-            <directory>./tests</directory>
+        <testsuite name="Tokei Unit Tests">
+            <directory>./tests/Unit/</directory>
+        </testsuite>
+        <testsuite name="Tokei Integration Tests">
+            <directory>./tests/Integration/</directory>
         </testsuite>
     </testsuites>
-    <source>
-        <include>
-            <directory>src</directory>
-        </include>
-    </source>
 </phpunit>

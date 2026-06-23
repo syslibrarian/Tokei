@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tokei\Extension\Validation\Rules;
 
 use Tempest\Validation\Rule;
-use Tokei\Model\Event\DBSSection;
+use Tokei\Tool\Event\DBSSection;
 
 #[\Attribute]
 final class IsDBSType implements Rule

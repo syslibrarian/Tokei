@@ -19,15 +19,14 @@ use Tokei\Command\Institution\DeleteInstitution;
 use Tokei\Command\Institution\UpdateInstitution;
 use Tokei\Component\Access\AccessContext;
 use Tokei\Component\Access\IsAuthenticated;
-use Tokei\Model\Event\DBSSection;
 use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
 use Tokei\Model\Institution\Institution;
 use Tokei\Model\Institution\Type;
 use Tokei\Model\Location\LocationHelper;
+use Tokei\Tool\Event\DBSSection;
 use Tokei\Tool\Event\Form;
 use Tokei\Tool\Pagination\Pagination;
-
 use function Tokei\Str\trim;
 
 #[Prefix('/adm/events'), WithMiddleware(IsAuthenticated::class)]

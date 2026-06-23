@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tokei\Model\Institution;
 
-use Tokei\Model\Event\FormType;
+use Tokei\Tool\Event\FormType;
 
 final class Type
 {
