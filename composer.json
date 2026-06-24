@@ -2,7 +2,7 @@
     "name": "stbts/tokei",
     "type": "project",
     "description": "Statistic database for libraries.",
-    "version": "0.1.0",
+    "version": "0.5.0",
     "license": "MIT",
     "keywords": ["blog", "cms"],
     "homepage": "https://www.berlin.de/stadtbibliothek-tempelhof-schoeneberg/",

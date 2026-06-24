@@ -7,8 +7,10 @@ namespace Tokei\Component\Access;
 use Tempest\Auth\AccessControl\AccessDecision;
 use Tempest\Auth\Authentication\Authenticator;
 use Tempest\Auth\Exceptions\AccessWasDenied;
+use Tempest\Container\Singleton;
 use Tokei\Model\User\User;
 
+#[Singleton]
 final class AccessControl
 {
     protected(set) User $user;
@@ -23,7 +25,7 @@ final class AccessControl
     {
         $user = $this->authenticator->current();
         if ($user instanceof User) {
-            $this->user = $user;
+            $this->user = User::select()->with('role', 'role.permissions')->where('user.id = ?', $user->id->value)->first();
         }
     }
 
@@ -33,13 +35,7 @@ final class AccessControl
             return true;
         }
 
-        $user = $this->authenticator->current();
-
-        if ($user instanceof User) {
-            return $user->role->hasPermission($name);
-        }
-
-        return false;
+        return $this->user->role->hasPermission($name);
     }
 
     public function checkModel(object|string $model, ?AccessContext $context = null): void
@@ -68,7 +64,7 @@ final class AccessControl
                 /** @var Permission $permission */
                 $permission = $attribute->newInstance();
 
-                return $permission->check($this, $context);
+                return $permission->check($this, (is_object($model) ? $model : null));
             }
 
             return false;

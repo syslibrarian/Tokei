@@ -7,5 +7,5 @@ namespace Tokei\Model;
 interface Timed
 {
     public int $created { get; }
-    public int $modified { get; }
+    public ?int $modified { get; }
 }

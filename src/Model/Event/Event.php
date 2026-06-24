@@ -17,14 +17,15 @@ use Tokei\Extension\Validation\Rules\IsValidEventState;
 use Tokei\Extension\Validation\Rules\IsValidOnlineState;
 use Tokei\Model\IsLocated;
 use Tokei\Model\Located;
+use Tokei\Model\Timed;
 
 #[
     Table(name: 'event'),
     CreatePermission('can_create_event'),
-    UpdatePermission('can_update_event', 48),
+    UpdatePermission('can_update_event', 0),
     DeletePermission,
 ]
-final class Event implements Located
+final class Event implements Located, Timed
 {
     use IsDatabaseModel;
     use IsLocated;

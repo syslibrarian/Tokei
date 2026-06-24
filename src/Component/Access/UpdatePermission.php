@@ -42,7 +42,7 @@ final class UpdatePermission implements Permission
                 return false;
             }
 
-            if ($model instanceof Timed && $this->timeLimit > 0) {
+            if ($model instanceof Timed && $this->timeLimit >= 0) {
                 $time = DateTime::now()->getTimestamp()->getSeconds();
                 $time -= ($this->timeLimit * 3600);
 
