@@ -13,4 +13,13 @@ final class DeletePermission implements Permission
         protected(set) string $name = 'can_delete',
         protected(set) string $super = 'can_delete',
     ) {}
+
+    public function check(?AccessControl $accessControl, ?object $model = null): bool
+    {
+        if ($this->name === '') {
+            throw new \RuntimeException('Delete permission should not be empty');
+        }
+
+        return $accessControl->canDelete($this->name);
+    }
 }

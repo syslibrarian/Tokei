@@ -109,3 +109,26 @@ $report->execute();
 // klr
 $klrMonth = new CreateKlrMonthTable();
 $klrMonth->execute();
+
+$permissions = get(Permissions::class);
+
+$createRole = new CreateRole(
+    'Administrator',
+    $permissions->buildForInstall(),
+);
+
+get(CommandBus::class)->dispatch($createRole);
+
+$createUser = new CreateUser(
+    'test',
+    '',
+    '',
+    'test@test.de',
+    'PasswordHere', // Did you really think I'd accidentally post a real password here?
+    '', //And just so you don't forget to change it, this field is left blank!
+    'x',
+    1
+); // And the "Command" isn't used here for no reason.
+
+get(CommandBus::class)->dispatch($createUser);
+

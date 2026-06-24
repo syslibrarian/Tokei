@@ -10,21 +10,25 @@ enum AccessContext
     case UPDATE;
     case DELETE;
 
-    public static function getClass(object|string $object, ?AccessContext $context = null): string
+    public static function getContext(object|string $object): self
     {
-        if ($context === null && is_string($object)) {
-            return CreatePermission::class;
+        if (is_object($object)) {
+            return self::UPDATE;
         }
 
+        return self::CREATE;
+    }
+
+    public static function getClass(object|string $object, ?AccessContext $context = null): string
+    {
         if ($context === null) {
-            return UpdatePermission::class;
+            $context = self::getContext($object);
         }
 
         return match ($context) {
             self::CREATE => CreatePermission::class,
             self::UPDATE => UpdatePermission::class,
             self::DELETE => DeletePermission::class,
-            default => 'never',
         };
     }
 }

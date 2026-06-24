@@ -11,7 +11,7 @@ use Tokei\Model\User\User;
 
 final class AccessControl
 {
-    private User $user;
+    protected(set) User $user;
 
     public function __construct(
         protected(set) Authenticator $authenticator,
@@ -44,7 +44,9 @@ final class AccessControl
 
     public function checkModel(object|string $model, ?AccessContext $context = null): void
     {
-        $permissionClass = AccessContext::getClass($model, $context);
+        if (! $this->hasModelPermission($model, $context)) {
+            throw new AccessWasDenied(AccessDecision::Denied());
+        }
     }
 
     public function checkPermission(string $name): void
@@ -54,19 +56,40 @@ final class AccessControl
         }
     }
 
+    public function hasModelPermission(object|string $model, ?AccessContext $context = null): bool
+    {
+        $permissionClass = AccessContext::getClass($model, $context);
+
+        if ((is_string($model) && class_exists($model)) || is_object($model)) {
+            $reflection = new \ReflectionClass($model);
+            $attribute = $reflection->getAttributes($permissionClass)[0] ?? null;
+
+            if ($attribute !== null) {
+                /** @var Permission $permission */
+                $permission = $attribute->newInstance();
+
+                return $permission->check($this, $context);
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
     public function canCreate(string|object $modelClass): bool
     {
-        return true;
+        return $this->hasModelPermission($modelClass, AccessContext::CREATE);
     }
 
     public function canUpdate(string|object $modelClass): bool
     {
-        return true;
+        return $this->hasModelPermission($modelClass, AccessContext::UPDATE);
     }
 
     public function canDelete(string|object $modelClass): bool
     {
-        return true;
+        return $this->hasModelPermission($modelClass, AccessContext::DELETE);
     }
 
     public function isSelf(User $user): bool

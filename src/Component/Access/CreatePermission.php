@@ -13,4 +13,13 @@ final class CreatePermission implements Permission
         protected(set) string $name,
         protected(set) string $super = '',
     ) {}
+
+    public function check(?AccessControl $accessControl, ?object $model = null): bool
+    {
+        if ($this->name === '') {
+            return true;
+        }
+
+        return $accessControl->hasPermission($this->name);
+    }
 }
