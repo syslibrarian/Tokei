@@ -5,20 +5,16 @@ declare(strict_types=1);
 namespace Tokei\Tool\Role;
 
 use Tempest\Container\Singleton;
-use Tempest\EventBus\EventBus;
 use Tempest\Http\Request;
-use Tokei\Event\User\PermissionsPrepare;
 use Tokei\Model\User\Role;
 
 #[Singleton]
 final class Permissions
 {
     private(set) array $permissions;
-    private(set) array $permissionValues;
 
-    public function __construct(
-        protected EventBus $eventBus,
-    ) {
+    public function __construct()
+    {
         $this->setBasePermissions();
     }
 
@@ -106,7 +102,5 @@ final class Permissions
                 'can_delete',
             ],
         ];
-
-        $this->eventBus->dispatch(new PermissionsPrepare($this));
     }
 }

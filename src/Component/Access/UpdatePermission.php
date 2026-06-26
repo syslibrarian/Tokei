@@ -21,7 +21,7 @@ final class UpdatePermission implements Permission
 
     public function check(?AccessControl $accessControl, ?object $model = null): bool
     {
-        if ($this->name === '' || ($this->super !== '' && $accessControl->hasPermission($this->super))) {
+        if ($this->name === '' || $this->super !== '' && $accessControl->hasPermission($this->super)) {
             return true;
         }
 
@@ -30,11 +30,7 @@ final class UpdatePermission implements Permission
         }
 
         if ($accessControl->hasPermission($this->name)) {
-            if (
-                $model instanceof Located
-                && $accessControl->user->seal !== 'x'
-                && $accessControl->user->seal !== $model->seal
-            ) {
+            if ($model instanceof Located && $accessControl->user->seal !== 'x' && $accessControl->user->seal !== $model->seal) {
                 return false;
             }
 
@@ -44,9 +40,9 @@ final class UpdatePermission implements Permission
 
             if ($model instanceof Timed && $this->timeLimit >= 0) {
                 $time = DateTime::now()->getTimestamp()->getSeconds();
-                $time -= ($this->timeLimit * 3600);
+                $time -= $this->timeLimit * 3600;
 
-                return ($time < $model->created);
+                return $time < $model->created;
             }
 
             return true;

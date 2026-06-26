@@ -7,6 +7,7 @@ namespace Tokei\Command\Handler;
 use Tempest\CommandBus\CommandHandler;
 use Tempest\Cryptography\Password\PasswordHasher;
 use Tempest\Validation\Exceptions\ValidationFailed;
+use Tempest\Validation\Rules\IsPassword;
 use Tempest\Validation\Validator;
 use Tokei\Command\IsHandler;
 use Tokei\Command\User\CreateRole;
@@ -16,7 +17,6 @@ use Tokei\Command\User\DeleteUser;
 use Tokei\Command\User\UpdateRole;
 use Tokei\Command\User\UpdateUser;
 use Tokei\Extension\Validation\Rules\IsSamePassword;
-use Tokei\Extension\Validation\Rules\IsSecurePassword;
 use Tokei\Model\User\Permission;
 use Tokei\Model\User\Role;
 use Tokei\Model\User\RoleHelper;
@@ -117,7 +117,7 @@ final class UserHandler
                 role_id: $createUser->role_id,
             );
 
-            if ($createUser->seal !== 'x') {
+            if ($createUser->seal !== '') {
                 $user->update(
                     seal: $createUser->seal,
                 );
@@ -174,11 +174,15 @@ final class UserHandler
         $deleteUser->model->delete();
     }
 
-    private function checkPassword(string $password, string $password_repeat): void
-    {
+    private function checkPassword(
+        #[\SensitiveParameter]
+        string $password,
+        #[\SensitiveParameter]
+        string $password_repeat,
+    ): void {
         $failingRules = $this->validator->validateValues(
-            ['password' => ['password' => $password, 'password_repeat' => $password_repeat]],
-            ['password' => [new IsSamePassword(), new IsSecurePassword()]],
+            ['password' => $password],
+            ['password' => [new IsSamePassword($password_repeat), new IsPassword(12, true, true, true, true)]],
         );
 
         if (count($failingRules)) {

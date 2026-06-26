@@ -9,7 +9,7 @@ use Tokei\Tool\Installer\DatabaseTable;
 use Tokei\Tool\Installer\InstallType;
 
 #[DatabaseTable(modelClass: KlrReport::class, type: InstallType::INSTALL)]
-class CreateKlrMonthTable implements DatabaseCommand
+class KlrMonthCreateTable implements DatabaseCommand
 {
     use IsCreateTable;
 

@@ -13,7 +13,7 @@ use Tokei\Model\User\User;
 #[Singleton]
 final class AccessControl
 {
-    protected(set) User $user;
+    private(set) User $user;
 
     public function __construct(
         protected(set) Authenticator $authenticator,
@@ -56,7 +56,7 @@ final class AccessControl
     {
         $permissionClass = AccessContext::getClass($model, $context);
 
-        if ((is_string($model) && class_exists($model)) || is_object($model)) {
+        if (is_string($model) && class_exists($model) || is_object($model)) {
             $reflection = new \ReflectionClass($model);
             $attribute = $reflection->getAttributes($permissionClass)[0] ?? null;
 
@@ -64,7 +64,7 @@ final class AccessControl
                 /** @var Permission $permission */
                 $permission = $attribute->newInstance();
 
-                return $permission->check($this, (is_object($model) ? $model : null));
+                return $permission->check($this, is_object($model) ? $model : null);
             }
 
             return false;

@@ -18,12 +18,14 @@ final class LocationHelper
 
     public static function getLocationsForForm(bool $withBase = false): \Generator
     {
+        if ($withBase === true) {
+            yield ['name' => 'tokei.adm.location.for_all', 'value' => ''];
+        }
+
         $locations = Location::all();
         foreach ($locations as $location) {
             yield ['name' => $location->name, 'value' => $location->seal];
         }
-
-        yield ['name' => 'tokei.adm.location.for_all', 'value' => 'x'];
     }
 
     public static function getAllReportsForCommand(string|int $year): array

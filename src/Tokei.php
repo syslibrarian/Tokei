@@ -20,6 +20,9 @@ final class Tokei
     public const string VERSION = '0.1.0';
     public const string NAME = 'Tokei';
 
+    /**
+     * @var array<string,mixed>
+     */
     public array $data = [];
 
     public function __construct(

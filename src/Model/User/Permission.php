@@ -18,6 +18,6 @@ final class Permission
 
     public function has(): bool
     {
-        return ($this->value === 1);
+        return $this->value === 1;
     }
 }

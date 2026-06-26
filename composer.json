@@ -47,10 +47,14 @@
             "@php ./vendor/bin/tempest discovery:generate --no-interaction"
         ],
         "fmt": "vendor/bin/mago fmt",
-        "lint": "vendor/bin/mago lint --fix --format-after-fix",
+        "lint": "vendor/bin/mago lint --potentially-unsafe --minimum-fail-level=note",
+        "lint:fix": "vendor/bin/mago lint --fix --format-after-fix",
+        "phpstnan": "vendor/bin/phpstan analyse --memory-limit=1G",
+        "test": "./vendor/bin/pest",
         "qa": [
             "composer fmt",
-            "composer lint"
+            "composer lint",
+            "composer test"
         ]
     },
     "config": {

@@ -27,6 +27,7 @@ use Tokei\Model\Location\LocationHelper;
 use Tokei\Tool\Event\DBSSection;
 use Tokei\Tool\Event\Form;
 use Tokei\Tool\Pagination\Pagination;
+
 use function Tokei\Str\trim;
 
 #[Prefix('/adm/events'), WithMiddleware(IsAuthenticated::class)]

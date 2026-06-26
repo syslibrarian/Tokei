@@ -29,7 +29,7 @@ trait IsCreateTable
         $reflector = new ClassReflector($this);
         $databaseSetup = $reflector->getAttribute(DatabaseTable::class);
 
-        if (empty($databaseSetup)) {
+        if ($databaseSetup === null) {
             throw new \RuntimeException(static::class . ' must have ' . DatabaseTable::class . ' attribute');
         }
 

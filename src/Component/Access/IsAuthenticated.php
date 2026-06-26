@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Tokei\Component\Access;
 
 use Tempest\Auth\Authentication\Authenticator;
+use Tempest\Discovery\SkipDiscovery;
 use Tempest\Http\Request;
 use Tempest\Http\Response;
 use Tempest\Http\Responses\Redirect;
 use Tempest\Router\HttpMiddleware;
 use Tempest\Router\HttpMiddlewareCallable;
 
+#[SkipDiscovery]
 final class IsAuthenticated implements HttpMiddleware
 {
     public function __construct(

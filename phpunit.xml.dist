@@ -5,14 +5,17 @@
          colors="true"
 >
     <php>
-        <env name="ENVIRONMENT" value="testing"/>
+        <env name="ENVIRONMENT" value="testing" />
+        <env name="BASE_URI" value="" />
+        <env name="INTERNAL_CACHES" value="null" />
+        <env name="DISCOVERY_CACHE" value="true" />
     </php>
     <testsuites>
         <testsuite name="Tokei Unit Tests">
-            <directory>./tests/Unit/</directory>
+            <directory>tests/Unit/</directory>
         </testsuite>
         <testsuite name="Tokei Integration Tests">
-            <directory>./tests/Integration/</directory>
+            <directory>tests/Integration/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

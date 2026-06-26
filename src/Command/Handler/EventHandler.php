@@ -16,6 +16,7 @@ use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
 use Tokei\Model\TimeCode;
 use Tokei\Tool\Event\DBSSection;
+
 use function Tempest\Container\get;
 
 final class EventHandler
@@ -117,7 +118,7 @@ final class EventHandler
         $failingRules['startDateTime'] = get(Validator::class)->validateValue($startTime, [new IsNotEmptyString()]);
         $failingRules['endTime'] = get(Validator::class)->validateValue($endTime, [new IsNotEmptyString()]);
 
-        if (! empty($failingRules['startDateTime']) || ! empty($failingRules['endTime'])) {
+        if (count($failingRules['startDateTime']) > 0 || count($failingRules['endTime']) > 0) {
             throw new ValidationFailed($failingRules);
         }
     }

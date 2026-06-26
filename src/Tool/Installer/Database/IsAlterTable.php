@@ -28,7 +28,7 @@ trait IsAlterTable
         $reflectionClass = new \ReflectionClass($this);
         $attributes = $reflectionClass->getAttributes(DatabaseTable::class);
 
-        if (empty($attributes)) {
+        if (count($attributes) === 0) {
             throw new \RuntimeException(static::class . ' must have ' . DatabaseTable::class . ' attribut');
         }
 

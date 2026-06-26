@@ -7,6 +7,7 @@ namespace Tokei\Tool\Statistic;
 use Tokei\Model\Event\Event;
 use Tokei\Model\TimeCode;
 use Tokei\Tool\Event\DBSSection;
+
 use function Tempest\Support\Json\decode;
 use function Tempest\Support\Json\encode;
 
@@ -63,7 +64,7 @@ final class Events
             ->where('time_code = ? AND seal = ?', $this->timeCode, $this->seal)
             ->all();
 
-        if (! empty($this->events)) {
+        if (count($this->events) > 0) {
             $this->buildStatistic();
         }
     }

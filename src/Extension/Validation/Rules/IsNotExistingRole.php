@@ -12,10 +12,6 @@ final class IsNotExistingRole implements Rule
 {
     public function isValid(mixed $value): bool
     {
-        if (empty($value)) {
-            return true;
-        }
-
         $role = Role::select()
             ->where('name = ?', $value)
             ->first();

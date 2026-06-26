@@ -50,7 +50,7 @@ final class DBSSection
     {
         foreach (self::SECTIONS as $type => $numbers) {
             foreach ($numbers as $number => $desc) {
-                if ($value == $number) {
+                if ($value === $number) {
                     return true;
                 }
             }
