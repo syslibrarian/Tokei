@@ -21,7 +21,7 @@ final class UpdatePermission implements Permission
 
     public function check(?AccessControl $accessControl, ?object $model = null): bool
     {
-        if ($this->name === '' || $this->super !== '' && $accessControl->hasPermission($this->super)) {
+        if ($this->name === '' || ($this->super !== '' && $accessControl->hasPermission($this->super))) {
             return true;
         }
 
@@ -30,7 +30,7 @@ final class UpdatePermission implements Permission
         }
 
         if ($accessControl->hasPermission($this->name)) {
-            if ($model instanceof Located && $accessControl->user->seal !== 'x' && $accessControl->user->seal !== $model->seal) {
+            if ($model instanceof Located && $accessControl->user->seal !== '' && $accessControl->user->seal !== $model->seal) {
                 return false;
             }
 

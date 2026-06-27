@@ -17,7 +17,7 @@ use Tokei\Component\Access\DeletePermission;
 use Tokei\Component\Access\UpdatePermission;
 use Tokei\Extension\Validation\Rules\IsExistingEmail;
 use Tokei\Extension\Validation\Rules\IsExistingSeal;
-use Tokei\Extension\Validation\Rules\IsExistingUsername;
+use Tokei\Extension\Validation\Rules\IsNotExistingUsername;
 
 #[
     Table('user'),
@@ -29,7 +29,7 @@ final class User implements Authenticatable
 {
     use IsDatabaseModel;
 
-    #[IsNotEmptyString, IsExistingUsername]
+    #[IsNotEmptyString, IsNotExistingUsername]
     public string $username;
 
     public string $surname = '';
