@@ -1,0 +1,62 @@
+@use 'sass:color';
+@use "../tools/includes" as i;
+
+.adm-container {
+  display: flex;
+
+  @include i.responsive-big {
+    column-gap: 20px;
+    flex-direction: row;
+    > nav {
+      width: 20%;
+    }
+
+    > div {
+      width: 80%;
+    }
+  }
+
+  @include i.responsive-small {
+    flex-direction: column-reverse;
+    > nav {
+      width: 100%;
+    }
+
+    > div {
+      width: 100%;
+    }
+  }
+
+  > nav {
+    margin: 10px 0;
+    padding: 5px;
+    background-color: color.scale(i.$background-color, $alpha: -50%);
+    @include i.responsive-borders(i.$border-color, i.$shadow-color);
+    align-self: flex-start;
+    overflow: hidden;
+
+    ol {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: i.$text-l;
+
+      a {
+        display: block;
+        padding: 5px;
+        color: i.$color3;
+        text-decoration: none;
+        &:hover {
+          color: color.scale(i.$color3, $lightness: +20%);
+        }
+        &.active {
+          background-color: i.$base-color;
+        }
+      }
+    }
+  }
+
+  > div {
+    align-self: flex-start;
+  }
+}

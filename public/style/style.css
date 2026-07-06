@@ -191,6 +191,77 @@ body {
   font-family: Roboto, Verdana, sans-serif;
 }
 
+.adm-container {
+  display: flex;
+}
+@media screen and (min-width: 769px) {
+  .adm-container {
+    column-gap: 20px;
+    flex-direction: row;
+  }
+  .adm-container > nav {
+    width: 20%;
+  }
+  .adm-container > div {
+    width: 80%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .adm-container {
+    flex-direction: column-reverse;
+  }
+  .adm-container > nav {
+    width: 100%;
+  }
+  .adm-container > div {
+    width: 100%;
+  }
+}
+.adm-container > nav {
+  margin: 10px 0;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+@media screen and (max-width: 768px) {
+  .adm-container > nav {
+    border-top: 1px solid rgb(223, 223, 223);
+    border-bottom: 1px solid rgb(223, 223, 223);
+    border-radius: 0;
+  }
+}
+@media screen and (min-width: 769px) {
+  .adm-container > nav {
+    border: 1px solid rgb(223, 223, 223);
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(191, 191, 191, 0.5);
+  }
+}
+.adm-container > nav {
+  align-self: flex-start;
+  overflow: hidden;
+}
+.adm-container > nav ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 16pt;
+}
+.adm-container > nav ol a {
+  display: block;
+  padding: 5px;
+  color: rgb(0, 0, 213);
+  text-decoration: none;
+}
+.adm-container > nav ol a:hover {
+  color: rgb(17.4, 17.4, 255);
+}
+.adm-container > nav ol a.active {
+  background-color: rgb(239, 239, 255);
+}
+.adm-container > div {
+  align-self: flex-start;
+}
+
 .note {
   display: flex;
   align-items: baseline;
@@ -868,205 +939,6 @@ ol.data-list li .tools {
 .title a:hover, header a:hover {
   color: rgb(31, 31, 31);
   text-decoration: none;
-}
-
-.content.table, .inlineTable {
-  padding: 5px;
-}
-.content.table table, .inlineTable table {
-  width: 100%;
-}
-.content.table th, .inlineTable th {
-  border-bottom: 2px solid rgb(115, 115, 251);
-  font-size: 16pt;
-  font-weight: normal;
-}
-.content.table th:hover, .inlineTable th:hover {
-  border-color: rgb(0, 0, 213);
-}
-.content.table th.left, .inlineTable th.left {
-  text-align: left;
-}
-.content.table th.right, .inlineTable th.right {
-  text-align: right;
-}
-.content.table tr:has(td):nth-child(2n), .inlineTable tr:has(td):nth-child(2n) {
-  background-color: rgb(251.4, 251.4, 255);
-}
-.content.table tr:has(td):nth-child(2n-1), .inlineTable tr:has(td):nth-child(2n-1) {
-  background-color: rgb(244.2, 244.2, 255);
-}
-.content.table tr:has(td):hover, .inlineTable tr:has(td):hover {
-  background-color: rgb(229.8, 229.8, 255);
-}
-.content.table tr:has(td).warning, .inlineTable tr:has(td).warning {
-  background-color: rgb(255, 248.24, 242);
-  color: rgb(250, 120, 0);
-}
-.content.table tr:has(td).warning:hover, .inlineTable tr:has(td).warning:hover {
-  background-color: rgb(255, 234.72, 216);
-}
-.content.table tr:has(td).error, .inlineTable tr:has(td).error {
-  background-color: rgb(255, 239.5, 240.275);
-  color: rgb(200, 0, 10);
-}
-.content.table tr:has(td).error:hover, .inlineTable tr:has(td).error:hover {
-  background-color: rgb(255, 208.5, 210.825);
-}
-.content.table tr:has(td).info, .inlineTable tr:has(td).info {
-  background-color: rgb(239.5, 248.8, 255);
-  color: rgb(0, 120, 200);
-}
-.content.table tr:has(td).info:hover, .inlineTable tr:has(td).info:hover {
-  background-color: rgb(208.5, 236.4, 255);
-}
-.content.table tr:has(td).success, .inlineTable tr:has(td).success {
-  background-color: #f0fdf5;
-  color: rgb(20, 150, 70);
-}
-.content.table tr:has(td).success:hover, .inlineTable tr:has(td).success:hover {
-  background-color: #d2f9e1;
-}
-.content.table td[colspan], .inlineTable td[colspan] {
-  text-align: center;
-}
-.content.table td, .inlineTable td {
-  padding: 5px;
-  vertical-align: center;
-}
-.content.table td.left, .inlineTable td.left {
-  text-align: left;
-}
-.content.table td.right, .inlineTable td.right {
-  text-align: right;
-}
-
-.content.dataList {
-  padding: 5px;
-}
-.content.dataList ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.content.dataList li {
-  margin: 0;
-  border: 1px solid transparent;
-  border-bottom: 2px solid #fff;
-  display: flex;
-}
-.content.dataList li:first-child {
-  border-radius: 10px 10px 0 0;
-}
-.content.dataList li:last-child {
-  border-radius: 0 0 10px 10px;
-}
-.content.dataList li:nth-child(2n) {
-  background-color: rgb(251.4, 251.4, 255);
-}
-.content.dataList li:nth-child(2n-1) {
-  background-color: rgb(244.2, 244.2, 255);
-}
-.content.dataList li:hover {
-  background-color: #ededff;
-}
-.content.dataList li section {
-  padding: 5px;
-}
-.content.dataList li .fieldSystem {
-  font-family: RobotoMono, monospace;
-  font-size: 10pt;
-  display: flex;
-  justify-content: space-between;
-}
-.content.dataList li .fieldSystem span {
-  display: block;
-}
-.content.dataList li .fieldSystem .id::before {
-  display: inline-block;
-  content: "ID: ";
-}
-.content.dataList li .fieldTitle {
-  flex-grow: 5;
-}
-.content.dataList li .fieldTitle h2 {
-  font-size: 16pt;
-  color: rgb(31, 31, 31);
-  font-weight: normal;
-}
-.content.dataList li .fieldTitle h2 a {
-  color: rgb(0, 0, 213);
-  text-decoration: none;
-}
-.content.dataList li .fieldTitle h2 a:hover {
-  color: rgb(17.4, 17.4, 255);
-}
-.content.dataList li .fieldTools {
-  font-size: 16pt;
-}
-.content.dataList li .fieldTools a {
-  color: rgb(0, 0, 213);
-  text-decoration: none;
-}
-.content.dataList li .fieldTools a:hover {
-  color: rgb(17.4, 17.4, 255);
-}
-.content.dataList li .fieldTools .edit::after {
-  font-family: PhIcons;
-  content: "\e3aa";
-}
-.content.dataList li .fieldTools .delete::after {
-  font-family: PhIcons;
-  content: "\e4a6";
-}
-
-.adm-container {
-  display: flex;
-  column-gap: 20px;
-}
-.adm-container > nav {
-  width: 20%;
-  margin: 10px 0;
-  padding: 5px;
-}
-@media screen and (max-width: 768px) {
-  .adm-container > nav {
-    border-top: 1px solid rgb(223, 223, 223);
-    border-bottom: 1px solid rgb(223, 223, 223);
-    border-radius: 0;
-  }
-}
-@media screen and (min-width: 769px) {
-  .adm-container > nav {
-    border: 1px solid rgb(223, 223, 223);
-    border-radius: 10px;
-    box-shadow: 2px 2px 5px rgba(191, 191, 191, 0.5);
-  }
-}
-.adm-container > nav {
-  align-self: flex-start;
-}
-.adm-container > nav ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  font-size: 16pt;
-}
-.adm-container > nav ol a {
-  display: block;
-  padding: 5px;
-  color: rgb(0, 0, 213);
-  text-decoration: none;
-}
-.adm-container > nav ol a:hover {
-  color: rgb(17.4, 17.4, 255);
-}
-.adm-container > nav ol a.active {
-  background-color: rgb(239, 239, 255);
-}
-.adm-container > div {
-  width: 80%;
-  align-self: flex-start;
 }
 
 #footer footer {
