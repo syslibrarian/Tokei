@@ -1,0 +1,23 @@
+tokei:
+  adm:
+    user:
+      create: 'Benutzer:in anlegen'
+      passwordRepeat_desc: ''
+      passwordRepeat: 'Passwort wiederholen.'
+      password_desc: 'Passwort muss 12 Zeichen haben, ein Sonderzeichen, eine Zahl sowie Groß- und Kleinschreibung'
+      password: 'Passwort'
+      change_password: 'Passwort ändern'
+      change_password_desc: ''
+      role_desc: 'Bestimmt, welche Berechtigungen gewährt werden.'
+      role: 'Rolle'
+      seal_desc: 'Zuordnung zu einem festen Standort'
+      seal: 'Standort'
+      surname_desc: ''
+      surname: 'Vorname'
+      name_desc: ''
+      name: 'Vorname'
+      email_desc: ''
+      email: 'E-Mail'
+      username_desc: ''
+      username: 'Anmeldename'
+      user_update: 'Benutzer:in aktualisieren'

@@ -76,7 +76,7 @@
 
 {% macro checkbox(name, value, error = '') %}
     <div class="check{% if error != '' %} warning{% endif %}">
-        <div class="field"><label><input type="checkbox" value="1" name="{{ name }}" id="{{ name }}-id" {% if value %}checked{% endif %}> <span>{{ name|translateFull }}</span></label></div>
+        <div class="field"><label><input type="checkbox" value="1" name="{{ name }}" id="{{ name }}-id" {% if value %}checked{% endif %}> <span>{{ name|translate }}</span></label></div>
         <div class="description"><span>{{ (name ~ '_desc')|translate }}</span></div>
     </div>
 {% endmacro %}

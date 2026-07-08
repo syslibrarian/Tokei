@@ -1,7 +1,8 @@
 {% extends '@adm/index.tpl' %}
 {% import '_tools.tpl' as t %}
+{% set intl_category %}tokei.adm.role{% endset %}
 
-{% block title %}{{ 'adm.list_roles'|translate }}{% endblock %}
+{% block title %}{{ 'tokei.adm.list_roles'|translateFull }}{% endblock %}
 
 {% block content %}
     <div class="content dataList">

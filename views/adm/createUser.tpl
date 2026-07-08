@@ -1,6 +1,7 @@
 {% extends '@adm/index.tpl' %}
 {% import '_form.tpl' as f %}
 {% import '_tools.tpl' as t %}
+{% set intl_category %}tokei.adm.user{% endset %}
 
 {% block title %}{{ 'tokei.adm.user.create'|translateFull }}{% endblock %}
 {% set target = target ?? '/adm/create-user/' %}

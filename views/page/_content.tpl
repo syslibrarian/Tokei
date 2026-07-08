@@ -33,7 +33,7 @@
         {% for event in events %}
             <li>
                 <section class="title">
-                    <h3>{{ event.title }}</h3>
+                    <h3>{% if event.is_education %}<span class="education"></span>{% endif %}{{ event.title }}</h3>
                     <p>{{ event.time_start|date('d.m.Y - H:i') }} {% if event.description %} - {{ event.description }}{% endif %}</p>
                 </section>
                 <section class="information">

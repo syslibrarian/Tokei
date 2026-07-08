@@ -841,7 +841,14 @@ ol.data-list li .title p {
   font-size: 10pt;
   color: rgb(95, 95, 95);
 }
+ol.data-list li .title .education::after {
+  padding-right: 5px;
+  font-family: PhIcons;
+  font-size: 12pt;
+  content: "\e62c";
+}
 ol.data-list li .tools {
+  text-align: right;
   flex-basis: 20%;
 }
 

@@ -39,9 +39,17 @@ ol.data-list {
         font-size: i.$text-s;
         color: i.$text-color-light;
       }
+
+      .education::after {
+        padding-right: 5px;
+        font-family: PhIcons;
+        font-size: i.$text-m;
+        content: "\E62C";
+      }
     }
 
     .tools {
+      text-align: right;
       flex-basis: 20%;
     }
   }
