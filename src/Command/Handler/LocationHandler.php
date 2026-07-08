@@ -43,15 +43,16 @@ final class LocationHandler
                 klr_code: $command->klrCode,
                 created: Timestamp::now()->getSeconds(),
             );
+
+            $this->transaction->commit();
+            $this->response->set($command, $entry);
+            return;
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();
             $this->response->set($command, $e);
 
             return;
         }
-
-        $this->transaction->commit();
-        $this->response->set($command, $entry);
     }
 
     #[CommandHandler]
@@ -77,15 +78,16 @@ final class LocationHandler
              * );
              * }*/
             // seals should not be updated afer creation.
+
+            $this->transaction->commit();
+            $this->response->set($command, true);
+            return;
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();
             $this->response->set($command, $e);
 
             return;
         }
-
-        $this->transaction->commit();
-        $this->response->set($command, true);
     }
 
     #[CommandHandler]
@@ -125,14 +127,15 @@ final class LocationHandler
                 }
                 $month++;
             }
+
+            $this->transaction->commit();
+            $this->response->set($command, true);
+            return;
         } catch (DatabaseException $e) {
             $this->transaction->rollback();
             $this->response->set($command, $e);
             return;
         }
-
-        $this->transaction->commit();
-        $this->response->set($command, true);
     }
 
     #[CommandHandler]
@@ -160,13 +163,14 @@ final class LocationHandler
                 staff_volunteer: $command->staffVolunteer,
                 staff_volunteer_hours: $command->staffVolunteerHours,
             );
+
+            $this->transaction->commit();
+            $this->response->set($command, true);
+            return;
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();
             $this->response->set($command, $e);
             return;
         }
-
-        $this->transaction->commit();
-        $this->response->set($command, true);
     }
 }

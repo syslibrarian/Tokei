@@ -26,7 +26,7 @@ use Tokei\Tool\Installer\Database\UserPermissionCreateTable;
 use Tokei\Tool\Installer\Database\UserRoleCreateTable;
 use Tokei\Tool\Role\Permissions;
 
-class Install
+final class Install
 {
     public function __construct(
         protected(set) Console $console,

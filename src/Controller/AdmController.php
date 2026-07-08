@@ -308,7 +308,7 @@ final class AdmController extends Controller
             fte: (float) $request->get('fte', 0),
             fte_consumed: (float) $request->get('fte_consumed', 0),
             area: (float) $request->get('area', 0),
-            klrCode: trim($request->get('klr_code', '')),
+            klrCode: trim($request->get('klrCode', '')),
         );
 
         $response = $this->executeCommand($createLocation, $request);

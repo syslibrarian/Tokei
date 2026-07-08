@@ -92,7 +92,7 @@
                     </dl>
                     <dl>
                         <dt>{{ 'tokei.location.media_packages'|translateFull }}</dt>
-                        <dd>{{ rport.media_packages|number_format }}</dd>
+                        <dd>{{ report.media_packages|number_format }}</dd>
                     </dl>
                 </section>
                 {{ tool.modelTools('', '', getUri(false, false, uri: 'adm/reports/update/', timeCode: report.time_code, seal: report.seal)) }}
@@ -140,7 +140,7 @@
             <dd>{{ 'tokei.location.staff_definition'|translateFull(staff: report.staff_grant|number_format, hours: report.staff_grant_hours|number_format(2)) }}</dd>
         </dl>
         <dl>
-            <dt>{{ 'tokei.location.taff_volunteer'|translateFull }}</dt>
+            <dt>{{ 'tokei.location.staff_volunteer'|translateFull }}</dt>
             <dd>{{ 'tokei.location.staff_definition'|translateFull(staff: report.staff_volunteer|number_format, hours: report.staff_volunteer_hours|number_format(2)) }}</dd>
         </dl>
     </section>
