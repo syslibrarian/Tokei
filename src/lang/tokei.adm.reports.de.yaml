@@ -1,6 +1,22 @@
 tokei:
   adm:
     reports:
+      staffVolunteerHours_desc: ''
+      staffVolunteerHours: 'Arbeitsstunden (Ehrenamtlich)'
+      staffVolunteer_desc: ''
+      staffVolunteer: 'Ehrenamtliches Personal'
+      staffGrantHours_desc: ''
+      staffGrantHours: 'Arbeitsstunden (Maßnahmen)'
+      staffGrant_desc: ''
+      staffGrant: 'Personal aus Maßnahmen'
+      staffExternalHours_desc: ''
+      staffExternalHours: 'Arbeitsstunden (Extern)'
+      staffExternal_desc: 'Externes Personal in Personen'
+      staffExternal: 'Externes Personal'
+      other: 'Andere Zahlen'
+      external: 'Externes Personal'
+      work: 'Arbeitsrelevante Zahlen'
+      klr: 'KLR relevante Informationen'
       title_year: 'Monatsblätter für {$year}'
       title_seal: 'Monatsblätter für {$name} ({$year})'
       for_location: '{$name}'

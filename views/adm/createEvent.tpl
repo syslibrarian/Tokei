@@ -106,6 +106,11 @@
 
     {% set numberSection %}
         {{ f.number(
+            name: 'attendees',
+            value: event.attendees,
+        ) }}
+
+        {{ f.number(
             name: 'staff',
             value: event.staff,
         ) }}
@@ -113,11 +118,6 @@
         {{ f.number(
             name: 'staffExternal',
             value: event.staffExternal,
-        ) }}
-
-        {{ f.number(
-            name: 'attendees',
-            value: event.attendees,
         ) }}
     {% endset %}
 
