@@ -25,7 +25,7 @@
             {% endfor %}
         {% endset %}
 
-        {{ f.fieldset(group.name, permissions_form) }}
+        {{ f.fieldset(group.name|translate, permissions_form) }}
     {% endfor %}
 
     {{ t.modelInfo(role.model) }}
