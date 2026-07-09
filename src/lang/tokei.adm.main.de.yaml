@@ -1,5 +1,5 @@
 tokei:
   adm:
-    modified: 'Zuletzt aktualisiert am {$date}'
     created: 'Erstellt am {$date}'
     index: 'Übersicht'
+    modified: 'Zuletzt aktualisiert am {$date}'

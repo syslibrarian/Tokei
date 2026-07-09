@@ -8,10 +8,10 @@
 
 {% block notes %}
     {% if errors %}
-        {{ note("adm.error"|translate, 'error') }}
+        {{ note("adm.error"|translateFull, 'error') }}
     {% endif %}
     {% if success %}
-        {{ note("adm.success"|translate, 'success') }}
+        {{ note("success"|translate, 'success') }}
     {% endif %}
 {% endblock %}
 

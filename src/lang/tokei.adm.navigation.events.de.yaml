@@ -2,10 +2,10 @@ tokei:
   adm:
     navigation:
       events:
+        create: 'Veranstaltung eintragen'
+        create_pre_school: 'Kitaführung eintragen'
+        create_school: 'Klassenführung eintragen'
         institution_create: 'Gruppe/Klasse anlegen'
         institution_list: 'Gruppen/Klassen'
-        create_school: 'Klassenführung eintragen'
-        create_pre_school: 'Kitaführung eintragen'
-        create: 'Veranstaltung eintragen'
         list: 'Veranstaltungen'
         main: 'Veranstaltungen'
