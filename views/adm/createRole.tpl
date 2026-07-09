@@ -12,7 +12,6 @@
     {{ f.text(
         'name',
         role.name,
-        errorMsg: errors.name ?? ''
     ) }}
 
     {% for group in permissionGroups  %}

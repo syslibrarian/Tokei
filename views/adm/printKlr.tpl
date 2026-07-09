@@ -47,6 +47,7 @@
                     </table>
                 {% endfor %}
             </div>
+            <div class="klr-print">{{ time|date }} - {{ user.name }} {{ user.surname }}</div>
         {% endblock %}
     </body>
 </html>

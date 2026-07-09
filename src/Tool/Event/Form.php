@@ -75,6 +75,12 @@ final class Form
 
     private function getInstitutions(): void
     {
-        $this->institutions = Institution::select()->where('seal = ? AND type = ?', $this->location->seal, $this->type->value)->all();
+        $statement = Institution::select()->where('type = ?', $this->type->value);
+
+        if ($this->location !== null) {
+            $statement->andWhere('seal', $this->location->seal);
+        }
+
+        $this->institutions = $statement->all();
     }
 }

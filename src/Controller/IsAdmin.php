@@ -20,6 +20,8 @@ use function Tempest\Container\get;
 
 trait IsAdmin
 {
+    protected bool $error = false;
+
     protected ValidationParser $validationParser {
         get {
             return get(ValidationParser::class);
@@ -73,6 +75,8 @@ trait IsAdmin
         $response = get(Response::class);
         if ($response->value instanceof ValidationFailed) {
             $this->validationParser->parse($response->value);
+            $this->tokei->twig->addGlobal('formErrors', $this->validationParser->parsedErrors);
+            $this->error = true;
             return null;
         }
 

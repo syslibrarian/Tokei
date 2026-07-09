@@ -32,11 +32,35 @@ $button-icon-size: 18pt;
     font-size: $note-icon-size;
   }
 
-  p {
-    margin-left: 8px;
+  span, p, section {
     align-self: center;
+  }
+
+  p, section {
+    margin-left: 10px;
     flex-grow: 5;
     font-size: $note-text-size;
+  }
+
+  .errors {
+    p:first-child {
+      margin: 0 !important;
+      font-weight: bold;
+      font-size: s.$text-l;
+    }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      li {
+        margin: 0;
+
+        ol {
+          font-weight: normal !important;
+          font-size: s.$text-s;
+        }
+      }
+    }
   }
 
   button {

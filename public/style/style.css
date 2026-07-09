@@ -287,11 +287,30 @@ body {
   font-family: PhIcons;
   font-size: 36pt;
 }
-.note p {
-  margin-left: 8px;
+.note span, .note p, .note section {
   align-self: center;
+}
+.note p, .note section {
+  margin-left: 10px;
   flex-grow: 5;
   font-size: 12pt;
+}
+.note .errors p:first-child {
+  margin: 0 !important;
+  font-weight: bold;
+  font-size: 16pt;
+}
+.note .errors ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.note .errors ul li {
+  margin: 0;
+}
+.note .errors ul li ol {
+  font-weight: normal !important;
+  font-size: 10pt;
 }
 .note button {
   align-self: flex-start;

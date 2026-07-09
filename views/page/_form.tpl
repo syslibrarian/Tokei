@@ -1,5 +1,5 @@
-{% macro text(name, value, placeholder = '', prefix = '', error = '', list = false, forTranslate = '') %}
-    <div class="text{% if error != '' %} warning{% endif %}">
+{% macro text(name, value, placeholder = '', prefix = '', list = false, forTranslate = '') %}
+    <div class="text{% if attribute(formErrors, name) %} warning{% endif %}">
         <div class="label">
             <label for="{{ name }}-id">
                 {% if forTranslate != '' %}
@@ -64,8 +64,8 @@
     <input type="hidden" name="{{ name }}" value="{{ value }}">
 {% endmacro %}
 
-{% macro textarea(name, value, error = '') %}
-    <div class="text{% if error != '' %} warning{% endif %}">
+{% macro textarea(name, value) %}
+    <div class="text{% if attribute(formErrors, name) %} warning{% endif %}">
         <div class="label"><label for="{{ name }}-id">{{ name|translate }}</label></div>
         <div class="field">
             <textarea name="{{ name }}" id="{{ name }}-id" rows="10">{{ value }}</textarea>
@@ -74,15 +74,15 @@
     </div>
 {% endmacro %}
 
-{% macro checkbox(name, value, error = '') %}
-    <div class="check{% if error != '' %} warning{% endif %}">
+{% macro checkbox(name, value) %}
+    <div class="check{% if attribute(formErrors, name) %} warning{% endif %}">
         <div class="field"><label><input type="checkbox" value="1" name="{{ name }}" id="{{ name }}-id" {% if value %}checked{% endif %}> <span>{{ name|translate }}</span></label></div>
         <div class="description"><span>{{ (name ~ '_desc')|translate }}</span></div>
     </div>
 {% endmacro %}
 
-{% macro radio(name, options, value, error = '') %}
-    <div class="radio{% if error != '' %} warning{% endif %}">
+{% macro radio(name, options, value) %}
+    <div class="radio{% if attribute(formErrors, name) %} warning{% endif %}">
         <div class="label">{{ name|translate }}</div>
         <div class="field">
             {% for option in options %}
@@ -97,8 +97,8 @@
     </div>
 {% endmacro %}
 
-{% macro select(name, options, value, error = '') %}
-    <div class="select {% if error != '' %} warning{% endif %}">
+{% macro select(name, options, value) %}
+    <div class="select{% if attribute(formErrors, name) %} warning{% endif %}">
         <div class="label"><label for="{{ name }}-id">{{ name|translate }}</label></div>
         <div class="field">
             <select name="{{ name }}" id="{{ name }}-id">
@@ -115,8 +115,8 @@
     </div>
 {% endmacro %}
 
-{% macro password(name, error = '') %}
-    <div class="text {% if error != '' %} warning{% endif %}">
+{% macro password(name) %}
+    <div class="text{% if attribute(formErrors, name) %} warning{% endif %}">
         <div class="label"><label for="{{ name }}-id">{{ name|translate }}</label></div>
         <div class="field"><input type="password" name="{{ name }}" id="{{ name }}-id"></div>
         <div class="description"><span>{{ (name ~ '_desc')|translate }}</span></div>

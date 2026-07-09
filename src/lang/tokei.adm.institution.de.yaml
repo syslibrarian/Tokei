@@ -9,6 +9,8 @@ tokei:
       name_desc: ''
       phone: 'Telefon'
       phone_desc: ''
+      postalCode: 'Postleitzahl'
+      postalCode_desc: ''
       seal: 'Zuständiger Standort'
       seal_desc: ''
       type: 'Art der Einrichtung'

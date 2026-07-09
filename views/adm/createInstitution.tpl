@@ -13,38 +13,44 @@
         name: 'seal',
         options: locations,
         value: institution.seal,
-        errorMsg: errors.seal ?? ''
+        error: errors.seal ?? ''
     ) }}
 
     {{ f.radio(
         name: 'type',
         options: types,
         value: institution.type,
-        errorMsg: errors.type ?? ''
+        error: errors.type ?? ''
     ) }}
 
     {{ f.text(
         name: 'name',
         value: institution.name,
-        errorMsg: errors.name ?? ''
+        error: errors.name ?? ''
     ) }}
 
     {{ f.text(
         name: 'educator',
         value: institution.educator,
-        errorMsg: errors.educator ?? ''
+        error: errors.educator ?? ''
     ) }}
 
     {{ f.text(
         name: 'email',
         value: institution.email,
-        errorMsg: errors.email ?? ''
+        error: errors.email ?? ''
     ) }}
 
     {{ f.text(
         name: 'phone',
         value: institution.phone,
-        errorMsg: errors.phone ?? ''
+        error: errors.phone ?? ''
+    ) }}
+
+    {{ f.text(
+        name: 'postal_code',
+        value: institution.postalCode,
+        error: errors.postalCode ?? ''
     ) }}
 
     {{ t.modelInfo(institution.model) }}

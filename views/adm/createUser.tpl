@@ -12,25 +12,21 @@
     {{ f.text(
         name: 'username',
         value: user.username,
-        error: errors.username
     ) }}
 
     {{ f.text(
         name: 'email',
         value: user.email,
-        error: errors.email
     ) }}
 
     {{ f.text(
         name: 'name',
         value: user.name,
-        error: errors.name
     ) }}
 
     {{ f.text(
         name: 'surname',
         value: user.surname,
-        error: errors.surname
     ) }}
 
     {{ f.select(
@@ -54,13 +50,11 @@
 
     {{ f.password(
         name: 'password',
-        error: errors.password
     ) }}
 
     {{
         f.password(
             name: 'passwordRepeat',
-            error: errors.password
         )
     }}
 

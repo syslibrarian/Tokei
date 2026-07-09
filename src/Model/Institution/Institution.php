@@ -9,6 +9,7 @@ use Tempest\Database\Table;
 use Tempest\Validation\Rules\IsEmail;
 use Tempest\Validation\Rules\IsNotEmptyString;
 use Tempest\Validation\Rules\IsPhoneNumber;
+use Tempest\Validation\Rules\MatchesRegEx;
 use Tokei\Component\Access\CreatePermission;
 use Tokei\Component\Access\DeletePermission;
 use Tokei\Component\Access\UpdatePermission;
@@ -47,4 +48,7 @@ final class Institution implements Located
     public ?int $modified;
 
     public ?int $last_event;
+
+    #[MatchesRegEx('/^[0-9]{5}$/u')] // current german postal code
+    public string $postal_code;
 }

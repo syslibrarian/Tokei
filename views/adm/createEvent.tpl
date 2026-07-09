@@ -16,7 +16,6 @@
         {{ f.text(
             name: 'title',
             value: event.title,
-            error: errors.title,
             list: isBase != true,
             forTranslate: titleTranslate
         ) }}
@@ -26,7 +25,6 @@
         {{ f.text(
             name: 'description',
             value: event.description,
-            error: errors.description
         ) }}
 
         {% if hiddenFields.seal %}
@@ -40,7 +38,6 @@
                 name: 'seal',
                 options: locations,
                 value: event.seal,
-                error: errors.seal
             ) }}
         {% endif %}
 

@@ -15,5 +15,6 @@ final class CreateInstitution implements Command
         public string $phone,
         public string $seal,
         public string $type,
+        public string $postalCode,
     ) {}
 }

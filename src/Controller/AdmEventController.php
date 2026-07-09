@@ -144,6 +144,7 @@ final class AdmEventController extends Controller
             phone: trim($request->get('phone', '')),
             seal: trim($request->get('seal', '')),
             type: trim($request->get('type', '')),
+            postalCode: trim($request->get('postal_code', '')),
         );
 
         $response = $this->executeCommand($institution, $request);
@@ -153,7 +154,7 @@ final class AdmEventController extends Controller
             institution: $institution,
             locations: LocationHelper::getLocationsForForm(),
             types: Type::getForForm(),
-            errors: $this->validationParser->parsedErrors,
+            success: $response !== null,
         );
     }
 
@@ -171,6 +172,7 @@ final class AdmEventController extends Controller
             phone: trim($request->get('phone', $model->phone)),
             seal: trim($request->get('seal', $model->seal)),
             type: trim($request->get('type', $model->type)),
+            postalCode: trim($request->get('postal_code', $model->postal_code)),
         );
 
         $response = $this->executeCommand($institution, $request);
@@ -184,7 +186,6 @@ final class AdmEventController extends Controller
             institution: $institution,
             locations: LocationHelper::getLocationsForForm(),
             types: Type::getForForm(),
-            errors: $this->validationParser->parsedErrors,
             success: $response !== null,
         );
     }
@@ -207,8 +208,7 @@ final class AdmEventController extends Controller
     public function createEvent(Request $request, string $for = 'event'): View
     {
         $this->checkModel(Event::class);
-        //$location = Location::select()->where('seal = ?', '713')->first(); // implement seal from user
-        $location = null;
+        $location = ($this->accessControl->user->seal !== '') ? Location::select()->where('seal = ?', $this->accessControl->user->seal)->first() : null;
         $this->setActiveSlug('create/' . ($for !== 'event' ? $for . '/' : ''));
         $form = Form::getFor($for, $location);
 
@@ -241,7 +241,6 @@ final class AdmEventController extends Controller
             states: EventHelper::getStateForForm(),
             onlineStates: EventHelper::getOnlineForForm(),
             audiences: EventHelper::getAudienceForForm(),
-            errors: $this->validationParser->parsedErrors,
             success: $response !== null,
             timeFactors: $form->getTimeFactors(),
             hiddenFields: $form->getHiddenFields(),
@@ -288,7 +287,6 @@ final class AdmEventController extends Controller
             states: EventHelper::getStateForForm(),
             onlineStates: EventHelper::getOnlineForForm(),
             audiences: EventHelper::getAudienceForForm(),
-            errors: $this->validationParser->parsedErrors,
             success: $response !== null,
             isBase: true,
         );

@@ -26,7 +26,7 @@ tokei:
     report_title: 'Monatsbericht {$month}/{$year} für {$name}'
     reports_for_location: 'Monatsberichte für {$year}'
     shifts: 'Schichten'
-    shifts_definition: '{$shifts} Schichten | {$received} Vertretungen erhalten | {$given} Vertretungen gegeben'
+    shifts_definition: '{$shifts} Schichten | {$recieved} Vertretungen erhalten | {$given} Vertretungen gegeben'
     staff_definition: '{$staff} Mitarbeiter:innen | {$hours} Stunden'
     staff_external: 'Außerhalb des Stellenplans'
     staff_grant: 'Aus Förderprogrammen'

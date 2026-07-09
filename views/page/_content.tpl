@@ -84,7 +84,7 @@
                 <section class="information">
                     <dl>
                         <dt>{{ 'tokei.location.visits'|translateFull }}</dt>
-                        <dd>{{ 'tokei.location.visits_definiton_short'|translateFull(total: report.visits_total|number_format) }}</dd>
+                        <dd>{{ 'tokei.location.visits_definition_short'|translateFull(total: report.visits_total|number_format) }}</dd>
                     </dl>
                     <dl>
                         <dt>{{ 'tokei.location.circulations'|translateFull }}</dt>

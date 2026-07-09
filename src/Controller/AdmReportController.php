@@ -138,6 +138,8 @@ final class AdmReportController extends Controller
             printer: $printer,
             year: $year,
             isPrint: $print === 'print',
+            time: DateTime::now()->getTimestamp(),
+            user: $this->accessControl->user,
         );
     }
 

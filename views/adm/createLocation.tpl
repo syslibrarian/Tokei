@@ -12,7 +12,6 @@
     {{ f.text(
         name: "name",
         value: location.name,
-        error: errors.name ?? ''
     ) }}
 
     {% if location.model %}
@@ -26,32 +25,27 @@
         {{ f.text(
             name: "seal",
             value: location.seal,
-            error: errors.seal ?? ''
         ) }}
     {% endif %}
 
     {{ f.text(
         name: "klrCode",
         value: location.klrCode,
-        error: errors.seal ?? ''
     ) }}
 
     {{ f.text(
         name: "street",
         value: location.street,
-        error: errors.street ?? ''
     ) }}
 
     {{ f.text(
         name: "city",
         value: location.city,
-        error: errors.city ?? ''
     ) }}
 
     {{ f.text(
         name: 'postal_code',
         value: location.postal_code,
-        error: errors.postal_code ?? ''
     ) }}
 
     {{ f.number(

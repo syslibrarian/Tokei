@@ -28,6 +28,7 @@ final class InstitutionHandler
                 educator: $command->educator,
                 seal: $command->seal,
                 type: $command->type,
+                postal_code: $command->postalCode,
                 created: Timestamp::now()->getSeconds(),
             );
 
@@ -38,15 +39,16 @@ final class InstitutionHandler
             if ($command->phone !== '') {
                 $model->update(phone: $command->phone);
             }
+
+            $this->transaction->commit();
+            $this->response->set($command, $model);
+            return;
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();
             $this->response->set($command, $e);
 
             return;
         }
-
-        $this->transaction->commit();
-        $this->response->set($command, $model);
     }
 
     #[CommandHandler]
@@ -59,6 +61,7 @@ final class InstitutionHandler
                 educator: $command->educator,
                 seal: $command->seal,
                 type: $command->type,
+                postal_code: $command->postalCode,
             );
 
             if ($command->email !== '') {
@@ -72,15 +75,16 @@ final class InstitutionHandler
                     phone: $command->phone,
                 );
             }
+
+            $this->transaction->commit();
+            $this->response->set($command, true);
+            return;
         } catch (ValidationFailed $e) {
             $this->transaction->rollback();
             $this->response->set($command, $e);
 
             return;
         }
-
-        $this->transaction->commit();
-        $this->response->set($command, true);
     }
 
     #[CommandHandler]

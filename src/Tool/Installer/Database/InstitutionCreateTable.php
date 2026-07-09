@@ -26,6 +26,7 @@ final class InstitutionCreateTable implements DatabaseCommand
             ->integer('created')
             ->integer('modified', default: 0)
             ->integer('last_event', default: 0)
+            ->varchar('postal_code', length: 5)
             ->index('seal', 'type');
     }
 }
