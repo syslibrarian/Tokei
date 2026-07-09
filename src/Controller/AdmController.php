@@ -99,7 +99,6 @@ final class AdmController extends Controller
             '@adm/createRole.tpl',
             role: $createRole,
             permissionGroups: $permissions->buildForForm(),
-            errors: $this->validationParser->parsedErrors,
         );
     }
 
@@ -128,8 +127,6 @@ final class AdmController extends Controller
             '@adm/updateRole.tpl',
             role: $updateRole,
             permissionGroups: $permissions->buildForForm($role),
-            errors: $this->validationParser->parsedErrors,
-            success: $response !== null,
         );
     }
 
@@ -166,7 +163,6 @@ final class AdmController extends Controller
 
         return $this->view(
             '@adm/listUser.tpl',
-            success: $this->session->get('success', false),
             users: $users,
             user: $user,
             pagination: $pagination,
@@ -202,7 +198,6 @@ final class AdmController extends Controller
             user: $createUser,
             roles: RoleHelper::getForForm(),
             locations: LocationHelper::getLocationsForForm(true),
-            errors: $this->validationParser->parsedErrors,
         );
     }
 
@@ -227,15 +222,13 @@ final class AdmController extends Controller
             role_id: (int) $request->get('role', $user->role_id),
         );
 
-        $response = $this->executeCommand($updateUser, $request);
+        $this->executeCommand($updateUser, $request);
 
         return $this->view(
             '@adm/updateUser.tpl',
             user: $updateUser,
             roles: RoleHelper::getForForm(),
             locations: LocationHelper::getLocationsForForm(true),
-            errors: $this->validationParser->parsedErrors,
-            success: $response?->value === true,
         );
     }
 
@@ -322,7 +315,6 @@ final class AdmController extends Controller
         return $this->view(
             '@adm/createLocation.tpl',
             location: $createLocation,
-            errors: $this->validationParser->parsedErrors,
         );
     }
 
@@ -354,8 +346,6 @@ final class AdmController extends Controller
         return $this->view(
             '@adm/updateLocation.tpl',
             location: $updateLocation,
-            errors: $this->validationParser->parsedErrors,
-            success: $response !== null,
         );
     }
 

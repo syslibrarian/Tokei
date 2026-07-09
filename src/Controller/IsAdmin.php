@@ -13,8 +13,8 @@ use Tokei\Component\Access\AccessContext;
 use Tokei\Component\Access\AccessControl;
 use Tokei\Component\Navigation\Navigation;
 use Tokei\Component\Validation\ValidationParser;
-use Tokei\Controller\Exception\NotFoundException;
-
+use Tokei\Extension\Exception\NotFoundException;
+use Tokei\Tokei;
 use function Tempest\CommandBus\command;
 use function Tempest\Container\get;
 
@@ -30,29 +30,35 @@ trait IsAdmin
 
     protected AccessControl $accessControl {
         get {
-            return $this->tokei->accessControl;
+            return get(Tokei::class)->accessControl;
         }
     }
 
-    protected function extend(): void
+    protected function beforeInit(): void
     {
         $this->registerNavigation('adm_header');
         $this->registerNavigation($this->getSectionNavigation());
         $this->registerViewPath('adm', dirname(__DIR__, 2) . '/views/adm/');
-        parent::extend();
+    }
 
+    protected function afterInit(): void
+    {
         $baseSlug = str_starts_with($this->getBaseSlug(), '/') ? $this->getBaseSlug() : '/' . $this->getBaseSlug();
-        $this->tokei->add(
+        $this->add(
             'route_base',
             str_ends_with($baseSlug, '/') ? $baseSlug : $baseSlug . '/',
         );
         Navigation::get('adm_header')->setActiveTarget($this->getBaseSlug());
+
+        if ($this->session->get('success')) {
+            $this->setStatus(Status::SUCCESS);
+        }
     }
 
     protected function setActiveSlug(string $slug): void
     {
-        $this->tokei->add('route_current', $slug);
-        $this->tokei->add(
+        $this->add('route_current', $slug);
+        $this->add(
             'route_current',
             str_ends_with($slug, '/') ? $slug : $slug . '/',
         );
@@ -75,10 +81,12 @@ trait IsAdmin
         $response = get(Response::class);
         if ($response->value instanceof ValidationFailed) {
             $this->validationParser->parse($response->value);
-            $this->tokei->twig->addGlobal('formErrors', $this->validationParser->parsedErrors);
-            $this->error = true;
+            $this->add('formErrors', $this->validationParser->parsedErrors);
+            $this->setStatus(Status::ERROR);
             return null;
         }
+
+        $this->setStatus(Status::SUCCESS);
 
         if ($closure !== null) {
             $closure($command, $response);
@@ -88,12 +96,11 @@ trait IsAdmin
     }
 
     abstract protected function getSectionNavigation(): string;
-
     abstract protected function registerNavigation(string $name): void;
-
     abstract protected function registerViewPath(string $namespace, string $path): void;
-
     abstract protected function getBaseSlug(): string;
+    abstract protected function add(string $name, mixed $value): static;
+    abstract public function setStatus(Status $status): static;
 
     /**
      * @template TModel

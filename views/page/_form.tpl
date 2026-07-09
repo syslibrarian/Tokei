@@ -1,5 +1,5 @@
 {% macro text(name, value, placeholder = '', prefix = '', list = false, forTranslate = '') %}
-    <div class="text{% if attribute(formErrors, name) %} warning{% endif %}">
+    <div class="text{% if attribute(_tokei.formErrors, name) %} warning{% endif %}">
         <div class="label">
             <label for="{{ name }}-id">
                 {% if forTranslate != '' %}
@@ -35,9 +35,9 @@
     </datalist>
 {% endmacro %}
 
-{% macro hiddenField(name, value, show = false, forTranslate = '') %}
+{% macro hidden(name, value, show = false, forTranslate = '') %}
     {% if show == true %}
-        <div class="text{% if error != '' %} warning{% endif %}">
+        <div class="text{% if attribute(_tokei.formErrors, name) %} warning{% endif %}">
             <div class="label">
                 <label for="{{ name }}-view">
                     {% if forTranslate != '' %}
@@ -65,7 +65,7 @@
 {% endmacro %}
 
 {% macro textarea(name, value) %}
-    <div class="text{% if attribute(formErrors, name) %} warning{% endif %}">
+    <div class="text{% if attribute(_tokei.formErrors, name) %} warning{% endif %}">
         <div class="label"><label for="{{ name }}-id">{{ name|translate }}</label></div>
         <div class="field">
             <textarea name="{{ name }}" id="{{ name }}-id" rows="10">{{ value }}</textarea>
@@ -75,14 +75,14 @@
 {% endmacro %}
 
 {% macro checkbox(name, value) %}
-    <div class="check{% if attribute(formErrors, name) %} warning{% endif %}">
+    <div class="check{% if attribute(_tokei.formErrors, name) %} warning{% endif %}">
         <div class="field"><label><input type="checkbox" value="1" name="{{ name }}" id="{{ name }}-id" {% if value %}checked{% endif %}> <span>{{ name|translate }}</span></label></div>
         <div class="description"><span>{{ (name ~ '_desc')|translate }}</span></div>
     </div>
 {% endmacro %}
 
 {% macro radio(name, options, value) %}
-    <div class="radio{% if attribute(formErrors, name) %} warning{% endif %}">
+    <div class="radio{% if attribute(_tokei.formErrors, name) %} warning{% endif %}">
         <div class="label">{{ name|translate }}</div>
         <div class="field">
             {% for option in options %}
@@ -98,7 +98,7 @@
 {% endmacro %}
 
 {% macro select(name, options, value) %}
-    <div class="select{% if attribute(formErrors, name) %} warning{% endif %}">
+    <div class="select{% if attribute(_tokei.formErrors, name) %} warning{% endif %}">
         <div class="label"><label for="{{ name }}-id">{{ name|translate }}</label></div>
         <div class="field">
             <select name="{{ name }}" id="{{ name }}-id">
@@ -116,16 +116,16 @@
 {% endmacro %}
 
 {% macro password(name) %}
-    <div class="text{% if attribute(formErrors, name) %} warning{% endif %}">
+    <div class="text{% if attribute(_tokei.formErrors, name) %} warning{% endif %}">
         <div class="label"><label for="{{ name }}-id">{{ name|translate }}</label></div>
         <div class="field"><input type="password" name="{{ name }}" id="{{ name }}-id"></div>
         <div class="description"><span>{{ (name ~ '_desc')|translate }}</span></div>
     </div>
 {% endmacro %}
 
-{% macro number(name, value, placeholder='', min = 0, max = 0, step = 0, suffix = '', error = '') %}
+{% macro number(name, value, placeholder='', min = 0, max = 0, step = 0, suffix = '') %}
     {# Add prefix and suffix for clear communication #}
-    <div class="number{% if error != '' %} warning{% endif %}">
+    <div class="number{% if attribute(_tokei.formErrors, name) %} warning{% endif %}">
         <div class="label"><label for="{{ name }}-id">{{ name|translate }}</label></div>
         <div class="field">
             <input
@@ -152,8 +152,8 @@
     </div>
 {% endmacro %}
 
-{% macro date(name, value, time = false, error = '') %}
-    <div class="date{% if error != '' %} warning{% endif %}">
+{% macro date(name, value, time = false) %}
+    <div class="date{% if attribute(_tokei.formErrors, name) %} warning{% endif %}">
         <div class="label"><label for="{{ name }}-id">{{ name|translate }}</label></div>
         <div class="field">
             <input
@@ -167,18 +167,14 @@
     </div>
 {% endmacro %}
 
-{% macro time(name, value, error = '') %}
-    <div class="time{% if error != '' %} warning{% endif %}">
+{% macro time(name, value) %}
+    <div class="time{% if attribute(_tokei.formErrors, name) %} warning{% endif %}">
         <div class="label"><label for="{{ name }}-id">{{ name|translate }}</label></div>
         <div class="field">
             <input type="time" name="{{ name }}" id="{{ name }}-id" value="{{ value }}">
         </div>
     </div>
     <div class="description"><span>{{ (name ~ '_desc')|translate }}</span></div>
-{% endmacro %}
-
-{% macro hidden(name, value) %}
-    <input type="hidden" name="{{ name }}" value="{{ value }}">
 {% endmacro %}
 
 {% macro fieldset(label, content) %}

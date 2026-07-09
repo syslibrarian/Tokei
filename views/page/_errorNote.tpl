@@ -3,7 +3,7 @@
     <section class="errors">
         <p>{{ 'tokei.error.general'|translateFull }}</p>
         <ul>
-        {% for field, rules in formErrors %}
+        {% for field, rules in _tokei.formErrors %}
             <li class="field">{{ field|translate }}
                 <ol>
                     {% for rule in rules %}

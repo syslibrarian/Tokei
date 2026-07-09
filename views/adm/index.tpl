@@ -12,13 +12,11 @@
 {% endblock %}
 
 {% block notes %}
-    {% if error %}
-        {{ note("tokei.adm.error"|translateFull, 'error') }}
-    {% endif %}
-    {% if formErrors %}
+    {% if _tokei.status.value == 'error' and _tokei.formErrors %}
         {% include '_errorNote.tpl' %}
-    {% endif %}
-    {% if success %}
+    {% elseif _tokei.status.value == 'error' %}
+        {{ note("tokei.adm.error"|translateFull, 'error') }}
+    {% elseif _tokei.status.value == 'success' %}
         {{ note("tokei.adm.success"|translateFull, 'success') }}
     {% endif %}
 {% endblock %}

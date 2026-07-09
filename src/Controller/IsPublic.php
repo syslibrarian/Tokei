@@ -6,12 +6,14 @@ namespace Tokei\Controller;
 
 trait IsPublic
 {
-    protected function extend(): void
+    protected function beforeInit(): void
     {
         $this->registerNavigation('header');
         $this->registerNavigation('footer');
-        parent::extend();
     }
+
+    protected function afterInit(): void
+    {}
 
     abstract protected function registerNavigation(string $name): void;
 

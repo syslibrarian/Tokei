@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Controller\Exception;
+namespace Tokei\Extension\Exception;
 
 class NotFoundException extends \Exception
 {
