@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Tokei\Controller;
 
+use Tokei\Component\Navigation\Navigation;
+use Tokei\Tokei;
 use Tempest\Http\Responses\Redirect;
 use Tempest\Http\Session\Session;
 use Tempest\View\View;
-use Tokei\Component\Navigation\Navigation;
-use Tokei\Tokei;
 
-use function Tempest\Container\get;
 use function Tempest\Support\Arr\each;
 use function Tempest\View\view;
 
@@ -24,20 +23,17 @@ abstract class Controller
     /** @var string[] */
     protected array $viewPaths = [];
 
+    /** @var array<string, mixed> */
+    protected(set) array $data = [];
+
     public Session $session {
         get {
             return $this->tokei->session;
         }
     }
 
-    public Tokei $tokei {
-        get {
-            return get(Tokei::class);
-        }
-    }
-
-    public function __construct(
-    ) {
+    public function __construct(protected(set) Tokei $tokei)
+    {
         $this->init();
     }
 
@@ -52,19 +48,26 @@ abstract class Controller
             },
         );
 
+        $navigation = [];
         each(
             $this->loadNavigation,
-            function ($name) {
-                $this->add('navigation_' . $name, Navigation::get($name, true));
+            function ($name, $key) use (&$navigation) {
+                $navigation[$key] = Navigation::get($name, true);
             },
         );
+        $this->register('navigation', $navigation);
 
         $this->afterInit();
     }
 
-    protected function registerNavigation(string $name): void
+    protected function registerNavigation(string $name, ?string $as = null): void
     {
-        $this->loadNavigation[] = $name;
+        if ($as !== null) {
+            $this->loadNavigation[$as] = $name;
+            return;
+        }
+
+        $this->loadNavigation[$name] = $name;
     }
 
     protected function registerViewPath(string $namespace, string $path): void
@@ -74,6 +77,8 @@ abstract class Controller
 
     protected function view(string $templateName, mixed ...$data): View
     {
+        $this->tokei->twig->addGlobal('_page', $this->data);
+        $this->tokei->twig->addGlobal('_status', $this->status);
         return view($templateName, ...$data);
     }
 
@@ -82,9 +87,14 @@ abstract class Controller
         return new Redirect($to);
     }
 
-    protected function add(string $name, mixed $value): static
+    protected function register(string $name, mixed $value): static
     {
-        $this->tokei->add($name, $value);
+        if (is_array($value) && is_array($this->data[$name])) {
+            $this->data[$name] = array_merge($this->data[$name], $value);
+            return $this;
+        }
+
+        $this->data[$name] = $value;
 
         return $this;
     }
@@ -92,11 +102,10 @@ abstract class Controller
     public function setStatus(Status $status): static
     {
         $this->status = $status;
-        $this->add('status', $this->status);
-
         return $this;
     }
 
     abstract protected function beforeInit(): void;
+
     abstract protected function afterInit(): void;
 }

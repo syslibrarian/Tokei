@@ -5,12 +5,6 @@
 {% import '_tools.tpl' as t %}
 {% set intl_category %}tokei.location{% endset %}
 
-{% block page_navigation %}
-    <nav class="adm-navigation">
-        {{ _tokei.navigation_adm_reports|raw }}
-    </nav>
-{% endblock %}
-
 {% block content %}
     <header class="airy-header">
         <h1>

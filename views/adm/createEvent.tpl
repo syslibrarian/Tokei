@@ -28,7 +28,7 @@
         ) }}
 
         {% if hiddenFields.seal %}
-            {{ f.hiddenField(
+            {{ f.hidden(
                 name: 'seal',
                 value: hiddenFields.seal,
                 show: location.name

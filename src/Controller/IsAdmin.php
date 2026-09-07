@@ -37,14 +37,14 @@ trait IsAdmin
     protected function beforeInit(): void
     {
         $this->registerNavigation('adm_header');
-        $this->registerNavigation($this->getSectionNavigation());
+        $this->registerNavigation($this->getSectionNavigation(), 'adm_section');
         $this->registerViewPath('adm', dirname(__DIR__, 2) . '/views/adm/');
     }
 
     protected function afterInit(): void
     {
         $baseSlug = str_starts_with($this->getBaseSlug(), '/') ? $this->getBaseSlug() : '/' . $this->getBaseSlug();
-        $this->add(
+        $this->register(
             'route_base',
             str_ends_with($baseSlug, '/') ? $baseSlug : $baseSlug . '/',
         );
@@ -57,8 +57,8 @@ trait IsAdmin
 
     protected function setActiveSlug(string $slug): void
     {
-        $this->add('route_current', $slug);
-        $this->add(
+        $this->register('route_current', $slug);
+        $this->register(
             'route_current',
             str_ends_with($slug, '/') ? $slug : $slug . '/',
         );
@@ -68,7 +68,7 @@ trait IsAdmin
     protected function executeCommand(Command $command, ?Request $request = null, ?callable $closure = null, bool $onPost = true): ?Response
     {
         if ($onPost === false || $request->method === Method::POST) {
-            return $this->sendCommand($command);
+            return $this->sendCommand($command, $closure);
         }
 
         return null;
@@ -81,7 +81,7 @@ trait IsAdmin
         $response = get(Response::class);
         if ($response->value instanceof ValidationFailed) {
             $this->validationParser->parse($response->value);
-            $this->add('formErrors', $this->validationParser->parsedErrors);
+            $this->register('formErrors', $this->validationParser->parsedErrors);
             $this->setStatus(Status::ERROR);
             return null;
         }
@@ -99,7 +99,7 @@ trait IsAdmin
     abstract protected function registerNavigation(string $name): void;
     abstract protected function registerViewPath(string $namespace, string $path): void;
     abstract protected function getBaseSlug(): string;
-    abstract protected function add(string $name, mixed $value): static;
+    abstract protected function register(string $name, mixed $value): static;
     abstract public function setStatus(Status $status): static;
 
     /**

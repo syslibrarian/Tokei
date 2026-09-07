@@ -1,11 +1,5 @@
 {% extends "@adm/reports.tpl" %}
 
-{% block page_navigation %}
-    <nav class="adm-navigation">
-        {{ _tokei.navigation_adm_reports|raw }}
-    </nav>
-{% endblock %}
-
 {% block content %}
     <div class="content klr">
         <header>

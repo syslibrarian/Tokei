@@ -5,17 +5,14 @@
 {% block title %}{{ 'tokei.adm.list_roles'|translateFull }}{% endblock %}
 
 {% block content %}
-    <div class="content dataList">
-        <ol>
+    <div class="content">
+        <ol class="data-list">
             {% for role in roles %}
                 <li>
-                    <section class="fieldSystem">
-                        <span class="id">{{ role.id }}</span>
-                    </section>
-                    <section class="fieldTitle">
+                    <section class="title">
                         <h2><a href="/adm/update-role/{{ role.id }}">{{ role.name }}</a></h2>
                     </section>
-                    <section class="fieldTools">
+                    <section class="tools">
                         <a href="/adm/update-role/{{ role.id }}"><span class="edit"></span></a>
                         <a href="/adm/delete-role/{{ role.id }}"><span class="delete"></span></a>
                     </section>

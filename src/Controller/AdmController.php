@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tokei\Controller;
 
+use Tempest\Database\Direction;
 use Tempest\DateTime\DateTime;
 use Tempest\Http\Request;
 use Tempest\Http\Responses\Redirect;
@@ -26,6 +27,7 @@ use Tokei\Command\User\UpdateRole;
 use Tokei\Command\User\UpdateUser;
 use Tokei\Component\Access\AccessContext;
 use Tokei\Component\Access\IsAuthenticated;
+use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
 use Tokei\Model\Location\Location;
 use Tokei\Model\Location\LocationHelper;
@@ -59,7 +61,12 @@ final class AdmController extends Controller
     #[Get(uri: '/')]
     public function index(): View
     {
-        return $this->view('@adm/index.tpl');
+        $events = Event::select()->orderBy('time_start', Direction::DESC)->limit(10)->all();
+
+        return $this->view(
+            '@adm/index.tpl',
+            events: $events,
+        );
     }
 
     #[Get(uri: '/list-roles/{?currentPage:[0-9]+}')]
@@ -244,7 +251,7 @@ final class AdmController extends Controller
             command($deleteUser);
         }
 
-        return $this->redirect('/adm/list-user');
+        return $this->redirect('/adm/list-users/');
     }
 
     #[Get(uri: '/show-location/{seal:[0-9]{3}[a-z]?}/')]

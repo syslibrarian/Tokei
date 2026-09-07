@@ -6,16 +6,6 @@
 {% block title %}{{ 'update'|translate(name: location.name, year: report.model.year, month: report.model.month) }}{% endblock %}
 {% set target = '/adm/reports/update/' ~ report.model.time_code ~ '/' ~ report.model.seal %}
 
-{% block notes %}
-    {% if errors %}
-        {{ note("adm.error"|translateFull, 'error') }}
-    {% endif %}
-    {% if success %}
-        {{ note("success"|translate, 'success') }}
-    {% endif %}
-{% endblock %}
-
-
 {% block content %}
     {{ f.form_start(uri: target, title: block('title'), html_classes: 'content') }}
 
