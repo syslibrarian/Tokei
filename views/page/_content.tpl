@@ -109,7 +109,7 @@
         <h3>{{ 'tokei.location.report_information'|translateFull }}</h3>
         <dl>
             <dt>{{ 'tokei.location.visits'|translateFull }}</dt>
-            <dd>{{ 'tokei.location.visits_definiton'|translateFull(total: report.visits_total|number_format, sensor: report.visits|number_format, manual: report.visits_manual|number_format) }}</dd>
+            <dd>{{ 'tokei.location.visits_definition'|translateFull(total: report.visits_total|number_format, sensor: report.visits|number_format, manual: report.visits_manual|number_format) }}</dd>
             <dt>{{ 'tokei.location.circulations'|translateFull }}</dt>
             <dd>{{ report.circulations|number_format }}</dd>
             <dt>{{ 'tokei.location.media_packages'|translateFull }}</dt>

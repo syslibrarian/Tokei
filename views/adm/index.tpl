@@ -36,10 +36,9 @@
                 <div class="content">
                     <h1>{{ 'tokei.adm.index'|translateFull }}</h1>
                     <h2>{{ 'tokei.adm.index_overview'|translateFull }}</h2>
-                    // Was möchte die DB hier gerne sehen? Grafiken? Performance Angaben zum eigenen Standort?
+                    // Vorschläge für diese Startseite?
 
-                    // Vor dem Start für die Januar-Statistim 2027
-
+                    // Vor dem Start im Februar 2027 (für die Januar Statistik)
                     <h2>{{ 'tokei.adm.index_events'|translateFull }}</h2>
                     {{ c.eventList(events) }}
                 </div>

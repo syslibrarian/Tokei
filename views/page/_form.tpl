@@ -142,6 +142,8 @@
                 {% endif %}
                 {% if step > 0 %}
                     step="{{ step }}"
+                    {% else %}
+                    step="0.5"
                 {% endif %}
             >
             {% if suffix != '' %}

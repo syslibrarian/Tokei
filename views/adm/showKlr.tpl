@@ -18,16 +18,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        {% for location in product.locations %}
+                    {% for location in product.locations %}
+                        <tr>
                             <td>{{ location.klrCode }}</td>
                             {% for month in location.data %}
                                 <td class="{% if month.marked() %}corrected{% elseif month.empty %}empty{% endif %}">
                                     {{ month.value }}
                                 </td>
                             {% endfor %}
-                        {% endfor %}
-                    </tr>
+                        </tr>
+                    {% endfor %}
                 </tbody>
                 <tfoot>
                     <tr>

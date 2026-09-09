@@ -48,6 +48,8 @@ trait IsAdmin
             'route_base',
             str_ends_with($baseSlug, '/') ? $baseSlug : $baseSlug . '/',
         );
+        $this->tokei->add('route_base', $this->data['route_base']);
+
         Navigation::get('adm_header')->setActiveTarget($this->getBaseSlug());
 
         if ($this->session->get('success')) {
@@ -62,6 +64,8 @@ trait IsAdmin
             'route_current',
             str_ends_with($slug, '/') ? $slug : $slug . '/',
         );
+        $this->tokei->add('route_current', $this->data['route_current']);
+
         Navigation::get($this->getSectionNavigation())->setActiveTarget($this->getBaseSlug() . $slug);
     }
 
