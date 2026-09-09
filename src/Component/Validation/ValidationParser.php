@@ -26,7 +26,7 @@ final class ValidationParser
         }
     }
 
-    protected function messageToError(object $error): string
+    private function messageToError(object $error): string
     {
         $errorRule = to_snake_case(last(explode('\\', get_class($error->rule))));
         return 'tokei.error.' . $errorRule;
