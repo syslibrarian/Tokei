@@ -12,8 +12,7 @@ trait IsPublic
         $this->registerNavigation('footer');
     }
 
-    protected function afterInit(): void
-    {}
+    protected function afterInit(): void {}
 
     abstract protected function registerNavigation(string $name): void;
 

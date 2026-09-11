@@ -18,12 +18,21 @@ use Tokei\Component\Access\UpdatePermission;
 use Tokei\Extension\Validation\Rules\IsExistingEmail;
 use Tokei\Extension\Validation\Rules\IsExistingSeal;
 use Tokei\Extension\Validation\Rules\IsNotExistingUsername;
+use Tokei\Model\Routes;
 
 #[
     Table('user'),
     CreatePermission('can_create_role'),
     UpdatePermission('can_update_role'),
     DeletePermission,
+    Routes(
+        '',
+        'list-users',
+        'create-users',
+        'update-users/{id}',
+        'delete-users/{id}',
+        'adm'
+    )
 ]
 final class User implements Authenticatable
 {

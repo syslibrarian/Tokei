@@ -10,13 +10,15 @@ use Tempest\Log\Logger;
 use Tempest\Validation\Rules\MatchesRegEx;
 use Tokei\Command\Klr\CreateMonths;
 use Tokei\Command\Location\CreateReports;
+
 use function Tempest\CommandBus\command;
 use function Tempest\Container\get;
 
 final class Report
 {
-    public function __construct(protected(set) Console $console)
-    {}
+    public function __construct(
+        protected(set) Console $console,
+    ) {}
 
     #[ConsoleCommand('create-reports')]
     public function createReports(): void

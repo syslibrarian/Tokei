@@ -17,6 +17,7 @@ use Tokei\Extension\Validation\Rules\IsValidEventState;
 use Tokei\Extension\Validation\Rules\IsValidOnlineState;
 use Tokei\Model\IsLocated;
 use Tokei\Model\Located;
+use Tokei\Model\Routes;
 use Tokei\Model\Timed;
 
 #[
@@ -24,6 +25,14 @@ use Tokei\Model\Timed;
     CreatePermission('can_create_event'),
     UpdatePermission('can_update_event', 0),
     DeletePermission,
+    Routes(
+        '',
+        '/list',
+        '/create',
+        '/update/{id}',
+        '',
+        '/adm/events'
+    )
 ]
 final class Event implements Located, Timed
 {

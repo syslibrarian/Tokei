@@ -11,16 +11,16 @@
     </span>
 {% endmacro %}
 
-{% macro modelTools(textUpdate = '', textDelte = '', updateUri = '', deleteUri = '') %}
+{% macro modelTools(model, context, textUpdate = '', textDelte = '') %}
     <section class="model-tools">
-        <a href="{{ updateUri }}"><span class="update"></span></a>
+        <a href="{{ getUri(model, context, 'update') }}"><span class="update"></span></a>
         {# <a href="{{ getUri(withBase, withCurrent, uri,  suffix: suffix ~ 'delete', id:model.id) }}"><span class="delete">1</span></a> #}
     </section>
 {% endmacro %}
 
-{% macro inlineTools(model, uri = '', hasClose = false) %}
+{% macro inlineTools(model, context, hasClose = false) %}
     <span class="inline-tools">
-        <a href="{{ uri }}"><span class="update"></span></a>
+        <a href="{{ getUri(model, context, 'update') }}"><span class="update"></span></a>
         {# here more work for inlinetools
             <span class="close"></span>
         #}

@@ -16,12 +16,21 @@ use Tokei\Component\Access\UpdatePermission;
 use Tokei\Extension\Validation\Rules\IsInstitutionType;
 use Tokei\Model\IsLocated;
 use Tokei\Model\Located;
+use Tokei\Model\Routes;
 
 #[
     Table(name: 'institution'),
     CreatePermission('can_create_institution'),
     UpdatePermission('can_update_institution'),
     DeletePermission,
+    Routes(
+        '',
+        '/list-institution',
+        '/create-institution',
+        '/update-institution/{id}',
+        '/delete-institution/{id}',
+        '/adm/events'
+    )
 ]
 final class Institution implements Located
 {

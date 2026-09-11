@@ -1,6 +1,7 @@
 tokei:
   adm:
     institution:
+      create: 'Gruppe/Schulklasse anlegen'
       educator: 'Erzieher:in'
       educator_desc: ''
       email: 'E-Mail'
@@ -9,8 +10,8 @@ tokei:
       name_desc: ''
       phone: 'Telefon'
       phone_desc: ''
-      postalCode: 'Postleitzahl'
-      postalCode_desc: ''
+      postal_code: 'Postleitzahl'
+      postal_code_desc: ''
       seal: 'Zuständiger Standort'
       seal_desc: ''
       type: 'Art der Einrichtung'

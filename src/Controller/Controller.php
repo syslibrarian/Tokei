@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tokei\Controller;
 
-use Tokei\Component\Navigation\Navigation;
-use Tokei\Tokei;
 use Tempest\Http\Responses\Redirect;
 use Tempest\Http\Session\Session;
 use Tempest\View\View;
+use Tokei\Component\Navigation\Navigation;
+use Tokei\Tokei;
 
 use function Tempest\Support\Arr\each;
 use function Tempest\View\view;
@@ -32,8 +32,9 @@ abstract class Controller
         }
     }
 
-    public function __construct(protected(set) Tokei $tokei)
-    {
+    public function __construct(
+        protected(set) Tokei $tokei,
+    ) {
         $this->init();
     }
 

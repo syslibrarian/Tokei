@@ -33,7 +33,7 @@
 
     <div class="content report">
         <header>
-            <h2>{{ 'report_last'|translate }}{{ t.inlineTools(model, getUri(true, false, uri: '/reports/update/', timeCode: lastReport.time_code, seal: lastReport.seal)) }}</h2>
+            <h2>{{ 'report_last'|translate }}{{ t.inlineTools(lastReport, 'adm') }}</h2>
         </header>
         {{ printContent.reportSheet(lastReport) }}
     </div>

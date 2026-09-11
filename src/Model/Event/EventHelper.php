@@ -21,6 +21,8 @@ final class EventHelper
         1 => 'tokei.adm.events.online_normal',
         2 => 'tokei.adm.events.online_hybrid',
         3 => 'tokei.adm.events.online_only',
+        4 => 'tokei.adm.events.online_outreached',
+        5 => 'tokei.adm.events.online_outreached',
     ];
 
     public const array AUDIENCE = ['young', 'adult', 'mixed'];

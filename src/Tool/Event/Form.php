@@ -13,6 +13,7 @@ use function Tempest\Container\get;
 final class Form
 {
     public const array TIME_FACTORS = [
+        ['value' => '+30', 'name' => 'tokei.adm.events.time_factor_tiny'],
         ['value' => '+45', 'name' => 'tokei.adm.events.time_factor_short'],
         ['value' => '+60', 'name' => 'tokei.adm.events.time_factor_normal'],
         ['value' => '+90', 'name' => 'tokei.adm.events.time_factor_long'],

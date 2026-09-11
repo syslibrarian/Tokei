@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tokei\Extension\Twig;
 
+use InvalidArgumentException;
 use Tokei\Tokei;
 use Twig\Attribute\AsTwigFilter;
 use Twig\Attribute\AsTwigFunction;
@@ -90,14 +91,42 @@ final class TokeiTwigBaseExtension
     #[AsTwigFunction('getUri', needsEnvironment: true)]
     public static function getUri(
         Environment $env,
-        bool $withBase = true,
-        bool $withCurrent = true,
-        string $uri = '',
-        mixed ...$parts,
+        string|object $model,
+        string $context = 'public',
+        string $type = 'list',
+        string $appendUri = '',
+        mixed ...$args
     ): string {
         self::checkTokei($env);
 
-        return self::$tokei->getUri($withBase, $withCurrent, $uri, ...$parts);
+        return self::$tokei->routeCollectionRegistry->getUri($model, $context, $type) . self::buildUri($appendUri, ...$args);
+    }
+
+    #[AsTwigFunction('buildUri')]
+    public static function buildUri(string $uri = '', mixed ...$args): string
+    {
+        if (str_contains($uri, '{')) {
+            $parameters = [];
+
+            preg_match_all('#{([_a-zA-Z]+[_a-zA-Z0-9]*)}#', $uri, $parameters, PREG_SET_ORDER);
+            foreach ($parameters as $parameter) {
+                $placeholder = $parameter[0];
+                $value = $args[$parameter[1]] ?? null;
+
+                if ($value === null) {
+                    throw new InvalidArgumentException(sprintf('Missing parameter "%s"', $parameter[1]));
+                }
+
+                unset($args[$parameter[1]]);
+                $uri = str_replace($placeholder, (string) $value, $uri);
+            }
+        }
+
+        if (count($args) > 0) {
+            $uri .= (str_contains($uri, '?') ? '&' : '?') . http_build_query($args);
+        }
+
+        return $uri;
     }
 
     #[

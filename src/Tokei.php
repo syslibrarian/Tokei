@@ -10,6 +10,7 @@ use Tempest\Http\Session\Session;
 use Tempest\Intl\Translator;
 use Tokei\Component\Access\AccessControl;
 use Tokei\Extension\Twig\TokeiTwigBaseExtension;
+use Tokei\Tool\Model\RouteCollectionRegistry;
 use Twig\Environment;
 use Twig\Extension\AttributeExtension;
 use Twig\Extension\CoreExtension;
@@ -30,6 +31,7 @@ final class Tokei
         protected(set) AccessControl $accessControl,
         protected(set) Session $session,
         protected(set) Translator $translator,
+        protected(set) RouteCollectionRegistry $routeCollectionRegistry,
     ) {
         $this->extendTwig();
         $this->add('year', DateTime::now()->getYear());
@@ -48,28 +50,6 @@ final class Tokei
             decimalPoint: $this->translator->translate('tokei.number.decimal'),
             thousandSep: $this->translator->translate('tokei.number.thousands'),
         );
-    }
-
-    /**
-     * @param bool $withBase
-     * @param bool $withCurrent
-     * @param string $uri
-     * @param mixed ...$parts
-     * @return string
-     */
-    public function getUri(bool $withBase = true, bool $withCurrent = true, string $uri = '', ...$parts): string
-    {
-        $base = $this->data['route_base'] ?? '';
-        $current = $this->data['route_current'] ?? '';
-        $uri = str_starts_with($uri, '/') ? substr($uri, 1) : $uri;
-
-        $uri = ($withBase ? $base : '/') . ($withCurrent ? $current : '') . ($uri !== '' && ! str_ends_with($uri, '/') ? $uri . '/' : $uri);
-
-        foreach ($parts as $part) {
-            $uri .= $part . '/';
-        }
-
-        return $uri;
     }
 
     public function add(string $key, mixed $value): static

@@ -14,12 +14,21 @@ use Tokei\Component\Access\CreatePermission;
 use Tokei\Component\Access\DeletePermission;
 use Tokei\Component\Access\UpdatePermission;
 use Tokei\Extension\Validation\Rules\IsNotExistingRole;
+use Tokei\Model\Routes;
 
 #[
     Table(name: 'user_role'),
     CreatePermission('can_create_role'),
     UpdatePermission('can_update_role'),
     DeletePermission,
+    Routes(
+        '',
+        'list-roles',
+        'create-role',
+        'update-role/{id}',
+        'delete-role/{id}',
+        'adm'
+    )
 ]
 final class Role
 {

@@ -15,6 +15,7 @@ use Tokei\Component\Navigation\Navigation;
 use Tokei\Component\Validation\ValidationParser;
 use Tokei\Extension\Exception\NotFoundException;
 use Tokei\Tokei;
+
 use function Tempest\CommandBus\command;
 use function Tempest\Container\get;
 
@@ -48,7 +49,6 @@ trait IsAdmin
             'route_base',
             str_ends_with($baseSlug, '/') ? $baseSlug : $baseSlug . '/',
         );
-        $this->tokei->add('route_base', $this->data['route_base']);
 
         Navigation::get('adm_header')->setActiveTarget($this->getBaseSlug());
 
@@ -64,7 +64,6 @@ trait IsAdmin
             'route_current',
             str_ends_with($slug, '/') ? $slug : $slug . '/',
         );
-        $this->tokei->add('route_current', $this->data['route_current']);
 
         Navigation::get($this->getSectionNavigation())->setActiveTarget($this->getBaseSlug() . $slug);
     }
@@ -100,10 +99,15 @@ trait IsAdmin
     }
 
     abstract protected function getSectionNavigation(): string;
+
     abstract protected function registerNavigation(string $name): void;
+
     abstract protected function registerViewPath(string $namespace, string $path): void;
+
     abstract protected function getBaseSlug(): string;
+
     abstract protected function register(string $name, mixed $value): static;
+
     abstract public function setStatus(Status $status): static;
 
     /**

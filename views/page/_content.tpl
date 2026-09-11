@@ -46,11 +46,7 @@
                         <dd>{{ event.attendees|number_format }}</dd>
                     </dl>
                 </section>
-                {{ tool.modelTools(
-                    '',
-                    '',
-                    getUri(false, false, uri: 'adm/events/update/', id: event.id)
-                ) }}
+                {{ tool.modelTools(event, 'adm') }}
             </li>
         {% else %}
             <li>{{ 'no-events'|translateFull }}</li>
@@ -65,11 +61,11 @@
             <li>
                 <section class="title">
                     <h3>
-                        <a href="{{ getUri(false, false, 'adm/reports/show-report', timeCode: report.time_code, seal: report.seal) }}">
+                        <a href="{{ getUri(report, 'adm', 'view') }}">
                             {{ 'tokei.location.report_sheet'|translateFull(month: translateFull('tokei.month' ~ report.month)) }}
                         </a>
                         <span class="report-tool">
-                            <a href="{{ getUri(false, false, 'adm/reports/close-report/', month: report.month, year: report.year) }}">
+                            <a href="/adm/reports/close-report/{{ report.month }}/{{ report.year }}">
                                 {% if report.report_status == 1 %}
                                     <span class="open"></span>
                                 {% elseif report.report_status == 3 %}
@@ -95,7 +91,7 @@
                         <dd>{{ report.media_packages|number_format }}</dd>
                     </dl>
                 </section>
-                {{ tool.modelTools('', '', getUri(false, false, uri: 'adm/reports/update/', timeCode: report.time_code, seal: report.seal)) }}
+                {{ tool.modelTools(report, 'adm') }}
             </li>
         {% else %}
             <li>{{ 'tokei.location.no_reports'|translateFull }}</li>

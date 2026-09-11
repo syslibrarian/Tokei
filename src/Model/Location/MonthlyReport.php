@@ -15,6 +15,7 @@ use Tokei\Model\IsReport;
 use Tokei\Model\Located;
 use Tokei\Model\Report;
 use Tokei\Model\ReportStatus;
+use Tokei\Model\Routes;
 use Tokei\Tool\Statistic\Events;
 
 #[
@@ -22,6 +23,14 @@ use Tokei\Tool\Statistic\Events;
     CreatePermission('can_create_report'),
     UpdatePermission('can_update_report', super: 'can_close_report'),
     DeletePermission,
+    Routes(
+        'show-report/{time_code}/{seal}/',
+        '{year}/{seal}',
+        '',
+        'update/{time_code}/{seal}',
+        '',
+        'adm/reports/'
+    )
 ]
 final class MonthlyReport implements Report, Located
 {

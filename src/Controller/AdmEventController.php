@@ -23,6 +23,7 @@ use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
 use Tokei\Model\Institution\Institution;
 use Tokei\Model\Institution\Type;
+use Tokei\Model\Location\Location;
 use Tokei\Model\Location\LocationHelper;
 use Tokei\Tool\Event\DBSSection;
 use Tokei\Tool\Event\Form;
@@ -208,7 +209,7 @@ final class AdmEventController extends Controller
     public function createEvent(Request $request, string $for = 'event'): View
     {
         $this->checkModel(Event::class);
-        $location = ($this->accessControl->user->seal !== '') ? Location::select()->where('seal = ?', $this->accessControl->user->seal)->first() : null;
+        $location = $this->accessControl->user->seal !== '' ? Location::select()->where('seal = ?', $this->accessControl->user->seal)->first() : null;
         $this->setActiveSlug('create/' . ($for !== 'event' ? $for . '/' : ''));
         $form = Form::getFor($for, $location);
 

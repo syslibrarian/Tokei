@@ -12,12 +12,21 @@ use Tokei\Component\Access\CreatePermission;
 use Tokei\Component\Access\DeletePermission;
 use Tokei\Component\Access\UpdatePermission;
 use Tokei\Extension\Validation\Rules\IsNotExistingSeal;
+use Tokei\Model\Routes;
 
 #[
     Table(name: 'location'),
     CreatePermission('can_create_location'),
     UpdatePermission('can_update_location'),
     DeletePermission,
+    Routes(
+        'show-location/{seal}',
+        'list-locations',
+        'create-location',
+        'update-location/{id}',
+        'delete-location/{id}',
+        'adm/'
+    )
 ]
 final class Location
 {

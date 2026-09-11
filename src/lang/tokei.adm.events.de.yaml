@@ -51,6 +51,7 @@ tokei:
       time_factor_long: '90 Minuten'
       time_factor_normal: '60 Minuten'
       time_factor_short: '45 Minuten'
+      time_factor_tiny: '30 Minuten'
       title: 'Veranstaltungstitel'
       title_desc: ''
       title_group: 'Gruppen-, Klassen- oder Schulnamen'
