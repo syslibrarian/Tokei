@@ -25,3 +25,44 @@ namespace Tokei\str {
         return $trimmed;
     }
 }
+
+namespace Tokei\misc {
+    use InvalidArgumentException;
+    use Tokei\Tool\Model\RouteCollectionRegistry;
+    use Tokei\Tool\Model\RouteContext;
+
+    use function Tempest\Container\get;
+
+    function getUri(string|object $object, string|RouteContext $context = 'public', string $type = 'view', string $appendUri = '', mixed ...$args): string
+    {
+        return rtrim(get(RouteCollectionRegistry::class)->getUri($object, $context, $type), '/') . buildUri($appendUri, ...$args);
+    }
+
+    function buildUri(string $uri, mixed ...$args): string
+    {
+        $uri = str_starts_with($uri, '/') ? $uri : '/' . $uri;
+
+        if (str_contains($uri, '{')) {
+            $parameters = [];
+
+            preg_match_all('#{([_a-zA-Z]+[_a-zA-Z0-9]*)}#', $uri, $parameters, PREG_SET_ORDER);
+            foreach ($parameters as [$placeholder, $name]) {
+                $value = $args[$name] ?? null;
+
+                if ($value === null) {
+                    throw new InvalidArgumentException(sprintf('Missing parameter "%s"', $name));
+                }
+
+                unset($args[$name]);
+                $uri = str_replace($placeholder, (string) $value, $uri);
+            }
+        }
+
+        if (count($args) > 0) {
+            $uri .= (str_contains($uri, '?') ? '&' : '?') . http_build_query($args);
+        }
+
+        return $uri;
+    }
+}
+

@@ -12,6 +12,8 @@ use Twig\Environment;
 use Twig\Runtime\EscaperRuntime;
 
 use function Tempest\Container\get;
+use function Tokei\misc\buildUri;
+use function Tokei\misc\getUri;
 
 final class TokeiTwigBaseExtension
 {
@@ -88,45 +90,21 @@ final class TokeiTwigBaseExtension
         return $env->render('_note.tpl', ['message' => $message, 'class' => NoteTypes::get($class)]);
     }
 
-    #[AsTwigFunction('getUri', needsEnvironment: true)]
+    #[AsTwigFunction('getUri')]
     public static function getUri(
-        Environment $env,
         string|object $model,
         string $context = 'public',
         string $type = 'list',
         string $appendUri = '',
         mixed ...$args
     ): string {
-        self::checkTokei($env);
-
-        return self::$tokei->routeCollectionRegistry->getUri($model, $context, $type) . self::buildUri($appendUri, ...$args);
+        return getUri($model, $context, $type, $appendUri, ...$args);
     }
 
     #[AsTwigFunction('buildUri')]
     public static function buildUri(string $uri = '', mixed ...$args): string
     {
-        if (str_contains($uri, '{')) {
-            $parameters = [];
-
-            preg_match_all('#{([_a-zA-Z]+[_a-zA-Z0-9]*)}#', $uri, $parameters, PREG_SET_ORDER);
-            foreach ($parameters as $parameter) {
-                $placeholder = $parameter[0];
-                $value = $args[$parameter[1]] ?? null;
-
-                if ($value === null) {
-                    throw new InvalidArgumentException(sprintf('Missing parameter "%s"', $parameter[1]));
-                }
-
-                unset($args[$parameter[1]]);
-                $uri = str_replace($placeholder, (string) $value, $uri);
-            }
-        }
-
-        if (count($args) > 0) {
-            $uri .= (str_contains($uri, '?') ? '&' : '?') . http_build_query($args);
-        }
-
-        return $uri;
+        return buildUri($uri, ...$args);
     }
 
     #[

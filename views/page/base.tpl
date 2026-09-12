@@ -3,10 +3,12 @@
 <html lang="en">{# todo replace with correct language #}
     <head>
         <meta charset="UTF-8"/>
-        <title>{% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="/style/style.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        {% block meta %}{% endblock %}
+        {% block meta %}
+            {{ translateBase(intl_category ?? 'tokei') }}
+            <title>{% block title %}{% endblock %}</title>
+        {% endblock %}
     </head>
     <body>
         <div id="header">

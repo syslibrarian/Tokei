@@ -1,11 +1,6 @@
 {% extends "base.tpl" %}
-
 {% import '_content.tpl' as c %}
-
-{% block meta %}
-    {{ parent() }}
-    {{ translateBase(intl_category ?? 'tokei.adm') }}
-{% endblock %}
+{% set intl_category %}tokei.adm{% endset %}
 
 {% block header_navigation %}
     <nav>
