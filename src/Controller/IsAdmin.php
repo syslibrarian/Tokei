@@ -111,9 +111,10 @@ trait IsAdmin
     abstract public function setStatus(Status $status): static;
 
     /**
-     * @template TModel
+     * @template TModel of object
      * @param int $id
      * @param class-string<TModel> $modelClass
+     * @param AccessContext|null $context
      * @return TModel
      * @throws NotFoundException
      */
@@ -135,7 +136,7 @@ trait IsAdmin
     }
 
     /**
-     * @template TModel
+     * @template TModel of object
      * @param string $seal
      * @param class-string<TModel> $modelClass
      * @param ?string $timeCode

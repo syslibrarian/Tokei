@@ -19,6 +19,7 @@ use Tokei\Command\Institution\DeleteInstitution;
 use Tokei\Command\Institution\UpdateInstitution;
 use Tokei\Component\Access\AccessContext;
 use Tokei\Component\Access\IsAuthenticated;
+use Tokei\Extension\DateTime\DateTimeHelper;
 use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
 use Tokei\Model\Institution\Institution;
@@ -29,6 +30,7 @@ use Tokei\Tool\Event\DBSSection;
 use Tokei\Tool\Event\Form;
 use Tokei\Tool\Pagination\Pagination;
 
+use function Tempest\Container\get;
 use function Tokei\Str\trim;
 
 #[Prefix('/adm/events'), WithMiddleware(IsAuthenticated::class)]
@@ -258,12 +260,14 @@ final class AdmEventController extends Controller
         $this->setActiveSlug('update/');
         $model = $this->getModel($id, Event::class, AccessContext::UPDATE);
 
+        $defaultDateTime = get(DateTimeHelper::class);
+
         $command = new UpdateEvent(
             model: $model,
             seal: trim($request->get('seal', $model->seal)),
             type: trim($request->get('type', $model->type)),
-            startDateTime: trim($request->get('startDateTime', \DateTime::createFromTimestamp($model->time_start)->format('Y-m-d\TH:i'))),
-            endTime: trim($request->get('endTime', \DateTime::createFromTimestamp($model->time_end)->format('H:i'))),
+            startDateTime: trim($request->get('startDateTime', $defaultDateTime->formatForInput($model->time_start, true))),
+            endTime: trim($request->get('endTime', $defaultDateTime->formatTime($model->time_end, true))),
             staff: (int) $request->get('staff', $model->staff),
             staffExternal: (int) $request->get('staffExternal', $model->staff_external),
             attendees: (int) $request->get('attendees', $model->attendees),

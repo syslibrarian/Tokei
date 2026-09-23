@@ -12,6 +12,7 @@ use Tempest\Validation\Validator;
 use Tokei\Command\Event\CreateEvent;
 use Tokei\Command\Event\UpdateEvent;
 use Tokei\Command\IsHandler;
+use Tokei\Extension\DateTime\DateTimeHelper;
 use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
 use Tokei\Model\TimeCode;
@@ -30,7 +31,10 @@ final class EventHandler
         try {
             $this->checkTimeStrings($command->startDateTime, $command->endTime);
 
-            $startTime = EventHelper::convertToDateTime($command->startDateTime);
+            $startTime = get(DateTimeHelper::class)
+                ->fromInputString($command->startDateTime, true)
+                ->getTimestamp()
+                ->getSeconds();
             $endTime = EventHelper::calculateEnd($startTime, $command->endTime);
             $this->timeFlip($startTime, $endTime);
 
@@ -70,7 +74,10 @@ final class EventHandler
         $this->transaction->begin();
         try {
             $this->checkTimeStrings($command->startDateTime, $command->endTime);
-            $startTime = EventHelper::convertToDateTime($command->startDateTime);
+            $startTime = get(DefaultDateTime::class)
+                ->fromInputString($command->startDateTime, true)
+                ->getTimestamp()
+                ->getSeconds();
             $endTime = EventHelper::calculateEnd($startTime, $command->endTime);
             $this->timeFlip($startTime, $endTime);
 

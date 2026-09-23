@@ -47,7 +47,7 @@
                     </table>
                 {% endfor %}
             </div>
-            <div class="klr-print">// Letzter Abruf: {{ time|date('d.m.Y - H:i', timezone: "Europe/Berlin") }} - {{ user.name }} {{ user.surname }}</div>
+            <div class="klr-print">// Letzter Abruf: {{ time|dateLong }} - {{ user.name }} {{ user.surname }}</div>
         {% endblock %}
     </body>
 </html>

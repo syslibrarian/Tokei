@@ -7,6 +7,9 @@ namespace Tokei\Model\Event;
 use Tempest\Database\Direction;
 use Tempest\DateTime\DateTime;
 use Tempest\DateTime\Timezone;
+use Tokei\Extension\DateTime\DefaultDateTime;
+
+use function Tempest\Container\get;
 
 final class EventHelper
 {
@@ -42,12 +45,13 @@ final class EventHelper
         return $event->state === 3;
     }
 
-    public static function convertToDateTime(string $dateFromForm): int
-    {
-        $dateFromForm = str_replace('T', ' ', $dateFromForm);
-        return DateTime::fromPattern($dateFromForm, 'yyyy-MM-dd HH:mm')->getTimestamp()->getSeconds();
-    }
-
+    /**
+     * @param string|null $seal
+     * @param bool $includeEducation
+     * @param int|null $startTime
+     * @param int|null $endTime
+     * @return Event[]
+     */
     public static function getEventsByPeriod(?string $seal = '', bool $includeEducation = false, ?int $startTime = null, ?int $endTime = null): array
     {
         // now startime - last 30 days.
@@ -79,7 +83,7 @@ final class EventHelper
 
     public static function calculateEnd(int $startTime, string $endTime): int
     {
-        $startDateTime = DateTime::fromTimestamp($startTime);
+        $startDateTime = get(DefaultDateTime::class)->fromTimestamp($startTime, true);
 
         if (preg_match('#^\+([0-9]{2,3})$#u', $endTime, $timeFactor)) {
             $factor = (int) $timeFactor[1];
@@ -89,7 +93,7 @@ final class EventHelper
         list($hour, $minute) = explode(':', $endTime); // pregmatch later.
 
         $endDateTime = DateTime::fromParts(
-            Timezone::default(),
+            Timezone::UTC,
             $startDateTime->getYear(),
             $startDateTime->getMonth(),
             $startDateTime->getDay(),
