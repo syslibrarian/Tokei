@@ -19,7 +19,7 @@ use Tokei\Command\Institution\DeleteInstitution;
 use Tokei\Command\Institution\UpdateInstitution;
 use Tokei\Component\Access\AccessContext;
 use Tokei\Component\Access\IsAuthenticated;
-use Tokei\Extension\DateTime\DateTimeHelper;
+use Tokei\Extension\DateTime\DateTimeTool;
 use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
 use Tokei\Model\Institution\Institution;
@@ -260,7 +260,7 @@ final class AdmEventController extends Controller
         $this->setActiveSlug('update/');
         $model = $this->getModel($id, Event::class, AccessContext::UPDATE);
 
-        $defaultDateTime = get(DateTimeHelper::class);
+        $defaultDateTime = get(DateTimeTool::class);
 
         $command = new UpdateEvent(
             model: $model,

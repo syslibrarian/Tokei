@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tokei\Extension\Twig;
 
 use Tempest\DateTime\DateTime;
-use Tokei\Extension\DateTime\DateTimeHelper;
+use Tokei\Extension\DateTime\DateTimeTool;
 use Tokei\Extension\DateTime\DefaultDateTime;
 use Tokei\Tokei;
 use Twig\Attribute\AsTwigFilter;
@@ -127,30 +127,30 @@ final class TokeiTwigBaseExtension
     #[AsTwigFunction('dateLong'), AsTwigFilter('dateLong')]
     public static function dateLong(int $timestamp, bool $useUTC = false): string
     {
-        return(get(DateTimeHelper::class)->formatLong($timestamp, $useUTC));
+        return(get(DateTimeTool::class)->formatLong($timestamp, $useUTC));
     }
 
     #[AsTwigFunction('dateShort'), AsTwigFilter('dateShort')]
     public static function dateShort(int $timestamp, bool $useUTC = false): string
     {
-        return(get(DateTimeHelper::class)->formatShort($timestamp, $useUTC));
+        return(get(DateTimeTool::class)->formatShort($timestamp, $useUTC));
     }
 
     #[AsTwigFunction('dateTime'), AsTwigFilter('dateTime')]
     public static function dateTime(int $timestamp, bool $useUTC = false): string
     {
-        return(get(DateTimeHelper::class)->formatTime($timestamp, $useUTC));
+        return(get(DateTimeTool::class)->formatTime($timestamp, $useUTC));
     }
 
     #[AsTwigFunction('dateInput'), AsTwigFilter('dateInput')]
     public static function dateInput(int $timestamp, bool $useUTC = false): string
     {
-        return(get(DateTimeHelper::class)->formatForInput($timestamp, $useUTC));
+        return(get(DateTimeTool::class)->formatForInput($timestamp, $useUTC));
     }
 
     #[AsTwigFunction('dateFormat'), AsTwigFilter('dateFormat')]
     public static function dateFormat(int $timestamp, string $format, bool $useUTC = false): string
     {
-        return(get(DateTimeHelper::class)->format($timestamp, $format, $useUTC));
+        return(get(DateTimeTool::class)->format($timestamp, $format, $useUTC));
     }
 }

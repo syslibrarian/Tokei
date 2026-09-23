@@ -12,7 +12,7 @@ use Tempest\Validation\Validator;
 use Tokei\Command\Event\CreateEvent;
 use Tokei\Command\Event\UpdateEvent;
 use Tokei\Command\IsHandler;
-use Tokei\Extension\DateTime\DateTimeHelper;
+use Tokei\Extension\DateTime\DateTimeTool;
 use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
 use Tokei\Model\TimeCode;
@@ -31,7 +31,7 @@ final class EventHandler
         try {
             $this->checkTimeStrings($command->startDateTime, $command->endTime);
 
-            $startTime = get(DateTimeHelper::class)
+            $startTime = get(DateTimeTool::class)
                 ->fromInputString($command->startDateTime, true)
                 ->getTimestamp()
                 ->getSeconds();

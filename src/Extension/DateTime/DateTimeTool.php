@@ -9,7 +9,7 @@ use Tempest\DateTime\DateTime;
 use Tempest\DateTime\Timezone;
 
 #[Singleton]
-final class DateTimeHelper
+final class DateTimeTool
 {
     public function __construct(
         protected(set) DateTimeSettings $settings,
