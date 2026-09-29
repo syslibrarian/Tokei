@@ -9,7 +9,7 @@
     <header class="airy-header">
         <h1>
             {% block title %}{{ 'report_title'|translate(name: location.name, month: report.month, year: report.year) }}{% endblock %}
-            {{ tool.inlineTools(report, getUri(true, false, uri: '/update/', timeCode: report.time_code, seal: report.seal)) }}
+            {{ tool.inlineTools(report, 'adm') }}
         </h1>
         <span>{{ 'title_addition'|translate(seal: location.seal, code: location.klr_code) }}</span>
     </header>

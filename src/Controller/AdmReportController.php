@@ -39,13 +39,14 @@ final class AdmReportController extends Controller
     }
 
     #[Get('/{?year:[0-9]{4}}/{?seal:[0-9]{3}[a-z]?}')]
-    public function index(?int $year = null, ?string $seal = null): View
+    public function index(?int $year = null, string $seal = ''): View
     {
         $this->setActiveItem('');
         $year ??= DateTime::now()->getYear();
 
         // location is needed for check
-        if ($seal !== null) {
+        $seal = $this->locatedUser($seal);
+        if ($seal !== '') {
             $location = $this->getBySeal($seal, Location::class);
             $locations = null;
         } else {
