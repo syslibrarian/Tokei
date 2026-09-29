@@ -8,11 +8,18 @@ use Tempest\Auth\AccessControl\AccessDecision;
 use Tempest\Auth\Authentication\Authenticator;
 use Tempest\Auth\Exceptions\AccessWasDenied;
 use Tempest\Database\PrimaryKey;
+use Tokei\Model\User\Role;
 use Tokei\Model\User\User;
 
 trait IsAccessControl
 {
-    protected(set) User $user;
+    protected(set) User $user {
+        set (?User $user) {
+            $this->user = ($user !== null)
+                ? User::select()->with('role', 'role.permissions')->where('user.id = ?', $user->id->value)->first()
+                : $this->getGuest();
+        }
+    }
 
     protected function getGuest(): User
     {
@@ -23,24 +30,15 @@ trait IsAccessControl
         $guest->email = '';
         $guest->seal = 'all';
         $guest->id = new PrimaryKey(0);
-        $guest->role = null;
+        $guest->role = new Role();
+        $guest->role->name = 'Guest';
+        $guest->role->permissions = [];
 
         return $guest;
     }
 
-    protected function setUser(?User $user = null): void
-    {
-        $this->user = ($user !== null)
-            ? User::select()->with('role', 'role.permissions')->where('user.id = ?', $user->id->value)->first()
-            : $this->getGuest();
-    }
-
     public function hasPermission(?string $name): bool
     {
-        if ($this->user->role === null) {
-            return false;
-        }
-
         if ($name === '' || $name === null) {
             return true;
         }

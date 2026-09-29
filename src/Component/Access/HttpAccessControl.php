@@ -17,7 +17,8 @@ final class HttpAccessControl implements AccessControl
     public function __construct(
         Authenticator $authenticator,
     ) {
-        $this->setUser($authenticator->current());
+        $user = $authenticator->current();
+        $this->user = ($user instanceof User ? $user : null);
     }
 
     public function canCreate(string|object $modelClass): bool

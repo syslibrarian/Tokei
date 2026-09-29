@@ -54,6 +54,6 @@ final class Role
             $this->sorted = true;
         }
 
-        return $this->permissions[$name]->has();
+        return isset($this->permissions[$name]) && $this->permissions[$name]->has();
     }
 }
