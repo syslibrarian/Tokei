@@ -1,0 +1,9 @@
+tokei:
+  navigation:
+    general:
+      location_create: 'Standort anlegen'
+      location_list: 'Standorte'
+      user_add: 'Benutzer:in anlegen'
+      user_list: 'Benutzer:innen'
+      user_role_add: 'Benutzerrolle anlegen'
+      user_role_list: 'Benutzerrollen'

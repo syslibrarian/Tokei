@@ -39,7 +39,7 @@
         name: 'role',
         options: roles,
         value: user.role_id
-    )}}
+    ) }}
 
     {% if user.change_password is defined %}
         {{ f.checkbox(

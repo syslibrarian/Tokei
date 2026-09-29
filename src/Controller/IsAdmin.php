@@ -10,7 +10,7 @@ use Tempest\Validation\Exceptions\ValidationFailed;
 use Tokei\Command\Command;
 use Tokei\Command\Response;
 use Tokei\Component\Access\AccessContext;
-use Tokei\Component\Access\AccessControl;
+use Tokei\Component\Access\HttpAccessControl;
 use Tokei\Component\Navigation\Navigation;
 use Tokei\Component\Validation\ValidationParser;
 use Tokei\Extension\Exception\NotFoundException;
@@ -29,7 +29,7 @@ trait IsAdmin
         }
     }
 
-    protected AccessControl $accessControl {
+    protected HttpAccessControl $accessControl {
         get {
             return get(Tokei::class)->accessControl;
         }
@@ -44,28 +44,16 @@ trait IsAdmin
 
     protected function afterInit(): void
     {
-        $baseSlug = str_starts_with($this->getBaseSlug(), '/') ? $this->getBaseSlug() : '/' . $this->getBaseSlug();
-        $this->register(
-            'route_base',
-            str_ends_with($baseSlug, '/') ? $baseSlug : $baseSlug . '/',
-        );
-
-        Navigation::get('adm_header')->setActiveTarget($this->getBaseSlug());
+        Navigation::get('adm_header')->setActiveItem('tokei.navigation.header.' . $this->getSectionNavigation());
 
         if ($this->session->get('success')) {
             $this->setStatus(Status::SUCCESS);
         }
     }
 
-    protected function setActiveSlug(string $slug): void
+    protected function setActiveItem(string $name): void
     {
-        $this->register('route_current', $slug);
-        $this->register(
-            'route_current',
-            str_ends_with($slug, '/') ? $slug : $slug . '/',
-        );
-
-        Navigation::get($this->getSectionNavigation())->setActiveTarget($this->getBaseSlug() . $slug);
+        Navigation::get($this->getSectionNavigation())->setActiveItem('tokei.navigation.' . $name);
     }
 
     protected function executeCommand(Command $command, ?Request $request = null, ?callable $closure = null, bool $onPost = true): ?Response
@@ -97,18 +85,6 @@ trait IsAdmin
 
         return $response;
     }
-
-    abstract protected function getSectionNavigation(): string;
-
-    abstract protected function registerNavigation(string $name): void;
-
-    abstract protected function registerViewPath(string $namespace, string $path): void;
-
-    abstract protected function getBaseSlug(): string;
-
-    abstract protected function register(string $name, mixed $value): static;
-
-    abstract public function setStatus(Status $status): static;
 
     /**
      * @template TModel of object
@@ -170,4 +146,21 @@ trait IsAdmin
     {
         $this->accessControl->checkModel($model, $context);
     }
+
+    public function locatedUser(string $seal = ''): string
+    {
+        return $this->accessControl->user->seal !== 'all' ? $this->accessControl->user->seal : $seal;
+    }
+
+    abstract protected function getSectionNavigation(): string;
+
+    abstract protected function registerNavigation(string $name, ?string $as = null): void;
+
+    abstract protected function registerViewPath(string $namespace, string $path): void;
+
+    abstract protected function getBaseSlug(): string;
+
+    abstract protected function register(string $name, mixed $value): static;
+
+    abstract public function setStatus(Status $status): static;
 }

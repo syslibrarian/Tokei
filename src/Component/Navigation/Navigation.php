@@ -21,7 +21,7 @@ final class Navigation
         }
     }
 
-    private(set) string $activeTarget = '';
+    private(set) string $activeItem = '';
 
     private function __construct(
         protected string $name,
@@ -40,12 +40,12 @@ final class Navigation
 
     public function __toString(): string
     {
-        return $this->twig->render($this->navigation->view_name, ['navigation' => $this->navigation, 'activeTarget' => $this->activeTarget]);
+        return $this->twig->render($this->navigation->view_name, ['navigation' => $this->navigation, 'activeItem' => $this->activeItem]);
     }
 
-    public function setActiveTarget(string $slug): static
+    public function setActiveItem(string $name): static
     {
-        $this->activeTarget = $slug;
+        $this->activeItem = $name;
 
         return $this;
     }

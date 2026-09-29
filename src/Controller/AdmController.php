@@ -72,7 +72,7 @@ final class AdmController extends Controller
     #[Get(uri: '/list-roles/{?currentPage:[0-9]+}')]
     public function listRoles(int $currentPage = 1): View
     {
-        $this->setActiveSlug('list-roles/');
+        $this->setActiveItem('');
         $roles = Role::select()->all();
         return $this->view(
             '@adm/listRole.tpl',
@@ -87,7 +87,7 @@ final class AdmController extends Controller
     {
         $this->checkModel(Role::class);
 
-        $this->setActiveSlug('create-role/');
+        $this->setActiveItem('');
         /** @var \Tokei\Tool\Role\Permissions $permissions */
         $permissions = get(Permissions::class);
         $createRole = new CreateRole(
@@ -112,7 +112,7 @@ final class AdmController extends Controller
     #[Get(uri: '/update-role/{id:[0-9]+}'), Post(uri: '/update-role/{id:[0-9]+}')]
     public function updateRole(int $id, Request $request): View
     {
-        $this->setActiveSlug('list-roles/');
+        $this->setActiveItem('');
         $role = Role::select()->where('user_role.id = ?', $id)->with('permissions')->first();
         $this->checkModel($role);
 
@@ -151,7 +151,7 @@ final class AdmController extends Controller
     #[Get(uri: '/list-users/{?currentPage:[0-9]+}')]
     public function listUsers(int $currentPage = 1): View
     {
-        $this->setActiveSlug('list-users/');
+        $this->setActiveItem('');
 
         $userId = $this->session->get('created_id', null);
         $user = $userId !== null ? User::select()->where('id = ?', $userId)->first() : null;
@@ -180,7 +180,7 @@ final class AdmController extends Controller
     public function createUser(Request $request): View|Redirect
     {
         $this->checkModel(User::class);
-        $this->setActiveSlug('create-user/');
+        $this->setActiveItem('');
 
         $createUser = new CreateUser(
             username: trim($request->get('username', '')),
@@ -211,7 +211,7 @@ final class AdmController extends Controller
     #[Get(uri: '/update-user/{id:[0-9]+}'), Post(uri: '/update-user/{id:[0-9]+}')]
     public function updateUser(Request $request, int $id): View
     {
-        $this->setActiveSlug('update-user/');
+        $this->setActiveItem('');
 
         $user = User::select()->where('id = ?', $id)->include('email')->first();
         $this->checkModel($user);
@@ -244,12 +244,8 @@ final class AdmController extends Controller
     {
         $user = $this->getModel($id, User::class, AccessContext::DELETE);
 
-        if ($this->accessControl->isSelf($user)) {
-            $this->session->flash('error', 'no_self_delete');
-        } else {
-            $deleteUser = new DeleteUser($user);
-            command($deleteUser);
-        }
+        $deleteUser = new DeleteUser($user);
+        command($deleteUser);
 
         return $this->redirect('/adm/list-users/');
     }
@@ -274,7 +270,7 @@ final class AdmController extends Controller
     #[Get(uri: '/list-locations/{?no:[0-9]+}')]
     public function listLocations(int $currentPage = 1): View
     {
-        $this->setActiveSlug('list-locations/');
+        $this->setActiveItem('');
 
         $pagination = new Pagination(
             pageNo: $currentPage,
@@ -298,7 +294,7 @@ final class AdmController extends Controller
     public function createLocation(Request $request): View|Redirect
     {
         $this->checkModel(Location::class);
-        $this->setActiveSlug('create-location/');
+        $this->setActiveItem('');
         $createLocation = new CreateLocation(
             name: trim($request->get('name', '')),
             seal: trim($request->get('seal', '')),
@@ -328,7 +324,7 @@ final class AdmController extends Controller
     #[Get(uri: '/update-location/{id:[0-9]+}'), Post(uri: '/update-location/{id:[0-9]+}')]
     public function updateLocation(Request $request, int $id): View
     {
-        $this->setActiveSlug('list-locations/');
+        $this->setActiveItem('');
         $location = $this->getModel($id, Location::class, AccessContext::UPDATE);
 
         $updateLocation = new UpdateLocation(

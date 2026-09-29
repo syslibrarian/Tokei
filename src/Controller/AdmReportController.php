@@ -41,7 +41,7 @@ final class AdmReportController extends Controller
     #[Get('/{?year:[0-9]{4}}/{?seal:[0-9]{3}[a-z]?}')]
     public function index(?int $year = null, ?string $seal = null): View
     {
-        $this->setActiveSlug('');
+        $this->setActiveItem('');
         $year ??= DateTime::now()->getYear();
 
         // location is needed for check
@@ -85,7 +85,7 @@ final class AdmReportController extends Controller
     ]
     public function update(string $timeCode, string $seal, Request $request): View
     {
-        $this->setActiveSlug('');
+        $this->setActiveItem('');
 
         $model = $this->getBySeal($seal, MonthlyReport::class, $timeCode, AccessContext::UPDATE);
         $location = $this->getBySeal($seal, Location::class);
@@ -149,7 +149,7 @@ final class AdmReportController extends Controller
         $this->checkModel(KlrReport::class, AccessContext::UPDATE);
         [$month, $year] = $this->getTimeCode($month, $year);
 
-        if ($year > DateTime::now()->getYear() || $year === DateTime::now()->getYear() && $month >= DateTime::now()->getMonth()) {
+        if ($year > DateTime::now()->getYear() || ($year === DateTime::now()->getYear() && $month >= DateTime::now()->getMonth())) {
             $this->session->set('klr', 'error');
         } else {
             $command = new BuildFromReports($month, $year);

@@ -17,6 +17,7 @@ tokei:
     events_work_hours: 'Arbeitsstunden (gesamt)'
     fte: 'Stellen'
     fte_definition: '{$fte} - davon besetzt {$consumed}'
+    for_all: 'Alle Standorte'
     media_packages: 'Medienpakete'
     no_reports: 'Keine Monatsberichte'
     overview: 'Übersicht'

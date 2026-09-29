@@ -3,7 +3,7 @@
             {% if item.is_active and hasPermission(item.needed_permission) %}
                 <li>
                         <a href="{{ item.target }}"
-                            {% if item.target == activeTarget %}class="active"{% endif %}>
+                            {% if item.name == activeItem %}class="active"{% endif %}>
                             {{ item.name|translateFull }}
                         </a>
                 </li>

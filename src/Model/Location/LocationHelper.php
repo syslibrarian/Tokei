@@ -16,13 +16,16 @@ final class LocationHelper
             ->execute() > 0;
     }
 
-    public static function getLocationsForForm(bool $withBase = false): \Generator
+    public static function getLocationsForForm(bool $withBase = false, string $seal = ''): \Generator
     {
         if ($withBase === true) {
-            yield ['name' => 'tokei.adm.location.for_all', 'value' => ''];
+            yield ['name' => 'tokei.adm.location.for_all', 'value' => 'all'];
         }
 
-        $locations = Location::all();
+        $locations =
+            ($seal !== '')
+                ? Location::select()->where('seal = ?', $seal)->all()
+                : Location::all();
         foreach ($locations as $location) {
             yield ['name' => $location->name, 'value' => $location->seal];
         }

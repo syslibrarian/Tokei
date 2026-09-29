@@ -3,9 +3,9 @@
         {% if model.modified or model.created %}
             {# System workds best in UTC #}
             {% if model.modified %}
-                {{ 'tokei.adm.modified'|translateFull(date: model.modified|dateLong)) }}
+                {{ 'tokei.adm.modified'|translateFull(date: model.modified|dateLong) }}
             {% elseif model.created %}
-                {{ 'tokei.adm.created'|translateFull(date: model.created|dateLong)) }}
+                {{ 'tokei.adm.created'|translateFull(date: model.created|dateLong) }}
             {% endif %}
         {% endif %}
     </span>

@@ -12,6 +12,7 @@ use Tempest\Database\Table;
 use Tempest\Mapper\Hidden;
 use Tempest\Validation\Rules\IsEmail;
 use Tempest\Validation\Rules\IsNotEmptyString;
+use Tempest\Validation\SkipValidation;
 use Tokei\Component\Access\CreatePermission;
 use Tokei\Component\Access\DeletePermission;
 use Tokei\Component\Access\UpdatePermission;

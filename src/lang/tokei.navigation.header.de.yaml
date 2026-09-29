@@ -1,0 +1,6 @@
+tokei:
+  navigation:
+    header:
+      adm_general: 'Allgemein'
+      adm_events: 'Veranstaltungen'
+      adm_reports: 'Statistik'

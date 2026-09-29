@@ -7,7 +7,7 @@ namespace Tokei\Model\Event;
 use Tempest\Database\Direction;
 use Tempest\DateTime\DateTime;
 use Tempest\DateTime\Timezone;
-use Tokei\Extension\DateTime\DefaultDateTime;
+use Tokei\Extension\DateTime\DateTimetool;
 
 use function Tempest\Container\get;
 
@@ -83,7 +83,7 @@ final class EventHelper
 
     public static function calculateEnd(int $startTime, string $endTime): int
     {
-        $startDateTime = get(DefaultDateTime::class)->fromTimestamp($startTime, true);
+        $startDateTime = get(DateTimeTool::class)->fromTimestamp($startTime, true);
 
         if (preg_match('#^\+([0-9]{2,3})$#u', $endTime, $timeFactor)) {
             $factor = (int) $timeFactor[1];

@@ -6,10 +6,12 @@ namespace Tokei\Command\Event;
 
 use Tokei\Command\Command;
 use Tokei\Command\IsResetable;
+use Tokei\Model\Event\Event;
 
 final class CreateEvent implements Command
 {
     use IsResetable;
+    public string $modelClass = Event::class;
 
     public function __construct(
         public string $seal = '',

@@ -10,5 +10,5 @@ interface Permission
     public string $super { get; }
     public int $timeLimit { get; }
 
-    public function check(?AccessControl $accessControl, ?object $model = null): bool;
+    public function check(?HttpAccessControl $accessControl, ?object $model = null): bool;
 }

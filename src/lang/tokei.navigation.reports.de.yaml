@@ -1,0 +1,5 @@
+tokei:
+  navigation:
+    reports:
+      klr: 'KLR'
+      list: 'Monatsblätter'

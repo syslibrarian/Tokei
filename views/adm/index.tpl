@@ -1,6 +1,6 @@
 {% extends "base.tpl" %}
 {% import '_content.tpl' as c %}
-{% set intl_category %}tokei.adm{% endset %}
+{% set intl_category = intl_category ?? 'tokei.adm' %}
 
 {% block header_navigation %}
     <nav>

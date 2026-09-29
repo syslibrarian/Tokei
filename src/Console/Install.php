@@ -59,32 +59,32 @@ final class Install
 
         $navigation = Navigation::select()->where('name = ?', 'adm_header')->first();
 
-        Item::create(name: 'tokei.adm.navigation.general.main', target: '/adm/', position: 1, navigation_id: $navigation->id->value);
-        Item::create(name: 'tokei.adm.navigation.events.main', target: '/adm/events/', position: 2, navigation_id: $navigation->id->value);
-        Item::create(name: 'tokei.adm.navigation.reports.main', target: '/adm/reports/', position: 3, navigation_id: $navigation->id->value);
+        Item::create(name: 'tokei.navigation.header.adm_general', target: '/adm/', position: 1, navigation_id: $navigation->id->value);
+        Item::create(name: 'tokei.navigation.header.adm_events', target: '/adm/events/', position: 2, navigation_id: $navigation->id->value);
+        Item::create(name: 'tokei.navigation.header.adm_reports', target: '/adm/reports/', position: 3, navigation_id: $navigation->id->value);
 
         $navigation = Navigation::select()->where('name = ?', 'adm_general')->first();
 
-        Item::create(name: 'tokei.adm.navigation.general.location_list', target: '/adm/list-locations/', position: 1, navigation_id: (int) $navigation->id->value);
-        Item::create(name: 'tokei.adm.navigation.general.location_create', target: '/adm/create-location/', position: 2, navigation_id: (int) $navigation->id->value);
-        Item::create(name: 'tokei.adm.navigation.general.user_role_list', target: '/adm/list-roles/', position: 3, navigation_id: (int) $navigation->id->value);
-        Item::create(name: 'tokei.adm.navigation.general.user_role_add', target: '/adm/create-role/', position: 4, navigation_id: (int) $navigation->id->value);
-        Item::create(name: 'tokei.adm.navigation.general.user_list', target: '/adm/list-users/', position: 5, navigation_id: (int) $navigation->id->value);
-        Item::create(name: 'tokei.adm.navigation.general.user_add', target: '/adm/create-user/', position: 6, navigation_id: (int) $navigation->id->value);
+        Item::create(name: 'tokei.navigation.general.location_list', target: '/adm/list-locations/', position: 1, navigation_id: (int) $navigation->id->value);
+        Item::create(name: 'tokei.navigation.general.location_create', target: '/adm/create-location/', position: 2, navigation_id: (int) $navigation->id->value);
+        Item::create(name: 'tokei.navigation.general.user_role_list', target: '/adm/list-roles/', position: 3, navigation_id: (int) $navigation->id->value);
+        Item::create(name: 'tokei.navigation.general.user_role_add', target: '/adm/create-role/', position: 4, navigation_id: (int) $navigation->id->value);
+        Item::create(name: 'tokei.navigation.general.user_list', target: '/adm/list-users/', position: 5, navigation_id: (int) $navigation->id->value);
+        Item::create(name: 'tokei.navigation.general.user_add', target: '/adm/create-user/', position: 6, navigation_id: (int) $navigation->id->value);
 
         $navigation = Navigation::select()->where('name = ?', 'adm_events')->first();
 
-        Item::create(name: 'tokei.adm.navigation.events.list', target: '/adm/events/list/', position: 1, navigation_id: $navigation->id->value);
-        Item::create(name: 'tokei.adm.navigation.events.create', target: '/adm/events/create/', position: 2, navigation_id: $navigation->id->value);
-        Item::create(name: 'tokei.adm.navigation.events.create_pre_school', target: '/adm/events/create/pre-school/', position: 3, navigation_id: $navigation->id->value);
-        Item::create(name: 'tokei.adm.navigation.events.create_school', target: '/adm/events/create/school/', position: 4, navigation_id: $navigation->id->value);
-        Item::create(name: 'tokei.adm.navigation.events.institution_list', target: '/adm/events/list-institutions/', position: 5, navigation_id: $navigation->id->value);
-        Item::create(name: 'tokei.adm.navigation.events.institution_create', target: '/adm/events/create-institution/', position: 6, navigation_id: $navigation->id->value);
+        Item::create(name: 'tokei.navigation.events.list', target: '/adm/events/', position: 1, navigation_id: $navigation->id->value);
+        Item::create(name: 'tokei.navigation.events.create', target: '/adm/events/create/', position: 2, navigation_id: $navigation->id->value);
+        Item::create(name: 'tokei.navigation.events.create_pre_school', target: '/adm/events/create/pre-school/', position: 3, navigation_id: $navigation->id->value);
+        Item::create(name: 'tokei.navigation.events.create_school', target: '/adm/events/create/school/', position: 4, navigation_id: $navigation->id->value);
+        Item::create(name: 'tokei.navigation.events.institution_list', target: '/adm/events/list-institutions/', position: 5, navigation_id: $navigation->id->value);
+        Item::create(name: 'tokei.navigation.events.institution_create', target: '/adm/events/create-institution/', position: 6, navigation_id: $navigation->id->value);
 
         $navigation = Navigation::select()->where('name = ?', 'adm_reports')->first();
 
-        Item::create(name: 'tokei.adm.navigation.reports.list', target: '/adm/reports/', position: 1, navigation_id: $navigation->id->value);
-        Item::create(name: 'tokei.adm.navigation.reports.klr', target: '/adm/reports/klr/', position: 2, navigation_id: $navigation->id->value);
+        Item::create(name: 'tokei.navigation.reports.list', target: '/adm/reports/', position: 1, navigation_id: $navigation->id->value);
+        Item::create(name: 'tokei.navigation.reports.klr', target: '/adm/reports/klr/', position: 2, navigation_id: $navigation->id->value);
 
         $permissions = new Permissions();
         $user_role = new CreateRole(
@@ -111,5 +111,6 @@ final class Install
         );
 
         $this->commandBus->dispatch($createUser);
+        $this->console->info('Finish installing tokei:create-admin');
     }
 }

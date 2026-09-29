@@ -52,46 +52,15 @@ final class AdmEventController extends Controller
         Get(uri: '/{?seal:[0-9]{3}[a-z]?}/{?no:[0-9]+}/'),
         Get(uri: '/{no:[0-9]+}/'),
     ]
-    public function index(?string $seal = null, int $no = 1): View
+    public function index(string $seal = '', int $no = 1): View
     {
-        $this->setActiveSlug('list/');
-        $location = $seal !== null ? $this->getBySeal($seal, Event::class) : null;
+        $this->setActiveItem('');
+        $seal = $this->locatedUser($seal);
+        $location = $seal !== '' ? $this->getBySeal($seal, Location::class) : null;
 
         $pagination = new Pagination(
             pageNo: $no,
-            maxItems: $location === null ? Event::count()->execute() : Event::count()->where('seal', $location->seal)->execute(),
-            uri: $this->getBaseSlug() . ($location !== null ? $location->seal . '/' : '') . '{no}',
-        );
-
-        $eventsRaw = Event::select();
-        if ($location !== null) {
-            $eventsRaw = $eventsRaw->where('seal', $location->seal);
-        }
-        $eventsRaw
-            ->orderBy('time_start', Direction::DESC)
-            ->offset($pagination->offset)
-            ->limit($pagination->limit);
-
-        return $this->view(
-            '@adm/events.tpl',
-            pagination: $pagination,
-            location: $location,
-            events: $eventsRaw->all(),
-        );
-    }
-
-    #[
-        Get(uri: '/list/{?seal:[0-9]{3}[a-z]?}/{?no:[0-9]+}/'),
-        Get(uri: '/list/{no:[0-9]+}/'),
-    ]
-    public function list(?string $seal = null, int $no = 1): View
-    {
-        $this->setACtiveSlug('list/');
-        $location = $seal !== null ? $this->getBySeal($seal, Event::class) : null;
-
-        $pagination = new Pagination(
-            pageNo: $no,
-            maxItems: $location === null ? Event::count()->execute() : Event::count()->where('seal', $location->seal)->execute(),
+            maxItems: $location === null ? Event::count()->execute() : Event::count()->where('seal = ?', $location->seal)->execute(),
             uri: $this->getBaseSlug() . ($location !== null ? $location->seal . '/' : '') . '{no}',
         );
 
@@ -115,15 +84,22 @@ final class AdmEventController extends Controller
     #[Get(uri: '/list-institutions/{?no:[0-9]+}/')]
     public function listInstitutions(int $no = 0): View
     {
-        $this->setActiveSlug('list-institutions/');
+        $this->setActiveItem('');
+
+        $seal = $this->locatedUser('');
+        $location = $seal !== '' ? $this->getBySeal($seal, Location::class) : null;
+
         $pagination = new Pagination(
             pageNo: $no,
-            maxItems: Institution::count()->execute(),
+            maxItems: $location === null ? Institution::count()->execute() : Institution::count()->where('seal = ?', $location->seal)->execute(),
             uri: $this->getBaseSlug() . 'list-institutions/{no}',
         );
 
-        $institutions = Institution::select()
-            ->offset($pagination->offset)
+        $institutionsRaw = Institution::select();
+        if ($location !== null) {
+            $institutionsRaw = $institutionsRaw->where('seal = ?', $location->seal);
+        }
+        $institutions = $institutionsRaw->offset($pagination->offset)
             ->limit($pagination->limit)
             ->all();
 
@@ -138,14 +114,14 @@ final class AdmEventController extends Controller
     public function createInstitution(Request $request): View|Redirect
     {
         $this->checkModel(Institution::class);
-        $this->setActiveSlug('create-institution/');
+        $this->setActiveItem('');
 
         $institution = new CreateInstitution(
             name: trim($request->get('name', '')),
             educator: trim($request->get('educator', '')),
             email: trim($request->get('email', '')),
             phone: trim($request->get('phone', '')),
-            seal: trim($request->get('seal', '')),
+            seal: trim($request->get('seal', $this->locatedUser())),
             type: trim($request->get('type', '')),
             postalCode: trim($request->get('postal_code', '')),
         );
@@ -164,7 +140,7 @@ final class AdmEventController extends Controller
     #[Get(uri: '/update-institution/{id:[0-9]+}/'), Post(uri: '/update-institution/{id:[0-9]+}/')]
     public function updateInstitution(Request $request, int $id): View
     {
-        $this->setActiveSlug('list-institutions/');
+        $this->setActiveItem('');
         $model = $this->getModel($id, Institution::class, AccessContext::UPDATE);
 
         $institution = new UpdateInstitution(
@@ -210,13 +186,13 @@ final class AdmEventController extends Controller
     ]
     public function createEvent(Request $request, string $for = 'event'): View
     {
+        $this->setActiveItem('');
         $this->checkModel(Event::class);
-        $location = $this->accessControl->user->seal !== '' ? Location::select()->where('seal = ?', $this->accessControl->user->seal)->first() : null;
-        $this->setActiveSlug('create/' . ($for !== 'event' ? $for . '/' : ''));
+        $location = $this->locatedUser() !== '' ? Location::select()->where('seal = ?', $this->accessControl->user->seal)->first() : null;
         $form = Form::getFor($for, $location);
 
         $command = new CreateEvent(
-            seal: trim($request->get('seal', '')), // later here seal from user object
+            seal: trim($request->get('seal', $this->locatedUser())),
             type: trim($request->get('type', '')),
             startDateTime: trim($request->get('startDateTime', '')),
             endTime: trim($request->get('endTime', '')),
@@ -239,7 +215,7 @@ final class AdmEventController extends Controller
         return $this->view(
             '@adm/createEvent.tpl',
             event: $command,
-            locations: LocationHelper::getLocationsForForm(),
+            locations: LocationHelper::getLocationsForForm(false, $this->locatedUser()),
             types: $form->getTypes(),
             states: EventHelper::getStateForForm(),
             onlineStates: EventHelper::getOnlineForForm(),
@@ -257,7 +233,7 @@ final class AdmEventController extends Controller
     #[Get(uri: '/update/{id:[0-9]+}/'), Post(uri: '/update/{id:[0-9]+}/')]
     public function updateEvent(Request $request, int $id): View
     {
-        $this->setActiveSlug('update/');
+        $this->setActiveItem('');
         $model = $this->getModel($id, Event::class, AccessContext::UPDATE);
 
         $defaultDateTime = get(DateTimeTool::class);

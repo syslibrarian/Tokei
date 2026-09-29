@@ -8,7 +8,7 @@ use Tempest\Container\Singleton;
 use Tempest\DateTime\DateTime;
 use Tempest\Http\Session\Session;
 use Tempest\Intl\Translator;
-use Tokei\Component\Access\AccessControl;
+use Tokei\Component\Access\HttpAccessControl;
 use Tokei\Extension\Twig\TokeiTwigBaseExtension;
 use Tokei\Tool\Model\RouteCollectionRegistry;
 use Twig\Environment;
@@ -27,10 +27,10 @@ final class Tokei
     public array $data = [];
 
     public function __construct(
-        protected(set) Environment $twig,
-        protected(set) AccessControl $accessControl,
-        protected(set) Session $session,
-        protected(set) Translator $translator,
+        protected(set) Environment             $twig,
+        protected(set) HttpAccessControl       $accessControl,
+        protected(set) Session                 $session,
+        protected(set) Translator              $translator,
         protected(set) RouteCollectionRegistry $routeCollectionRegistry,
     ) {
         $this->extendTwig();

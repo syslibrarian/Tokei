@@ -12,6 +12,6 @@ final class IsExistingSeal implements Rule
 {
     public function isValid(mixed $value): bool
     {
-        return $value === '' || LocationHelper::isExistingSeal($value);
+        return $value === 'all' || LocationHelper::isExistingSeal($value);
     }
 }

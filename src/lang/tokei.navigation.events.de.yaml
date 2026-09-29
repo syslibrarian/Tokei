@@ -1,0 +1,9 @@
+tokei:
+  navigation:
+    events:
+      create: 'Veranstaltung eintragen'
+      create_pre_school: 'Kitaführung eintragen'
+      create_school: 'Klassenführung eintragen'
+      institution_create: 'Gruppe/Klasse anlegen'
+      institution_list: 'Gruppen/Klassen'
+      list: 'Veranstaltungen'

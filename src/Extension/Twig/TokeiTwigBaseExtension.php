@@ -22,64 +22,34 @@ final class TokeiTwigBaseExtension
     private static ?Tokei $tokei = null;
     private static ?string $translateBase = null;
 
-    private static function checkTokei(Environment $env): void
+    private static function checkTokei(): void
     {
         if (self::$tokei === null) {
-            self::$tokei = $env->getGlobals()['_tokei'] ?? get(Tokei::class);
+            self::$tokei = get(Tokei::class);
         }
     }
 
-    #[AsTwigFunction('hasPermission', needsEnvironment: true)]
-    public static function hasPermission(Environment $env, ?string $name): bool
+    #[AsTwigFunction('hasPermission')]
+    public static function hasPermission(?string $name): bool
     {
-        self::checkTokei($env);
-
+        self::checkTokei();
         return self::$tokei->accessControl->hasPermission($name);
     }
 
-    #[AsTwigFunction('canUpdate', needsEnvironment: true)]
-    public static function canUpdate(Environment $env, string|object $model): bool
+    #[AsTwigFunction('canUpdate')]
+    public static function canUpdate(string|object $model): bool
     {
-        self::checkTokei($env);
+        self::checkTokei();
 
         return self::$tokei->accessControl->canUpdate($model);
     }
 
-    #[AsTwigFunction('canDelete', needsEnvironment: true)]
-    public static function canDelete(Environment $env, string|object $model): bool
+    #[AsTwigFunction('canDelete')]
+    public static function canDelete(string|object $model): bool
     {
-        self::checkTokei($env);
+        self::checkTokei();
 
         return self::$tokei->accessControl->canDelete($model);
-    }
-
-    #[
-        AsTwigFilter('translateFull', needsEnvironment: true, isSafe: ['html']),
-        AsTwigFunction('translateFull', needsEnvironment: true, isSafe: ['html']),
-    ]
-    public static function translateFull(Environment $env, string $key, mixed ...$args): string
-    {
-        self::checkTokei($env);
-
-        return self::$tokei->translator->translate($key, ...$args);
-    }
-
-    #[
-        AsTwigFilter('translateSecure', needsEnvironment: true, isSafe: ['html']),
-        AsTwigFunction('translateSecure', needsEnvironment: true, isSafe: ['html']),
-    ]
-    public static function translateSecure(
-        Environment $env,
-        string $key,
-        bool $full = false,
-        string $context = 'html',
-        mixed ...$args,
-    ): string {
-        return $env->getRuntime(EscaperRuntime::class)
-            ->escape(
-                $full ? self::translateFull($env, $key, ...$args) : self::translate($env, $key, ...$args),
-                $context,
-            );
     }
 
     #[AsTwigFunction('note', needsEnvironment: true, isSafe: ['html'])]
@@ -110,12 +80,42 @@ final class TokeiTwigBaseExtension
     }
 
     #[
-        AsTwigFilter('translate', needsEnvironment: true, isSafe: ['html']),
-        AsTwigFunction('translate', needsEnvironment: true, isSafe: ['html']),
+        AsTwigFilter('translateFull', isSafe: ['html']),
+        AsTwigFunction('translateFull', isSafe: ['html']),
     ]
-    public static function translate(Environment $env, string $key, mixed ...$args): string
+    public static function translateFull(string $key, mixed ...$args): string
     {
-        return self::translateFull($env, (self::$translateBase ?? 'tokei') . '.' . $key, ...$args);
+        self::checkTokei();
+
+        return self::$tokei->translator->translate($key, ...$args);
+    }
+
+    #[
+        AsTwigFilter('translateSecure', needsEnvironment: true, isSafe: ['html']),
+        AsTwigFunction('translateSecure', needsEnvironment: true, isSafe: ['html']),
+    ]
+    public static function translateSecure(
+        Environment $env,
+        string $key,
+        bool $full = false,
+        string $context = 'html',
+        mixed ...$args,
+    ): string {
+        return $env->getRuntime(EscaperRuntime::class)
+            ->escape(
+                $full ? self::translateFull($key, ...$args) : self::translate($key, ...$args),
+                $context,
+            );
+    }
+
+    #[
+        AsTwigFilter('translate', isSafe: ['html']),
+        AsTwigFunction('translate', isSafe: ['html']),
+    ]
+    public static function translate(string $key, mixed ...$args): string
+    {
+        $key = (self::$translateBase ?? 'tokei') . '.' . $key;
+        return self::translateFull($key, ...$args);
     }
 
     #[AsTwigFunction('translateBase')]

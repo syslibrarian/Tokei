@@ -74,7 +74,7 @@ final class EventHandler
         $this->transaction->begin();
         try {
             $this->checkTimeStrings($command->startDateTime, $command->endTime);
-            $startTime = get(DefaultDateTime::class)
+            $startTime = get(DateTimeTool::class)
                 ->fromInputString($command->startDateTime, true)
                 ->getTimestamp()
                 ->getSeconds();

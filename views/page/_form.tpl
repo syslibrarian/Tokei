@@ -48,7 +48,7 @@
                 </label>
             </div>
             <div class="field">
-                <input id="{{ name }}-view" type="text" value="{{ value }}" disabled>
+                <input id="{{ name }}-view" type="text" value="{{ show|translateFull }}" disabled>
             </div>
             <div class="description">
                 <span>
@@ -103,11 +103,11 @@
         <div class="field">
             <select name="{{ name }}" id="{{ name }}-id">
                 {% for option in options %}
-                    {% if option is iterable %}
-                        <option value="{{ option.value }}"{% if option.value == value %} selected{% endif %}>{{ option.name|translateFull }}</option>
+                    {% if option.name and option.value %}
+                        <option value="{{ option.value }}"{% if option.value == value %} selected{% endif %}>{{ (option.name)|translateFull }}</option>
                     {% else %}
                         <option value="{{ option }}"{% if option == value %} selected{% endif %}>{{ option }}</option>
-                     {% endif %}
+                    {% endif %}
                 {% endfor %}
             </select>
         </div>

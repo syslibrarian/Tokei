@@ -33,7 +33,7 @@
 
     <div class="content report">
         <header>
-            <h2>{{ 'report_last'|translate }}{{ t.inlineTools(lastReport, 'adm') }}</h2>
+            <h2>{{ 'report_last'|translate }}{% if lastReport %}{{ t.inlineTools(lastReport, 'adm') }}{% endif %}</h2>
         </header>
         {{ printContent.reportSheet(lastReport) }}
     </div>
