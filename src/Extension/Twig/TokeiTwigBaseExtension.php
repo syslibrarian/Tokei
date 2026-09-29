@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Tokei\Extension\Twig;
 
-use Tempest\DateTime\DateTime;
 use Tokei\Extension\DateTime\DateTimeTool;
-use Tokei\Extension\DateTime\DefaultDateTime;
 use Tokei\Tokei;
 use Twig\Attribute\AsTwigFilter;
 use Twig\Attribute\AsTwigFunction;

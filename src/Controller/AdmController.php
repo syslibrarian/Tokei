@@ -72,7 +72,7 @@ final class AdmController extends Controller
     #[Get(uri: '/list-roles/{?currentPage:[0-9]+}')]
     public function listRoles(int $currentPage = 1): View
     {
-        $this->setActiveItem('');
+        $this->setActiveItem('general.user_role_list');
         $roles = Role::select()->all();
         return $this->view(
             '@adm/listRole.tpl',
@@ -85,9 +85,9 @@ final class AdmController extends Controller
     #[Get(uri: '/create-role'), Post(uri: '/create-role')]
     public function createRole(Request $request): View|Redirect
     {
-        $this->checkModel(Role::class);
+        $this->setActiveItem('general.user_role_add');
 
-        $this->setActiveItem('');
+        $this->checkModel(Role::class);
         /** @var \Tokei\Tool\Role\Permissions $permissions */
         $permissions = get(Permissions::class);
         $createRole = new CreateRole(
@@ -112,7 +112,7 @@ final class AdmController extends Controller
     #[Get(uri: '/update-role/{id:[0-9]+}'), Post(uri: '/update-role/{id:[0-9]+}')]
     public function updateRole(int $id, Request $request): View
     {
-        $this->setActiveItem('');
+        $this->setActiveItem('general.user_role_list');
         $role = Role::select()->where('user_role.id = ?', $id)->with('permissions')->first();
         $this->checkModel($role);
 
@@ -151,7 +151,7 @@ final class AdmController extends Controller
     #[Get(uri: '/list-users/{?currentPage:[0-9]+}')]
     public function listUsers(int $currentPage = 1): View
     {
-        $this->setActiveItem('');
+        $this->setActiveItem('general.user_list');
 
         $userId = $this->session->get('created_id', null);
         $user = $userId !== null ? User::select()->where('id = ?', $userId)->first() : null;
@@ -180,7 +180,7 @@ final class AdmController extends Controller
     public function createUser(Request $request): View|Redirect
     {
         $this->checkModel(User::class);
-        $this->setActiveItem('');
+        $this->setActiveItem('general.user_add');
 
         $createUser = new CreateUser(
             username: trim($request->get('username', '')),
@@ -211,7 +211,7 @@ final class AdmController extends Controller
     #[Get(uri: '/update-user/{id:[0-9]+}'), Post(uri: '/update-user/{id:[0-9]+}')]
     public function updateUser(Request $request, int $id): View
     {
-        $this->setActiveItem('');
+        $this->setActiveItem('general.user_list');
 
         $user = User::select()->where('id = ?', $id)->include('email')->first();
         $this->checkModel($user);
@@ -253,6 +253,7 @@ final class AdmController extends Controller
     #[Get(uri: '/show-location/{seal:[0-9]{3}[a-z]?}/')]
     public function showLocation(string $seal): View
     {
+        $this->setActiveItem('general.location_list');
         $location = $this->getBySeal($seal, Location::class);
         $events = EventHelper::getEventsByPeriod($location->seal);
         $reports = ReportHelper::getFor($location->seal);
@@ -270,7 +271,7 @@ final class AdmController extends Controller
     #[Get(uri: '/list-locations/{?no:[0-9]+}')]
     public function listLocations(int $currentPage = 1): View
     {
-        $this->setActiveItem('');
+        $this->setActiveItem('general.location_list');
 
         $pagination = new Pagination(
             pageNo: $currentPage,
@@ -294,7 +295,7 @@ final class AdmController extends Controller
     public function createLocation(Request $request): View|Redirect
     {
         $this->checkModel(Location::class);
-        $this->setActiveItem('');
+        $this->setActiveItem('general.location_create');
         $createLocation = new CreateLocation(
             name: trim($request->get('name', '')),
             seal: trim($request->get('seal', '')),
@@ -324,7 +325,7 @@ final class AdmController extends Controller
     #[Get(uri: '/update-location/{id:[0-9]+}'), Post(uri: '/update-location/{id:[0-9]+}')]
     public function updateLocation(Request $request, int $id): View
     {
-        $this->setActiveItem('');
+        $this->setActiveItem('general.location_list');
         $location = $this->getModel($id, Location::class, AccessContext::UPDATE);
 
         $updateLocation = new UpdateLocation(

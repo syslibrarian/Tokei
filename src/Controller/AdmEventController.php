@@ -31,6 +31,7 @@ use Tokei\Tool\Event\Form;
 use Tokei\Tool\Pagination\Pagination;
 
 use function Tempest\Container\get;
+use function Tokei\misc\getUri;
 use function Tokei\Str\trim;
 
 #[Prefix('/adm/events'), WithMiddleware(IsAuthenticated::class)]
@@ -54,7 +55,7 @@ final class AdmEventController extends Controller
     ]
     public function index(string $seal = '', int $no = 1): View
     {
-        $this->setActiveItem('');
+        $this->setActiveItem('events.list');
         $seal = $this->locatedUser($seal);
         $location = $seal !== '' ? $this->getBySeal($seal, Location::class) : null;
 
@@ -84,7 +85,7 @@ final class AdmEventController extends Controller
     #[Get(uri: '/list-institutions/{?no:[0-9]+}/')]
     public function listInstitutions(int $no = 0): View
     {
-        $this->setActiveItem('');
+        $this->setActiveItem('events.institution_list');
 
         $seal = $this->locatedUser('');
         $location = $seal !== '' ? $this->getBySeal($seal, Location::class) : null;
@@ -114,7 +115,7 @@ final class AdmEventController extends Controller
     public function createInstitution(Request $request): View|Redirect
     {
         $this->checkModel(Institution::class);
-        $this->setActiveItem('');
+        $this->setActiveItem('events.institution_create');
 
         $institution = new CreateInstitution(
             name: trim($request->get('name', '')),
@@ -140,7 +141,7 @@ final class AdmEventController extends Controller
     #[Get(uri: '/update-institution/{id:[0-9]+}/'), Post(uri: '/update-institution/{id:[0-9]+}/')]
     public function updateInstitution(Request $request, int $id): View
     {
-        $this->setActiveItem('');
+        $this->setActiveItem('events.institution_list');
         $model = $this->getModel($id, Institution::class, AccessContext::UPDATE);
 
         $institution = new UpdateInstitution(
@@ -177,7 +178,7 @@ final class AdmEventController extends Controller
 
         $response = $this->executeCommand($institution, onPost: false);
 
-        return $this->redirect($this->getBaseSlug() . 'list-institutions/');
+        return $this->redirect(getUri(Institution::class, 'adm', 'list'));
     }
 
     #[
@@ -186,7 +187,7 @@ final class AdmEventController extends Controller
     ]
     public function createEvent(Request $request, string $for = 'event'): View
     {
-        $this->setActiveItem('');
+        $this->setActiveItem('events.create' . ($for !== 'event' ? '_' . str_replace('-', '_', $for) : ''));
         $this->checkModel(Event::class);
         $location = $this->locatedUser() !== '' ? Location::select()->where('seal = ?', $this->accessControl->user->seal)->first() : null;
         $form = Form::getFor($for, $location);
@@ -207,10 +208,6 @@ final class AdmEventController extends Controller
         );
 
         $response = $this->executeCommand($command, $request);
-
-        if ($response?->value instanceof Event) {
-            $command->reset();
-        }
 
         return $this->view(
             '@adm/createEvent.tpl',
@@ -233,7 +230,7 @@ final class AdmEventController extends Controller
     #[Get(uri: '/update/{id:[0-9]+}/'), Post(uri: '/update/{id:[0-9]+}/')]
     public function updateEvent(Request $request, int $id): View
     {
-        $this->setActiveItem('');
+        $this->setActiveItem('events.list');
         $model = $this->getModel($id, Event::class, AccessContext::UPDATE);
 
         $defaultDateTime = get(DateTimeTool::class);

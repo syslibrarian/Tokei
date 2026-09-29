@@ -8,6 +8,7 @@ use Tempest\Http\Method;
 use Tempest\Http\Request;
 use Tempest\Validation\Exceptions\ValidationFailed;
 use Tokei\Command\Command;
+use Tokei\Command\Resettable;
 use Tokei\Command\Response;
 use Tokei\Component\Access\AccessContext;
 use Tokei\Component\Access\HttpAccessControl;
@@ -81,6 +82,10 @@ trait IsAdmin
 
         if ($closure !== null) {
             $closure($command, $response);
+        }
+
+        if ($command instanceof Resettable) {
+            $command->reset();
         }
 
         return $response;

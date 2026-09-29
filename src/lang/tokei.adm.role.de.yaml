@@ -34,3 +34,4 @@ tokei:
       name: 'Name'
       name_desc: ''
       super: 'Administrationsrechte'
+      update: 'Rolle ({$name}) bearbeiten'

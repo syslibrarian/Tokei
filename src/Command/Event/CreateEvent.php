@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Tokei\Command\Event;
 
 use Tokei\Command\Command;
-use Tokei\Command\IsResetable;
+use Tokei\Command\IsResettable;
+use Tokei\Command\Resettable;
 use Tokei\Model\Event\Event;
 
-final class CreateEvent implements Command
+final class CreateEvent implements Resettable
 {
-    use IsResetable;
+    use IsResettable;
     public string $modelClass = Event::class;
 
     public function __construct(

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tokei\Command;
 
-trait IsResetable
+trait IsResettable
 {
     public function reset(...$overrideDefaults): void
     {
