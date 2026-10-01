@@ -78,8 +78,8 @@ final class Install
 
         Item::create(name: 'tokei.navigation.events.list', target: '/adm/events/', position: 1, navigation_id: $navigation->id->value);
         Item::create(name: 'tokei.navigation.events.create', target: '/adm/events/create/', position: 2, navigation_id: $navigation->id->value);
-        Item::create(name: 'tokei.navigation.events.create_pre_school', target: '/adm/events/create/pre-school/', position: 3, navigation_id: $navigation->id->value);
-        Item::create(name: 'tokei.navigation.events.create_school', target: '/adm/events/create/school/', position: 4, navigation_id: $navigation->id->value);
+        Item::create(name: 'tokei.navigation.events.create_pre_school', target: '/adm/events/create/for=pre-school', position: 3, navigation_id: $navigation->id->value);
+        Item::create(name: 'tokei.navigation.events.create_school', target: '/adm/events/create/?for=school', position: 4, navigation_id: $navigation->id->value);
         Item::create(name: 'tokei.navigation.events.institution_list', target: '/adm/events/list-institutions/', position: 5, navigation_id: $navigation->id->value);
         Item::create(name: 'tokei.navigation.events.institution_create', target: '/adm/events/create-institution/', position: 6, navigation_id: $navigation->id->value);
         Item::create(name: 'tokei.navigation.events.templates', target: '/adm/events/templates', position: 7, navigation_id: $navigation->id->value);

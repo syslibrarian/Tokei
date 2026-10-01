@@ -185,11 +185,14 @@ final class AdmEventController extends Controller
     }
 
     #[
-        Get(uri: '/create/{?for:pre-school|school}/'),
-        Post(uri: '/create/{?for:pre-school|school}/'),
+        Get(uri: '/create/'),
+        Post(uri: '/create/'),
     ]
-    public function createEvent(Request $request, string $for = 'event'): View
+    public function createEvent(Request $request): View
     {
+        $for = strtolower($request->get('for', ''));
+        $for = ($for === 'pre-school' || $for === 'school') ? $for : 'event';
+
         $this->setActiveItem('events.create' . ($for !== 'event' ? '_' . str_replace('-', '_', $for) : ''));
         $this->checkModel(Event::class);
         $location = $this->locatedUser() !== '' ? Location::select()->where('seal = ?', $this->accessControl->user->seal)->first() : null;

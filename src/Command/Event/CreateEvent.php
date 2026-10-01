@@ -12,7 +12,7 @@ use Tokei\Model\Event\Event;
 final class CreateEvent implements Resettable
 {
     use IsResettable;
-    public string $modelClass = Event::class;
+    protected(set) string $modelClass = Event::class;
 
     public function __construct(
         public string $seal = '',

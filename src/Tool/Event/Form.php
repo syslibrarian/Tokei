@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tokei\Tool\Event;
 
 use Tempest\Intl\Translator;
+use Tokei\Model\Event\Template;
 use Tokei\Model\Institution\Institution;
 use Tokei\Model\Location\Location;
 
@@ -22,11 +23,18 @@ final class Form
     /** @var Institution[] */
     private array $institutions;
 
+    /** @var Template[] */
+    private array $templates;
+
     private function __construct(
         protected(set) FormType $type,
         protected(set) ?Location $location,
     ) {
-        $this->getInstitutions();
+        if ($this->isBase()) {
+            $this->getTemplates();
+        } else {
+            $this->getInstitutions();
+        }
     }
 
     public function isBase(): bool
@@ -60,6 +68,11 @@ final class Form
 
     public function getDatalist(): \Generator
     {
+        if ($this->isBase()) {
+            foreach ($this->templates as $template) {
+                yield ['value' => $template->name];
+            }
+        }
         foreach ($this->institutions as $institution) {
             yield ['value' => $institution->name . ' | ' . $institution->educator . ' (ID: ' . $institution->id . ')'];
         }
@@ -83,5 +96,10 @@ final class Form
         }
 
         $this->institutions = $statement->all();
+    }
+
+    private function getTemplates(): void
+    {
+        $this->templates = Template::select()->all();
     }
 }

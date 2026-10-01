@@ -9,12 +9,17 @@ use Tempest\DateTime\DateTime;
 use Tempest\Validation\Exceptions\ValidationFailed;
 use Tempest\Validation\Rules\IsNotEmptyString;
 use Tempest\Validation\Validator;
+use Throwable;
 use Tokei\Command\Event\CreateEvent;
+use Tokei\Command\Event\CreateTemplate;
+use Tokei\Command\Event\DeleteTemplate;
 use Tokei\Command\Event\UpdateEvent;
+use Tokei\Command\Event\UpdateTemplate;
 use Tokei\Command\IsHandler;
 use Tokei\Extension\DateTime\DateTimeTool;
 use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
+use Tokei\Model\Event\Template;
 use Tokei\Model\TimeCode;
 use Tokei\Tool\Event\DBSSection;
 
@@ -109,6 +114,68 @@ final class EventHandler
 
         $this->transaction->commit();
         $this->response->set($command, $command);
+    }
+
+    #[CommandHandler]
+    public function createTemplate(CreateTemplate $command): void
+    {
+        $this->transaction->begin();
+        try {
+            $template = Template::create(
+                name: $command->name,
+                description: $command->description,
+                length: $command->length
+            );
+        } catch (ValidationFailed $e) {
+            $this->transaction->rollback();
+            $this->response->set($command, $e);
+            return;
+        }
+
+        $this->transaction->commit();
+        $this->response->set($command, $template);
+    }
+
+    #[CommandHandler]
+    public function updateTemplate(UpdateTemplate $command): void
+    {
+        $this->transaction->begin();
+        try {
+            if ($command->name !== $command->model->name) {
+                $command->model->update(
+                    name: $command->name,
+                    description: $command->description,
+                    length: $command->length
+                );
+            } else {
+                $command->model->update(
+                    description: $command->description,
+                    length: $command->length
+                );
+            }
+        } catch (ValidationFailed $e) {
+            $this->transaction->rollback();
+            $this->response->set($command, $e);
+            return;
+        }
+
+        $this->transaction->commit();
+        $this->response->set($command, $command);
+    }
+
+    #[CommandHandler]
+    public function deleteTemplate(DeleteTemplate $command): void
+    {
+        $this->transaction->begin();
+        try {
+            $command->model->delete();
+        } catch (Throwable $e) {
+            $this->transaction->rollback();
+            $this->response->set($command, $e);
+            return;
+        }
+
+        $this->transaction->commit();
     }
 
     private function timeFlip(int &$startTime, int &$endTime): void

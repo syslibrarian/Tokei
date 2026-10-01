@@ -3,7 +3,7 @@
 {% import '_tools.tpl' as t %}
 
 {% block title %}{{ ('tokei.adm.events.event_create_' ~ for)|translateFull }}{% endblock %}
-{% set target = target ?? getUri(event.modelClass, 'adm', 'create') %}
+{% set target = target ?? getUri(event.modelClass, 'adm', 'create', for: for) %}
 
 {% block content %}
     {{ f.form_start(uri: target, title: block('title'), html_classes: 'content') }}
@@ -16,7 +16,7 @@
         {{ f.text(
             name: 'title',
             value: event.title,
-            list: isBase != true,
+            list: true,
             forTranslate: titleTranslate
         ) }}
 
