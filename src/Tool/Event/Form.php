@@ -21,10 +21,10 @@ final class Form
     ];
 
     /** @var Institution[] */
-    private array $institutions;
+    private array $institutions = [];
 
     /** @var Template[] */
-    private array $templates;
+    private array $templates = [];
 
     private function __construct(
         protected(set) FormType $type,
@@ -72,9 +72,10 @@ final class Form
             foreach ($this->templates as $template) {
                 yield ['value' => $template->name];
             }
-        }
-        foreach ($this->institutions as $institution) {
-            yield ['value' => $institution->name . ' | ' . $institution->educator . ' (ID: ' . $institution->id . ')'];
+        } else {
+            foreach ($this->institutions as $institution) {
+                yield ['value' => $institution->name . ' | ' . $institution->educator . ' (ID: ' . $institution->id . ')'];
+            }
         }
     }
 
