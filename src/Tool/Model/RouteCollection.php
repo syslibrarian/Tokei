@@ -48,11 +48,16 @@ final class RouteCollection
         }
     }
 
+    public function hasUri(string|object $model, string|RouteContext $context, string $type = 'view'): bool
+    {
+        [$className, $type, $context] = $this->getMetaData($model, $context, $type);
+
+        return isset($this->routes[$context->value][$type]);
+    }
+
     public function getUri(string|object $model, string|RouteContext $context, string $type = 'view'): string
     {
-        $className = (is_object($model)) ? get_class($model) : $model;
-        $type = strtolower($type);
-        $context = (is_string($context)) ? RouteContext::fromParameter($context) : $context;
+        [$className, $type, $context] = $this->getMetaData($model, $context, $type);
 
         if ($className !== $this->className) {
             throw new InvalidArgumentException('... Who calls this with the wrong molde or class name!'); // funny, realy funn, but CollectionRegistry checks class/model sooooooooooo thats more for direct calling.
@@ -69,5 +74,20 @@ final class RouteCollection
         }
 
         return $route->prepare($model);
+    }
+
+    /**
+     * @param string|object $model
+     * @param string|RouteContext $context
+     * @param string $type
+     * @return array
+     */
+    protected function getMetaData(string|object $model, string|RouteContext $context, string $type): array
+    {
+        $className = (is_object($model)) ? $model::class : $model;
+        $type = strtolower($type);
+        $context = (is_string($context)) ? RouteContext::fromParameter($context) : $context;
+
+        return [$className, $type, $context];
     }
 }

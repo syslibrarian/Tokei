@@ -15,6 +15,7 @@ use Tokei\Command\User\CreateUser;
 use Tokei\Model\Navigation\Item;
 use Tokei\Model\Navigation\Navigation;
 use Tokei\Tool\Installer\Database\EventCreateTable;
+use Tokei\Tool\Installer\Database\EventTemplateCreateTable;
 use Tokei\Tool\Installer\Database\InstitutionCreateTable;
 use Tokei\Tool\Installer\Database\KlrMonthCreateTable;
 use Tokei\Tool\Installer\Database\LocationCreateTable;
@@ -47,6 +48,7 @@ final class Install
         new EventCreateTable()->execute();
         new ReportCreateTable()->execute();
         new KlrMonthCreateTable()->execute();
+        new EventTemplateCreateTable()->execute();
 
         $this->console->info('Finished creating database tables, installing base information.');
         Navigation::create(name: 'header', is_system: true, view_name: '_navigation.tpl');
@@ -80,6 +82,8 @@ final class Install
         Item::create(name: 'tokei.navigation.events.create_school', target: '/adm/events/create/school/', position: 4, navigation_id: $navigation->id->value);
         Item::create(name: 'tokei.navigation.events.institution_list', target: '/adm/events/list-institutions/', position: 5, navigation_id: $navigation->id->value);
         Item::create(name: 'tokei.navigation.events.institution_create', target: '/adm/events/create-institution/', position: 6, navigation_id: $navigation->id->value);
+        Item::create(name: 'tokei.navigation.events.templates', target: '/adm/events/templates', position: 7, navigation_id: $navigation->id->value);
+        Item::create(name: 'tokei.navigation.events.create_template', target: '/adm/events/create-template/', position: 8, navigation_id: $navigation->id->value);
 
         $navigation = Navigation::select()->where('name = ?', 'adm_reports')->first();
 

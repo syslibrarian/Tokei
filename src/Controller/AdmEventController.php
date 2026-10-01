@@ -13,7 +13,9 @@ use Tempest\Router\Prefix;
 use Tempest\Router\WithMiddleware;
 use Tempest\View\View;
 use Tokei\Command\Event\CreateEvent;
+use Tokei\Command\Event\CreateTemplate;
 use Tokei\Command\Event\UpdateEvent;
+use Tokei\Command\Event\UpdateTemplate;
 use Tokei\Command\Institution\CreateInstitution;
 use Tokei\Command\Institution\DeleteInstitution;
 use Tokei\Command\Institution\UpdateInstitution;
@@ -22,6 +24,7 @@ use Tokei\Component\Access\IsAuthenticated;
 use Tokei\Extension\DateTime\DateTimeTool;
 use Tokei\Model\Event\Event;
 use Tokei\Model\Event\EventHelper;
+use Tokei\Model\Event\Template;
 use Tokei\Model\Institution\Institution;
 use Tokei\Model\Institution\Type;
 use Tokei\Model\Location\Location;
@@ -267,6 +270,67 @@ final class AdmEventController extends Controller
             audiences: EventHelper::getAudienceForForm(),
             success: $response !== null,
             isBase: true,
+        );
+    }
+
+    #[Get('/templates/{?no:[0-9]+}/')]
+    public function listTemplates(int $no = 1): View
+    {
+        $this->setActiveItem('events.templates');
+
+        $pagination = new Pagination(
+            $no,
+            Template::count()->execute(),
+            getUri(Template::class, 'adm', 'list') . '/{no}/'
+        );
+
+        $templates = Template::select()->offset($pagination->offset)->limit($pagination->limit)->all();
+
+        return $this->view(
+            '@adm/templates.tpl',
+            templates: $templates,
+            pagination: $pagination,
+        );
+    }
+
+    #[Get('/create-template/'), Post('/create-template/')]
+    public function createTemplate(Request $request): View
+    {
+        $this->setActiveItem('events.create_template');
+
+        $command = new CreateTemplate(
+            name: trim($request->get('name', '')),
+            description: trim($request->get('description', '')),
+            length: (int) ($request->get('length', 0)),
+        );
+
+        $this->executeCommand($command, $request);
+
+        return $this->view(
+            '@adm/createTemplate.tpl',
+            template: $command,
+        );
+    }
+
+    #[Get('/update-template/{id:[0-9]+}/'), Post(uri: '/update-template/{id:[0-9]+}/')]
+    public function updateTemplate(Request $request, int $id): View
+    {
+        $this->setActiveItem('events.templates');
+
+        $model = $this->getModel($id, Template::class, AccessContext::UPDATE);
+
+        $command = new UpdateTemplate(
+            model: $model,
+            name: trim($request->get('name', $model->name)),
+            description: trim($request->get('description', $model->description)),
+            length: (int) ($request->get('length', $model->length)),
+        );
+
+        $this->executeCommand($command, $request);
+
+        return $this->view(
+            '@adm/updateTemplate.tpl',
+            template: $command,
         );
     }
 }

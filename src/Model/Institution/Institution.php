@@ -46,7 +46,7 @@ final class Institution implements Located
     #[IsEmail]
     public ?string $email;
 
-    #[IsPhoneNumber]
+    #[IsNotEmptyString] // TODO simples Regex für Telefonnummer.
     public ?string $phone;
 
     #[IsInstitutionType]
@@ -60,4 +60,7 @@ final class Institution implements Located
 
     #[MatchesRegEx('/^[0-9]{5}$/u')] // current german postal code
     public string $postal_code;
+
+    // TODO- Schulnummer.
+    // Veranstaltungentypen.
 }

@@ -33,9 +33,14 @@ namespace Tokei\misc {
 
     use function Tempest\Container\get;
 
-    function getUri(string|object $object, string|RouteContext $context = 'public', string $type = 'view', string $appendUri = '', mixed ...$args): string
+    function getUri(string|object $object, string|RouteContext $context = 'public', string $type = 'list', string $appendUri = '', mixed ...$args): string
     {
         return rtrim(get(RouteCollectionRegistry::class)->getUri($object, $context, $type), '/') . buildUri($appendUri, ...$args);
+    }
+
+    function hasUri(string|object $object, string|RouteContext $context = 'public', string $type = 'list'): bool
+    {
+        return get(RouteCollectionRegistry::class)->hasUri($object, $context, $type);
     }
 
     function buildUri(string $uri, mixed ...$args): string

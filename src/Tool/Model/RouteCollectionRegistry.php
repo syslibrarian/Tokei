@@ -33,12 +33,23 @@ final class RouteCollectionRegistry {
 
     public function getUri(string|object $model, string|RouteContext $context, string $type): string
     {
-        $className = is_object($model) ? get_class($model) : $model;
+        $className = is_object($model) ? $model::class : $model;
 
         if (!isset($this->modelRoutes[$className])) {
             throw new RuntimeException(sprintf('Route collection for "%s" is not registered.', $className));
         }
 
         return $this->modelRoutes[$className]->getUri($model, $context, $type);
+    }
+
+    public function hasUri(string|object $model, string|RouteContext $context, string $type): bool
+    {
+        $className = is_object($model) ? $model::class : $model;
+
+        if (!isset($this->modelRoutes[$className])) {
+            throw new RuntimeException(sprintf('Route collection for "%s" is not registered.', $className));
+        }
+
+        return $this->modelRoutes[$className]->hasUri($model, $context, $type);
     }
 }

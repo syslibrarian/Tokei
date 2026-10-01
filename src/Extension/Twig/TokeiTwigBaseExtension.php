@@ -6,6 +6,8 @@ namespace Tokei\Extension\Twig;
 
 use Tokei\Extension\DateTime\DateTimeTool;
 use Tokei\Tokei;
+use Tokei\Tool\Model\RouteCollectionRegistry;
+use Tokei\Tool\Model\RouteContext;
 use Twig\Attribute\AsTwigFilter;
 use Twig\Attribute\AsTwigFunction;
 use Twig\Environment;
@@ -14,6 +16,7 @@ use Twig\Runtime\EscaperRuntime;
 use function Tempest\Container\get;
 use function Tokei\misc\buildUri;
 use function Tokei\misc\getUri;
+use function Tokei\misc\hasUri;
 
 final class TokeiTwigBaseExtension
 {
@@ -58,6 +61,12 @@ final class TokeiTwigBaseExtension
         }
 
         return $env->render('_note.tpl', ['message' => $message, 'class' => NoteTypes::get($class)]);
+    }
+
+    #[AsTwigFunction('hasUri')]
+    public static function hasUri(string|object $object, string $context = 'public', string $type = 'list'): bool
+    {
+        return hasUri($object, $context, $type);
     }
 
     #[AsTwigFunction('getUri')]
