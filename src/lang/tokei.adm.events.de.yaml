@@ -1,6 +1,12 @@
 tokei:
   adm:
     events:
+      template_update: 'Vorlage bearbeiten'
+      length_desc: 'Später wird die Zeit automatisch zum Startzeitpunkt hinzugefügt.'
+      length: 'Dauer in Minuten'
+      name_desc: 'Der Name wird im Formular über Autovervollständigung angezeigt.'
+      name: 'Name der Veranstaltung'
+      event_template_create: 'Vorlage erstellen'
       attendees: 'Anzahl der Teilnehmer:innen'
       attendees_desc: 'Wie viele Teilnehmer:innen haben an der Veranstaltung teilgenommen. Die Zuordnung zur Zielgruppe erfolgt automatisch.'
       audience: 'Zielgruppe'

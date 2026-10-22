@@ -7,3 +7,6 @@ tokei:
       institution_create: 'Gruppe/Klasse anlegen'
       institution_list: 'Gruppen/Klassen'
       list: 'Veranstaltungen'
+      templates: 'Vorlage'
+      create_template: 'Vorlage erstellen'
+

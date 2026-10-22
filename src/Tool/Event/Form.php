@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tokei\Tool\Event;
 
+use Generator;
 use Tempest\Intl\Translator;
 use Tokei\Model\Event\Template;
 use Tokei\Model\Institution\Institution;
@@ -42,12 +43,12 @@ final class Form
         return $this->type === FormType::SYSTEM || $this->type === FormType::EVENT;
     }
 
-    public function getTypes(): \Generator
+    public function getTypes(): Generator
     {
         return DBSSection::getForForm($this->type);
     }
 
-    public function getTimeFactors(): \Generator
+    public function getTimeFactors(): Generator
     {
         foreach (self::TIME_FACTORS as $timeFactor) {
             yield [
@@ -66,7 +67,7 @@ final class Form
         };
     }
 
-    public function getDatalist(): \Generator
+    public function getDatalist(): Generator
     {
         if ($this->isBase()) {
             foreach ($this->templates as $template) {
