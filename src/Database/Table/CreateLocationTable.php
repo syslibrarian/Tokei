@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Tool\Installer\Database;
+namespace Tokei\Database\Table;
 
+use Tempest\Database\MigratesUp;
+use Tempest\Database\QueryStatement;
+use Tempest\Database\QueryStatements\CreateTableStatement;
 use Tokei\Model\Location\Location;
-use Tokei\Tool\Installer\DatabaseTable;
-use Tokei\Tool\Installer\InstallType;
 
-#[DatabaseTable(modelClass: Location::class, type: InstallType::INSTALL)]
-final class LocationCreateTable implements DatabaseCommand
+class CreateLocationTable implements MigratesUp
 {
-    use IsCreateTable;
+    public string $name = '2026-10-22_06_create_location_table';
 
-    protected function setFields(): void
+    public function up(): QueryStatement
     {
-        $this->statement
+        return CreateTableStatement::forModel(Location::class)
             ->primary()
             ->varchar('name')
             ->varchar('seal', 4)

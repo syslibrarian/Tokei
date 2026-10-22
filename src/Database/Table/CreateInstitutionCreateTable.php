@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Tool\Installer\Database;
+namespace Tokei\Database\Table;
 
+use Tempest\Database\MigratesUp;
+use Tempest\Database\QueryStatement;
+use Tempest\Database\QueryStatements\CreateTableStatement;
 use Tokei\Model\Institution\Institution;
-use Tokei\Tool\Installer\DatabaseTable;
-use Tokei\Tool\Installer\InstallType;
 
-#[DatabaseTable(modelClass: Institution::class, type: InstallType::INSTALL)]
-final class InstitutionCreateTable implements DatabaseCommand
+class CreateInstitutionCreateTable implements MigratesUp
 {
-    use IsCreateTable;
+    public string $name = '2026-10-22_9_create_institution_create_table';
 
-    protected function setFields(): void
+    public function up(): QueryStatement
     {
-        $this->statement
+        return CreateTableStatement::forModel(Institution::class)
             ->primary()
             ->varchar('name')
             ->varchar('educator')

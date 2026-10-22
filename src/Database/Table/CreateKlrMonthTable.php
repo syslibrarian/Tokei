@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Tool\Installer\Database;
+namespace Tokei\Database\Table;
 
+use Tempest\Database\MigratesUp;
+use Tempest\Database\QueryStatement;
+use Tempest\Database\QueryStatements\CreateTableStatement;
 use Tokei\Model\Klr\KlrReport;
-use Tokei\Tool\Installer\DatabaseTable;
-use Tokei\Tool\Installer\InstallType;
 
-#[DatabaseTable(modelClass: KlrReport::class, type: InstallType::INSTALL)]
-class KlrMonthCreateTable implements DatabaseCommand
+class CreateKlrMonthTable implements MigratesUp
 {
-    use IsCreateTable;
+    public string $name = '2026-10-22_11_create_klr_month_table';
 
-    protected function setFields(): void
+    public function up(): QueryStatement
     {
-        $this->statement
+        return CreateTableStatement::forModel(KlrReport::class)
             ->primary()
             ->integer('report_status', default: 0)
             ->varchar('seal', length: 4)

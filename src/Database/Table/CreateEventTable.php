@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Tool\Installer\Database;
+namespace Tokei\Database\Table;
 
+use Tempest\Database\MigratesUp;
+use Tempest\Database\QueryStatement;
+use Tempest\Database\QueryStatements\CreateTableStatement;
 use Tokei\Model\Event\Event;
-use Tokei\Tool\Installer\DatabaseTable;
-use Tokei\Tool\Installer\InstallType;
 
-#[DatabaseTable(modelClass: Event::class, type: InstallType::INSTALL)]
-final class EventCreateTable implements DatabaseCommand
+class CreateEventTable implements MigratesUp
 {
-    use IsCreateTable;
+    public string $name = '2026-10-22_07_create_event_table';
 
-    protected function setFields(): void
+    public function up(): QueryStatement
     {
-        $this->statement
+        return CreateTableStatement::forModel(Event::class)
             ->primary()
             ->varchar('title', default: '')
             ->varchar('description', default: '')

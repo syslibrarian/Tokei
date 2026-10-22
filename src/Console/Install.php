@@ -38,17 +38,6 @@ final class Install
     public function installDatabase(): void
     {
         $this->console->info('Start installing Tokei database');
-        new NavigationCreateTable()->execute();
-        new NavigationItemCreateTable()->execute();
-        new UserRoleCreateTable()->execute();
-        new UserPermissionCreateTable()->execute();
-        new UserCreateTable()->execute();
-        new LocationCreateTable()->execute();
-        new InstitutionCreateTable()->execute();
-        new EventCreateTable()->execute();
-        new ReportCreateTable()->execute();
-        new KlrMonthCreateTable()->execute();
-        new EventTemplateCreateTable()->execute();
 
         $this->console->info('Finished creating database tables, installing base information.');
         Navigation::create(name: 'header', is_system: true, view_name: '_navigation.tpl');

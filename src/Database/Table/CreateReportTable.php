@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Tool\Installer\Database;
+namespace Tokei\Database\Table;
 
 use Tempest\Database\Enums\DatabaseTextLength;
-use Tokei\Model\Location\MonthlyReport;
-use Tokei\Tool\Installer\DatabaseTable;
-use Tokei\Tool\Installer\InstallType;
+use Tempest\Database\MigratesUp;
+use Tempest\Database\QueryStatement;
+use Tempest\Database\QueryStatements\CreateTableStatement;
+use Tokei\Model\Report;
 
-#[DatabaseTable(modelClass: MonthlyReport::class, type: InstallType::INSTALL)]
-final class ReportCreateTable implements DatabaseCommand
+class CreateReportTable implements MigratesUp
 {
-    use IsCreateTable;
+    public string $name = '2026-10-22_10_create_report_table';
 
-    protected function setFields(): void
+    public function up(): QueryStatement
     {
-        $this->statement
+        return CreateTableStatement::forModel(Report::class)
             ->primary()
             ->integer('report_status', default: 1)
             ->varchar('seal', 4)
@@ -47,3 +47,4 @@ final class ReportCreateTable implements DatabaseCommand
             ->index('seal');
     }
 }
+

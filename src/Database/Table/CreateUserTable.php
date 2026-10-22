@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Tool\Installer\Database;
+namespace Tokei\Database\Table;
 
+use Tempest\Database\MigratesUp;
+use Tempest\Database\QueryStatement;
+use Tempest\Database\QueryStatements\CreateTableStatement;
 use Tokei\Model\User\User;
-use Tokei\Tool\Installer\DatabaseTable;
-use Tokei\Tool\Installer\InstallType;
 
-#[DatabaseTable(modelClass: User::class, type: InstallType::INSTALL, after: UserRoleCreateTable::class)]
-final class UserCreateTable implements DatabaseCommand
+class CreateUserTable implements MigratesUp
 {
-    use IsCreateTable;
+    public string $name = '2026-10-22_03_create_user_table';
 
-    protected function setFields(): void
+    public function up(): QueryStatement
     {
-        $this->statement
+        return CreateTableStatement::forModel(User::class)
             ->primary()
             ->varchar('username')
             ->varchar('name', default: '')
