@@ -54,7 +54,7 @@ final class AdmReportController extends Controller
             $locations = Location::select()->all();
         }
 
-        $reports = $seal !== null ? ReportHelper::getFor($seal) : ReportHelper::getSealSorted();
+        $reports = ($seal !== '') ? ReportHelper::getFor($seal) : ReportHelper::getSealSorted();
 
         return $this->view(
             '@adm/reports.tpl',

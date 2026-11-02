@@ -37,13 +37,8 @@ final class Events
         public string $seal,
         public string|int $year,
         public string|int $month,
-        bool $fromString = false,
     ) {
         $this->buildTimeCode();
-        if ($fromString === false) {
-            $this->checkArguments();
-            $this->loadEvents();
-        }
     }
 
     private function buildTimeCode(): void
@@ -51,14 +46,16 @@ final class Events
         $this->timeCode = TimeCode::fromParts($this->year, $this->month);
     }
 
-    private function checkArguments(): void
+    public function checkArguments(): self
     {
         if (! preg_match("/^\d{3}[a-z]?$/", $this->seal)) {
             throw new \InvalidArgumentException('Seal must be in format XXX(a)');
         }
+
+        return $this;
     }
 
-    private function loadEvents(): void
+    public function loadEvents(): self
     {
         $this->events = Event::select()
             ->where('time_code = ? AND seal = ?', $this->timeCode, $this->seal)
@@ -67,6 +64,8 @@ final class Events
         if (count($this->events) > 0) {
             $this->buildStatistic();
         }
+
+        return $this;
     }
 
     private function buildStatistic(): void
@@ -123,7 +122,7 @@ final class Events
         $tmp = decode($json);
 
         list($year, $month) = explode('-', $tmp['timeCode'] ?? '0000-00');
-        $events = new Events($tmp['seal'] ?? '000', $year, $month, true);
+        $events = new Events($tmp['seal'] ?? '000', $year, $month);
 
         $containers = $tmp['containers'] ?? [];
         foreach ($containers as $container) {
@@ -136,5 +135,12 @@ final class Events
         }
 
         return $events;
+    }
+
+    public static function load(string $seal, string|int $year, string|int $month): self
+    {
+        return new Events($seal, $year, $month)
+            ->checkArguments()
+            ->loadEvents();
     }
 }

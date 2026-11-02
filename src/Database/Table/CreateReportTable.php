@@ -8,6 +8,7 @@ use Tempest\Database\Enums\DatabaseTextLength;
 use Tempest\Database\MigratesUp;
 use Tempest\Database\QueryStatement;
 use Tempest\Database\QueryStatements\CreateTableStatement;
+use Tokei\Model\Location\MonthlyReport;
 use Tokei\Model\Report;
 
 class CreateReportTable implements MigratesUp
@@ -16,7 +17,7 @@ class CreateReportTable implements MigratesUp
 
     public function up(): QueryStatement
     {
-        return CreateTableStatement::forModel(Report::class)
+        return CreateTableStatement::forModel(MonthlyReport::class)
             ->primary()
             ->integer('report_status', default: 1)
             ->varchar('seal', 4)

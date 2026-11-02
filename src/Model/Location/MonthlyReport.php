@@ -72,15 +72,13 @@ final class MonthlyReport implements Report, Located
     #[Virtual]
     public Events $events {
         get {
-            if (ReportStatus::isOpen($this->report_status) || ReportStatus::isUpdated($this->report_status)) {
-                if ($this->tmp === null) {
-                    $this->tmp = new Events($this->seal, $this->year, $this->month);
-                }
-
-                return $this->tmp;
+            if ($this->tmp === null) {
+                $this->tmp = (ReportStatus::isOpen($this->report_status) || ReportStatus::isUpdated($this->report_status))
+                    ? new Events($this->seal, $this->year, $this->month)
+                    : Events::fromJsonString($this->events_raw);;
             }
 
-            return Events::fromJsonString($this->events_raw);
+            return $this->tmp;
         }
     }
 
