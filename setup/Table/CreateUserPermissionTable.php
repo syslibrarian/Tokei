@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Database\Table;
+namespace Setup\Table;
 
 use Tempest\Database\MigratesUp;
 use Tempest\Database\QueryStatement;
@@ -12,7 +12,7 @@ use Tokei\Model\User\Permission;
 
 class CreateUserPermissionTable implements MigratesUp
 {
-    public string $name = '2026-10-22_05_create_user_permission_table';
+    public string $name = '2026-10-22-05_create_user_permission_table';
 
     public function up(): QueryStatement
     {

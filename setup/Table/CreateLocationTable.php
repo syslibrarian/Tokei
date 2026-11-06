@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Database\Table;
+namespace Setup\Table;
 
 use Tempest\Database\MigratesUp;
 use Tempest\Database\QueryStatement;
@@ -11,7 +11,7 @@ use Tokei\Model\Location\Location;
 
 class CreateLocationTable implements MigratesUp
 {
-    public string $name = '2026-10-22_06_create_location_table';
+    public string $name = '2026-10-22-06_create_location_table';
 
     public function up(): QueryStatement
     {
@@ -28,6 +28,9 @@ class CreateLocationTable implements MigratesUp
             ->float('area')
             ->integer('created')
             ->integer('modified', default: 0)
+            ->integer('klr_position')
+            ->integer('shifts_per_day')
+            ->float('shift_duration')
             ->index('seal');
     }
 }

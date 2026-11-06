@@ -47,7 +47,7 @@ final class MonthlyReport implements Report, Located
     public int $open_hours;
     public int $open_library_hours;
     public int $media_packages;
-    public int $shifts; // in hours
+    public int $shifts;
     public int $covers_received;
     public int $covers_given;
     public int $staff_external;
@@ -74,8 +74,8 @@ final class MonthlyReport implements Report, Located
         get {
             if ($this->tmp === null) {
                 $this->tmp = (ReportStatus::isOpen($this->report_status) || ReportStatus::isUpdated($this->report_status))
-                    ? new Events($this->seal, $this->year, $this->month)
-                    : Events::fromJsonString($this->events_raw);;
+                    ? Events::load($this->seal, $this->year, $this->month)
+                    : Events::fromJsonString($this->events_raw);
             }
 
             return $this->tmp;

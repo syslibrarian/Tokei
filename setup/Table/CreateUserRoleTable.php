@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Database\Table;
+namespace Setup\Table;
 
 use Tempest\Database\MigratesUp;
 use Tempest\Database\QueryStatement;
@@ -11,7 +11,7 @@ use Tokei\Model\User\Role;
 
 class CreateUserRoleTable implements MigratesUp
 {
-    public string $name = '2026-10-22_04_create_user_role_table';
+    public string $name = '2026-10-22-04_create_user_role_table';
 
     public function up(): QueryStatement
     {

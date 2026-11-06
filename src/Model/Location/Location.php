@@ -58,4 +58,10 @@ final class Location
     public ?int $modified;
 
     public string $klr_code;
+
+    public int $klr_position;
+
+    public float $shift_duration;
+
+    public int $shifts_per_day;
 }

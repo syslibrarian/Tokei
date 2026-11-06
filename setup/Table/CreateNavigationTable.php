@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Database\Table;
+namespace Setup\Table;
 
 use Tempest\Database\MigratesUp;
 use Tempest\Database\QueryStatement;
@@ -11,7 +11,7 @@ use Tokei\Model\Navigation\Navigation;
 
 class CreateNavigationTable implements MigratesUp
 {
-    public string $name = '2026-10-26_01_create_navigation_table';
+    public string $name = '2026-10-22-01_create_navigation_table';
 
     public function up(): QueryStatement
     {

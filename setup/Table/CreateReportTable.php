@@ -2,18 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Database\Table;
+namespace Setup\Table;
 
 use Tempest\Database\Enums\DatabaseTextLength;
 use Tempest\Database\MigratesUp;
 use Tempest\Database\QueryStatement;
 use Tempest\Database\QueryStatements\CreateTableStatement;
 use Tokei\Model\Location\MonthlyReport;
-use Tokei\Model\Report;
 
 class CreateReportTable implements MigratesUp
 {
-    public string $name = '2026-10-22_10_create_report_table';
+    public string $name = '2026-10-22-10_create_report_table';
 
     public function up(): QueryStatement
     {

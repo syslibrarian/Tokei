@@ -26,7 +26,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Tokei\\": "src/"
+            "Tokei\\": "src/",
+            "Setup\\": "setup/"
         },
         "files": [
             "src/functions.php"

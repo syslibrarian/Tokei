@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tokei\Database\Table;
+namespace Setup\Table;
 
 use Tempest\Database\MigratesUp;
 use Tempest\Database\QueryStatement;
@@ -11,7 +11,7 @@ use Tokei\Model\Event\Event;
 
 class CreateEventTable implements MigratesUp
 {
-    public string $name = '2026-10-22_07_create_event_table';
+    public string $name = '2026-10-22-07_create_event_table';
 
     public function up(): QueryStatement
     {
