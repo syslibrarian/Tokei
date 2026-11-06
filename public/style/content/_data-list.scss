@@ -11,6 +11,11 @@ ol.data-list {
     justify-content: space-between;
 
     padding: 10px;
+
+    &.warning {
+      background-color: color.scale(i.$warning-color, $lightness: +80%) !important;
+    }
+
     &:nth-child(even) {
       background-color: color.scale(i.$color1, $lightness: +95%);
     }

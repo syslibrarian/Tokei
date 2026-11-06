@@ -18,7 +18,7 @@
         {{ f.hidden(
             name: "seal",
             value: location.seal,
-            show: true,
+            show: location.seal,
             forTranslate: 'seal_update'
         ) }}
     {% else %}

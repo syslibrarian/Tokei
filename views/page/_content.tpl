@@ -31,7 +31,7 @@
     {% import '_tools.tpl' as tool %}
     <ol class="data-list">
         {% for event in events %}
-            <li>
+            <li{% if event.attendees == 0 and event.state == 1 %} class="warning"{% endif %}>
                 <section class="title">
                     <h3>{% if event.is_education %}<span class="education"></span>{% endif %}{{ event.title }}</h3>
                     <p>{{ event.time_start|dateLong(useUTC: true) }} {% if event.description %} - {{ event.description }}{% endif %}</p>

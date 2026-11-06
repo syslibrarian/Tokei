@@ -836,6 +836,9 @@ ol.data-list li {
   justify-content: space-between;
   padding: 10px;
 }
+ol.data-list li.warning {
+  background-color: rgb(255, 227.96, 203) !important;
+}
 ol.data-list li:nth-child(even) {
   background-color: rgb(251.4, 251.4, 255);
 }

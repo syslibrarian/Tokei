@@ -36,7 +36,7 @@
 {% endmacro %}
 
 {% macro hidden(name, value, show = false, forTranslate = '') %}
-    {% if show == true %}
+    {% if show != false %}
         <div class="text{% if attribute(_page.formErrors, name) %} warning{% endif %}">
             <div class="label">
                 <label for="{{ name }}-view">
@@ -185,7 +185,6 @@
         {{ content|raw }}
     </fieldset>
 {% endmacro %}
-
 
 {% macro form_buttons(label_submit = null, label_reset = null) %}
     <div class="buttons">

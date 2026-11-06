@@ -105,16 +105,19 @@
         {{ f.number(
             name: 'attendees',
             value: event.attendees,
+            step: 1,
         ) }}
 
         {{ f.number(
             name: 'staff',
             value: event.staff,
+            step: 1,
         ) }}
 
         {{ f.number(
             name: 'staffExternal',
             value: event.staffExternal,
+            step: 1,
         ) }}
     {% endset %}
 
