@@ -39,6 +39,7 @@ trait IsAdmin
     protected function beforeInit(): void
     {
         $this->registerNavigation('adm_header');
+        $this->registerNavigation('adm_footer');
         $this->registerNavigation($this->getSectionNavigation(), 'adm_section');
         $this->registerViewPath('adm', dirname(__DIR__, 2) . '/views/adm/');
     }

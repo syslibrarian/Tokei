@@ -8,6 +8,12 @@
     </nav>
 {% endblock %}
 
+{% block footer_navigation %}
+    <nav>
+        {{ _page.navigation.adm_footer|raw }}
+    </nav>
+{% endblock %}
+
 {% block notes %}
     {% if _status.value == 'error' and _page.formErrors %}
         {% include '_errorNote.tpl' %}

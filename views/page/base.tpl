@@ -36,7 +36,7 @@
                     <section>© by Stadtbibliothek Tempelhof-Schöneberg</section>
                     {% block footer_navigation %}
                         <nav>
-                            {{ _tokei.navigation_footer|raw }}
+                            {{ _page.navigation.footer|raw }}
                         </nav>
                     {% endblock %}
                 </footer>

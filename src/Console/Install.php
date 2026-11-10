@@ -54,6 +54,14 @@ final class Install
         Item::create(name: 'tokei.navigation.header.adm_events', target: '/adm/events/', position: 2, navigation_id: $navigation->id->value);
         Item::create(name: 'tokei.navigation.header.adm_reports', target: '/adm/reports/', position: 3, navigation_id: $navigation->id->value);
 
+        $navigation = Navigation::select()->where('name = ?', 'adm_footer')->first();
+
+        Item::create(name: 'Logout', target: '/logout/', position: 1, navigation_id: $navigation->id->value);
+
+        $navigation = Navigation::select()->where('name = ?', 'footer')->first();
+
+        Item::create(name: 'Login', target: '/login/', position: 1, navigation_id: $navigation->id->value);
+
         $navigation = Navigation::select()->where('name = ?', 'adm_general')->first();
 
         Item::create(name: 'tokei.navigation.general.location_list', target: '/adm/list-locations/', position: 1, navigation_id: (int) $navigation->id->value);
